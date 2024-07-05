@@ -1,0 +1,30 @@
+{
+  "singleQuote": true,
+  "semi": true,
+  "useTabs": false,
+  "tabWidth": 2,
+  "trailingComma": "all",
+  "printWidth": 120,
+  "importOrder": [
+    "^react",
+    "^next",
+    "^@tanstack/react-query",
+    "^@/reactQuery/(.*)$",
+    "^recoil",
+    "^@/recoil/(.*)$",
+    "^@/components/(.*)$",
+    "^./_fragments/(.*)$",
+    "^@/hooks/(.*)$",
+    "^@/util/(.*)$",
+    "^@/type/(.*)$",
+    "^@/const/(.*)$",
+    "^@/api/(.*)$",
+    "^@/*/(.*)$",
+    "^src/(.*)$",
+    "<THIRD_PARTY_MODULES>",
+    "^[./]"
+  ],
+  "plugins": ["@trivago/prettier-plugin-sort-imports"],
+  "importOrderSeparation": false,
+  "importOrderSortSpecifiers": true
+}
