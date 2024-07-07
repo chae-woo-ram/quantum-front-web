@@ -7,31 +7,29 @@
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaVersion": 8,
+    "sourceType": "module",
     "ecmaFeatures": {
       "jsx": true,
       "tsx": true
     }
   },
-  "plugins": ["import", "react-hooks", "@typescript-eslint", "prettier"],
+  "plugins": [
+    "import",
+    "react-hooks",
+    "@typescript-eslint",
+    "prettier",
+    "@trivago/prettier-plugin-sort-imports"
+  ],
   "extends": [
     "eslint:recommended",
     "plugin:react/recommended",
     "plugin:@typescript-eslint/recommended",
-    "prettier",
     "plugin:prettier/recommended",
-    "plugin:import/errors",
-    "plugin:import/warnings",
-    "prettier/@typescript-eslint",
-    "next"
+    "prettier/@typescript-eslint"
   ],
   "rules": {
     "@typescript-eslint/no-var-requires": 0,
-    "prettier/prettier": [
-      "error",
-      {
-        "endOfLine": "auto"
-      }
-    ],
+    "prettier/prettier": "error",
     "max-len": [0, 120, 2, { "ignoreUrls": true }],
     "react/react-in-jsx-scope": "off",
     "linebreak-style": 0,
@@ -43,6 +41,7 @@
     "no-shadow": 0,
     "react/prop-types": 0,
     "react/jsx-filename-extension": [2, { "extensions": [".js", ".jsx", ".ts", ".tsx"] }],
-    "jsx-a11y/no-noninteractive-element-interactions": 0
+    "jsx-a11y/no-noninteractive-element-interactions": 0,
+    "@trivago/prettier-plugin-sort-imports/sortImports": "error"
   }
 }
