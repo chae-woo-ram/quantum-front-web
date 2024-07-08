@@ -26,12 +26,12 @@ const Container = styled.div`
     const { colors } = theme;
     return css`
       width: 100%;
-      height: 100%;
       display: flex;
       flex-direction: row;
       align-items: center;
       justify-content: center;
       gap: 30px;
+      padding: 180px 80px;
     `;
   }}
 `;

@@ -3,6 +3,7 @@ import { Noto_Sans_KR } from 'next/font/google';
 import { Footer } from '@/components/Footer';
 import { Header } from '@/components/Header';
 import Providers from '@/lib/Provider';
+import styles from './page.module.css';
 
 export const metadata: Metadata = {
   title: 'Water Melon',
@@ -17,18 +18,20 @@ const notoSansKr = Noto_Sans_KR({
   subsets: ['latin'],
 });
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <html>
+    <html lang="en">
       <body className={notoSansKr.className}>
-        <Header />
-        <Providers>{children}</Providers>
-        <Footer />
+        <Providers>
+          <div className={styles.container}>
+            <Header />
+            <main className={styles.main}>{children}</main>
+            <Footer />
+          </div>
+        </Providers>
       </body>
     </html>
   );
-}
+};
+
+export default RootLayout;
