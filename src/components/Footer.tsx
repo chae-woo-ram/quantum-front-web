@@ -1,9 +1,16 @@
-// src/app/components/Footer.tsx
+'use client';
+
+import { styled } from 'styled-components';
 
 export const Footer = () => {
   return (
-    <footer>
+    <FooterContainer>
       <p>&copy; 2024 My App. All rights reserved.</p>
-    </footer>
+    </FooterContainer>
   );
 };
+
+const FooterContainer = styled.footer`
+  padding: 1rem;
+  text-align: center;
+`;
