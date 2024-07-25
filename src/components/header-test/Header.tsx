@@ -27,14 +27,21 @@ const menuItems = [
 export const Header = () => {
   const [activeItemId, setActiveItemId] = useState<number | null>(null);
   const [isHover, setIsHover] = useState(false);
+  const [isActive, setIsActive] = useState(false);
 
   const handleMouseEnter = useCallback((index: number) => {
     setActiveItemId(index);
     setIsHover(true);
+    setTimeout(() => {
+      setIsActive(true);
+    }, 300);
   }, []);
 
   const handleMouseLeave = useCallback(() => {
-    setIsHover(false);
+    setTimeout(() => {
+      setIsActive(false);
+      setIsHover(false);
+    }, 300);
   }, []);
 
   const subMenuAnimate = {
@@ -57,20 +64,25 @@ export const Header = () => {
   };
 
   return (
-    <HeaderContainer>
+    <HeaderContainer onMouseEnter={() => handleMouseEnter(null)} onMouseLeave={handleMouseLeave}>
       <nav>
         <NavList>
-          <NavItem onMouseEnter={() => handleMouseEnter(null)} onMouseLeave={handleMouseLeave}>
+          <NavItem>
             <NavLink href="/">
               <Image src={'/images/favicon.png'} alt={'search icon'} width={20} height={20} />
             </NavLink>
           </NavItem>
           {menuItems.map((item) => (
-            <NavItem key={item.id} onMouseEnter={() => handleMouseEnter(item.id)} onMouseLeave={handleMouseLeave}>
+            <NavItem key={item.id} onMouseEnter={() => handleMouseEnter(item.id)}>
               <NavLink href={item.href}>{item.label}</NavLink>
               <AnimatePresence>
                 {activeItemId === item.id && isHover && (
-                  <MotionSubMenu initial="exit" animate="enter" exit="exit" variants={subMenuAnimate}>
+                  <MotionSubMenu
+                    initial={isActive ? 'enter' : 'exit'}
+                    animate="enter"
+                    exit="exit"
+                    variants={subMenuAnimate}
+                  >
                     {item.submenu.map((subItem, subIndex) => (
                       <SubMenuItem key={subIndex} href={`${item.href}/sub${subIndex + 1}`}>
                         {subItem}
