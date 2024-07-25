@@ -83,7 +83,6 @@ function Join() {
         </Button>
       </PageTitle>
 
-      {JSON.stringify(rooms)}
       {Object.keys(rooms).length === 0 ? (
         // 방 목록이 없을 때 표시할 메시지
         <NoRoomsMessage>현재 방이 없습니다. 방을 새로 생성해 주세요.</NoRoomsMessage>
