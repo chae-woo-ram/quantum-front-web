@@ -1,6 +1,44 @@
 import styled from 'styled-components';
 import { MessagePropsType } from './MessageType';
 
+export const DownloadButton = styled.div`
+  width: 100px;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.6);
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: #fff;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  &:hover {
+    color: #999;
+  }
+`;
+
+export const ImagePreviewBox = styled.div`
+  width: 100px;
+  height: 100px;
+  position: relative;
+  background-color: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  margin: 20px;
+  &:hover ${DownloadButton} {
+    opacity: 1;
+  }
+`;
+
+export const ImagePreview = styled.img`
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+`;
+
 export const MessageContainer = styled.div<MessagePropsType>`
   width: 100%;
   display: flex;
@@ -26,6 +64,10 @@ export const MessageBox = styled.div<MessagePropsType>`
   display: inline-block;
   position: relative;
   font-size: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  word-break: break-all;
 
   &::after {
     content: '';
@@ -90,5 +132,6 @@ export const MessageText = styled.p`
   float: left;
   font-size: 1.1em;
   word-wrap: break-word;
+  white-space: pre;
   margin: 0;
 `;

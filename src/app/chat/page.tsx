@@ -2,8 +2,22 @@
 
 import { useEffect, useState } from 'react';
 import DialogComponent from '@/components/common/dialog';
+import AddCommentIcon from '@mui/icons-material/AddComment';
+import Error from '@mui/icons-material/Error';
 import RefreshIcon from '@mui/icons-material/Refresh';
-import { Box, Button, Card, CardActions, CardContent, TextField, Typography } from '@mui/material';
+import {
+  Avatar,
+  Box,
+  Button,
+  Card,
+  CardActions,
+  CardContent,
+  Divider,
+  Grid,
+  IconButton,
+  TextField,
+  Typography,
+} from '@mui/material';
 import io from 'socket.io-client';
 import { css, styled } from 'styled-components';
 import { ModalType, RoomsState } from './chatType';
@@ -16,6 +30,7 @@ function Join() {
   const [rooms, setRooms] = useState<RoomsState>({});
   const [name, setName] = useState<string>('');
   const [room, setRoom] = useState<string>('');
+  const [profileId, setProfileId] = useState<number>(1);
   const [modalType, setModalType] = useState<ModalType>(undefined);
 
   const emotions = ['미운', '고마운', '사랑하는', '증오하는', '끔찍한', '무서운'];
@@ -71,21 +86,33 @@ function Join() {
     setName(generateRandomNickname());
   };
 
+  const onClickDefaultProfile = (id: number) => {
+    setProfileId(id);
+  };
+
   return (
     <Container>
-      <Button onClick={fetchGetRoomsData}>
-        새로고침 <RefreshIcon />
+      <Button
+        variant="contained"
+        size="small"
+        onClick={() => setModalType(ModalType.ROOM_CREATE)}
+        startIcon={<AddCommentIcon />}
+      >
+        새로운 방 생성
       </Button>
-      <PageTitle>
-        방 목록
-        <Button type="submit" variant="outlined" onClick={() => setModalType(ModalType.ROOM_CREATE)}>
-          새로운 방 생성
-        </Button>
-      </PageTitle>
-
+      <IconButton onClick={fetchGetRoomsData} color="primary">
+        <RefreshIcon />
+      </IconButton>
+      <Divider>
+        <PageTitle>채팅</PageTitle>
+      </Divider>
       {Object.keys(rooms).length === 0 ? (
         // 방 목록이 없을 때 표시할 메시지
-        <NoRoomsMessage>현재 방이 없습니다. 방을 새로 생성해 주세요.</NoRoomsMessage>
+
+        <NoRoomsMessage>
+          <Error />
+          현재 방이 없습니다. 방을 새로 생성해 주세요.
+        </NoRoomsMessage>
       ) : (
         <Box
           sx={{
@@ -127,33 +154,42 @@ function Join() {
           { label: '입장', onClick: handleSubmit },
         ]}
       >
-        <div>
+        <Grid container direction={'row'} gap={'10px'}>
+          <AvatarWrapper onClick={() => onClickDefaultProfile(1)} $isActive={profileId === 1}>
+            <Avatar src={'/images/profile1.png'} style={{ width: 150, height: 150, objectFit: 'cover' }} />
+          </AvatarWrapper>
+          <AvatarWrapper onClick={() => onClickDefaultProfile(2)} $isActive={profileId === 2}>
+            <Avatar src={'/images/profile2.png'} style={{ width: 150, height: 150, objectFit: 'cover' }} />
+          </AvatarWrapper>
+          <AvatarWrapper onClick={() => onClickDefaultProfile(3)} $isActive={profileId === 3}>
+            <Avatar src={'/images/profile3.png'} style={{ width: 150, height: 150, objectFit: 'cover' }} />
+          </AvatarWrapper>
+        </Grid>
+        <TextField
+          margin="dense"
+          name="room"
+          label="채팅방 이름"
+          type="text"
+          fullWidth
+          variant="outlined"
+          value={room}
+          disabled={modalType === ModalType.ROOM_ENTRY}
+          onChange={(event) => setRoom(event.target.value)}
+        />
+        <UserNameField>
           <TextField
             margin="dense"
-            name="room"
-            label="채팅방 이름"
+            name="name"
+            label="이름"
             type="text"
-            fullWidth
             variant="outlined"
-            value={room}
-            disabled={modalType === ModalType.ROOM_ENTRY}
-            onChange={(event) => setRoom(event.target.value)}
+            value={name}
+            onChange={(event) => setName(event.target.value)}
           />
-          <UserNameField>
-            <TextField
-              margin="dense"
-              name="name"
-              label="이름"
-              type="text"
-              variant="outlined"
-              value={name}
-              onChange={(event) => setName(event.target.value)}
-            />
-            <Button size="small" variant="text" onClick={onClickJoinRoom}>
-              랜덤 생성
-            </Button>
-          </UserNameField>
-        </div>
+          <Button size="small" variant="text" onClick={onClickJoinRoom}>
+            랜덤 생성
+          </Button>
+        </UserNameField>
       </DialogComponent>
     </Container>
   );
@@ -168,7 +204,7 @@ const Container = styled.div`
       height: calc(100vh - 250px);
       max-width: 1024px;
       margin: 0 auto;
-      padding: 50px 0;
+      padding: 20px 0;
       overflow: hidden;
     `;
   }}
@@ -193,14 +229,36 @@ const PageTitle = styled.div`
   font-size: 24px;
   display: flex;
   justify-content: space-between;
-  padding-bottom: 20px;
+  align-items: center;
+  padding: 20px 0;
 `;
 
 const NoRoomsMessage = styled.div`
   color: #333;
+  font-weight: 800;
   height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  svg {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 10px;
+    color: #333;
+  }
+`;
+
+/** 버튼 문구 */
+const AvatarWrapper = styled.span<{ $isActive: boolean }>`
+  ${({ theme, $isActive }) => {
+    const { font } = theme;
+    return css`
+      width: 160px;
+      height: 160px;
+      background-size: cover;
+      border-radius: 50%;
+      border: 5px solid ${$isActive ? 'skyblue' : '#fff'};
+    `;
+  }}
 `;

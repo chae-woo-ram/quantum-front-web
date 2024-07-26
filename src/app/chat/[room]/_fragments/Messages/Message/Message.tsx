@@ -1,3 +1,4 @@
+import DownloadForOfflineIcon from '@mui/icons-material/DownloadForOffline';
 import { Divider } from '@mui/material';
 import * as Style from './MessageStyle';
 
@@ -6,11 +7,12 @@ interface MessagePropsType {
     user: string;
     text: string;
     createdAt: Date;
+    file: any;
   };
   name: string;
 }
 
-function Message({ message: { user, text, createdAt }, name }: MessagePropsType) {
+function Message({ message: { user, text, file, createdAt }, name }: MessagePropsType) {
   const trimmedName = name.trim().toLowerCase();
   const isSentByCurrentUser = user === trimmedName;
   const isAdmin = user === 'admin';
@@ -21,6 +23,15 @@ function Message({ message: { user, text, createdAt }, name }: MessagePropsType)
     second: '2-digit',
     hour12: false,
   });
+
+  const handleDownload = () => {
+    if (file) {
+      const link = document.createElement('a');
+      link.href = file; // The URL to the file
+      link.download = 'download'; // Optional: set default download file name
+      link.click();
+    }
+  };
 
   if (isAdmin) {
     return (
@@ -38,7 +49,13 @@ function Message({ message: { user, text, createdAt }, name }: MessagePropsType)
         <>
           <Style.CreatedAtText $isSentByCurrentUser={isSentByCurrentUser}>{timeString}</Style.CreatedAtText>
           <Style.MessageBox $isSentByCurrentUser={isSentByCurrentUser}>
-            <Style.MessageText>{text}</Style.MessageText>
+            {text && <Style.MessageText>{text}</Style.MessageText>}
+
+            {file && (
+              <Style.ImagePreviewBox>
+                <Style.ImagePreview src={file} alt="Image Preview" />
+              </Style.ImagePreviewBox>
+            )}
           </Style.MessageBox>
         </>
       ) : (
@@ -46,7 +63,17 @@ function Message({ message: { user, text, createdAt }, name }: MessagePropsType)
           <Style.UserName>{user}</Style.UserName>
           <Style.MessageBoxWrapper>
             <Style.MessageBox $isSentByCurrentUser={isSentByCurrentUser}>
-              <Style.MessageText>{text}</Style.MessageText>
+              {text && <Style.MessageText>{text}</Style.MessageText>}
+              {file && (
+                <>
+                  <Style.ImagePreviewBox>
+                    <Style.ImagePreview src={file} alt="Image Preview" />
+                    <Style.DownloadButton onClick={handleDownload}>
+                      <DownloadForOfflineIcon />
+                    </Style.DownloadButton>
+                  </Style.ImagePreviewBox>
+                </>
+              )}
             </Style.MessageBox>
             <Style.CreatedAtText $isSentByCurrentUser={isSentByCurrentUser}>{timeString}</Style.CreatedAtText>
           </Style.MessageBoxWrapper>
