@@ -18,6 +18,7 @@ function Chat({ params }) {
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState<any[]>([]);
   const [socket, setSocket] = useState<any>(null);
+  const [file, setFile] = useState<File | null>(null);
 
   useEffect(() => {
     // searchParams와 params에 따라 상태 업데이트
@@ -62,18 +63,21 @@ function Chat({ params }) {
   const sendMessage = useCallback(
     (event: any) => {
       event.preventDefault();
-      if (message && socket) {
-        socket.emit('sendMessage', message, () => setMessage(''));
+      if ((!!file || !!message) && socket) {
+        socket.emit('sendMessage', { message: message, file: file }, () => {
+          setMessage('');
+          setFile(null);
+        });
       }
     },
-    [message, socket],
+    [message, file, socket],
   );
 
   return (
     <ChatContainer>
-      <InfoBar roomName={room} />
+      <InfoBar roomName={room} users={users} />
       <Messages messages={messages} name={name} />
-      <Input message={message} setMessage={setMessage} sendMessage={sendMessage} />
+      <Input message={message} setMessage={setMessage} sendMessage={sendMessage} setFile={setFile} />
     </ChatContainer>
   );
 }
