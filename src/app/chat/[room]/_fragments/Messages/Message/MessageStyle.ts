@@ -1,9 +1,10 @@
 import styled from 'styled-components';
+import { MessagePropsType } from './MessageType';
 
-export const MessageContainer = styled.div<{ isSentByCurrentUser: boolean }>`
+export const MessageContainer = styled.div<MessagePropsType>`
   width: 100%;
   display: flex;
-  justify-content: ${({ isSentByCurrentUser }) => (isSentByCurrentUser ? 'flex-end' : 'flex-start')};
+  justify-content: ${({ $isSentByCurrentUser }) => ($isSentByCurrentUser ? 'flex-end' : 'flex-start')};
   margin-bottom: 15px;
   align-items: flex-end;
 `;
@@ -17,11 +18,11 @@ export const AdminMessageBox = styled.div`
   margin-bottom: 20px;
 `;
 
-export const MessageBox = styled.div<{ isSentByCurrentUser: boolean }>`
-  background: ${({ isSentByCurrentUser }) => (isSentByCurrentUser ? '#2979FF' : '#F3F3F3')};
+export const MessageBox = styled.div<MessagePropsType>`
+  background: ${({ $isSentByCurrentUser }) => ($isSentByCurrentUser ? '#2979FF' : '#F3F3F3')};
   border-radius: 20px;
   padding: 10px 20px;
-  color: ${({ isSentByCurrentUser }) => (isSentByCurrentUser ? '#FFF' : '#000')};
+  color: ${({ $isSentByCurrentUser }) => ($isSentByCurrentUser ? '#FFF' : '#000')};
   display: inline-block;
   position: relative;
   font-size: 14px;
@@ -35,8 +36,8 @@ export const MessageBox = styled.div<{ isSentByCurrentUser: boolean }>`
     border: 4px solid transparent;
     margin-top: -4px;
 
-    ${({ isSentByCurrentUser }) =>
-      isSentByCurrentUser
+    ${({ $isSentByCurrentUser }) =>
+      $isSentByCurrentUser
         ? `
         right: -4px; 
         border-left-color: #2979FF;
@@ -73,11 +74,11 @@ export const UserName = styled.p`
   font-weight: 600;
 `;
 
-export const CreatedAtText = styled.p<{ isSentByCurrentUser: boolean }>`
+export const CreatedAtText = styled.p<MessagePropsType>`
   display: flex;
   align-items: center;
   color: #777;
-  padding: ${({ isSentByCurrentUser }) => (isSentByCurrentUser ? '0 5px 4px 0' : '0 0 4px 5px')};
+  padding: ${({ $isSentByCurrentUser }) => ($isSentByCurrentUser ? '0 5px 4px 0' : '0 0 4px 5px')};
   margin: 0;
   font-size: 12px;
   letter-spacing: -0.3px;

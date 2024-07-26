@@ -11,24 +11,16 @@ interface MessagePropsType {
 }
 
 function Message({ message: { user, text, createdAt }, name }: MessagePropsType) {
-  let isSentByCurrentUser = false;
-  let isAdmin = false;
+  const trimmedName = name.trim().toLowerCase();
+  const isSentByCurrentUser = user === trimmedName;
+  const isAdmin = user === 'admin';
+
   const timeString = new Date(createdAt).toLocaleTimeString('en-US', {
     hour: '2-digit',
     minute: '2-digit',
     second: '2-digit',
     hour12: false,
   });
-
-  const trimmedName = name.trim().toLowerCase();
-
-  if (user === trimmedName) {
-    isSentByCurrentUser = true;
-  }
-
-  if (user === 'admin') {
-    isAdmin = true;
-  }
 
   if (isAdmin) {
     return (
@@ -41,11 +33,11 @@ function Message({ message: { user, text, createdAt }, name }: MessagePropsType)
   }
 
   return (
-    <Style.MessageContainer isSentByCurrentUser={isSentByCurrentUser}>
+    <Style.MessageContainer $isSentByCurrentUser={isSentByCurrentUser}>
       {isSentByCurrentUser ? (
         <>
-          <Style.CreatedAtText isSentByCurrentUser={isSentByCurrentUser}>{timeString}</Style.CreatedAtText>
-          <Style.MessageBox isSentByCurrentUser={isSentByCurrentUser}>
+          <Style.CreatedAtText $isSentByCurrentUser={isSentByCurrentUser}>{timeString}</Style.CreatedAtText>
+          <Style.MessageBox $isSentByCurrentUser={isSentByCurrentUser}>
             <Style.MessageText>{text}</Style.MessageText>
           </Style.MessageBox>
         </>
@@ -53,10 +45,10 @@ function Message({ message: { user, text, createdAt }, name }: MessagePropsType)
         <Style.MessageWrapper>
           <Style.UserName>{user}</Style.UserName>
           <Style.MessageBoxWrapper>
-            <Style.MessageBox isSentByCurrentUser={isSentByCurrentUser}>
+            <Style.MessageBox $isSentByCurrentUser={isSentByCurrentUser}>
               <Style.MessageText>{text}</Style.MessageText>
             </Style.MessageBox>
-            <Style.CreatedAtText isSentByCurrentUser={isSentByCurrentUser}>{timeString}</Style.CreatedAtText>
+            <Style.CreatedAtText $isSentByCurrentUser={isSentByCurrentUser}>{timeString}</Style.CreatedAtText>
           </Style.MessageBoxWrapper>
         </Style.MessageWrapper>
       )}
