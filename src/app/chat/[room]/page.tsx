@@ -14,7 +14,7 @@ function Chat({ params }) {
   const searchParams = useSearchParams();
   const [name, setName] = useState<string>(searchParams.get('name') || '');
   const [profileId, setProfileId] = useState<string>(searchParams.get('profileId') || '');
-  const [room, setRoom] = useState<string>(params.room || '');
+  const [room, setRoom] = useState<string>('');
   const [users, setUsers] = useState<string[]>([]);
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState<any[]>([]);
@@ -25,7 +25,7 @@ function Chat({ params }) {
     // searchParams와 params에 따라 상태 업데이트
     const newName = searchParams.get('name') || '';
     const profileId = searchParams.get('profileId') || '';
-    const newRoom = params.room || '';
+    const newRoom = decodeURIComponent(params.room) || '';
 
     if (newName !== name) setName(newName);
     if (newRoom !== room) setRoom(newRoom);
@@ -78,7 +78,6 @@ function Chat({ params }) {
 
   return (
     <ChatContainer>
-      {JSON.stringify(messages)}
       <InfoBar roomName={room} users={users} />
       <Messages messages={messages} name={name} />
       <Input message={message} setMessage={setMessage} sendMessage={sendMessage} setFile={setFile} />

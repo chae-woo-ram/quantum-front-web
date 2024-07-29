@@ -1,4 +1,5 @@
-import { Divider, Grid, Typography } from '@mui/material';
+import { Divider, Grid } from '@mui/material';
+import { motion } from 'framer-motion';
 import styled, { css } from 'styled-components';
 
 interface ProfileSelectorProps {
@@ -21,13 +22,15 @@ const ProfileSelector = ({ profileId = 1, onChange }: ProfileSelectorProps) => {
 
   return (
     <>
-      <Divider>
-        <Typography variant="subtitle2">대화 프로필 선택</Typography>
-      </Divider>
-      <Grid container direction={'row'} gap={'10px'}>
+      <Divider />
+      <Grid container direction={'row'} gap={'10px'} marginTop={'20px'} justifyContent={'center'}>
         {profileData.map(({ id, src, isNew }) => (
           <AvatarWrapper key={id} onClick={() => onChange(id)} $isActive={profileId === id} $isNew={isNew}>
-            <StyledAvatar src={src} />
+            <StyledAvatar
+              src={src}
+              animate={profileId === id ? { rotate: [0, -1, 1, -1, 1, 0] } : {}}
+              transition={{ repeat: 2, duration: 0.3, ease: 'easeInOut' }}
+            />
           </AvatarWrapper>
         ))}
       </Grid>
@@ -67,7 +70,7 @@ const AvatarWrapper = styled.div<{ $isActive: boolean; $isNew?: boolean }>`
   }}
 `;
 
-const StyledAvatar = styled.img`
+const StyledAvatar = styled(motion.img)`
   ${({ theme }) => {
     const { font } = theme;
     return css`

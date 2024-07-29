@@ -3,7 +3,6 @@ export enum ModalType {
   ROOM_ENTRY = 'roomEntry', // 이미 있는 방 바로 입장
 }
 
-// Type for room users
 interface UserType {
   id: string;
   name: string;
