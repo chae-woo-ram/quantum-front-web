@@ -8,11 +8,12 @@ interface MessagePropsType {
     text: string;
     createdAt: Date;
     file: any;
+    profileId: number;
   };
   name: string;
 }
 
-function Message({ message: { user, text, file, createdAt }, name }: MessagePropsType) {
+function Message({ message: { user, text, file, profileId, createdAt }, name }: MessagePropsType) {
   const trimmedName = name.trim().toLowerCase();
   const isSentByCurrentUser = user === trimmedName;
   const isAdmin = user === 'admin';
@@ -46,7 +47,7 @@ function Message({ message: { user, text, file, createdAt }, name }: MessageProp
   return (
     <Style.MessageContainer $isSentByCurrentUser={isSentByCurrentUser}>
       {isSentByCurrentUser ? (
-        <>
+        <Style.MessageBoxWrapper>
           <Style.CreatedAtText $isSentByCurrentUser={isSentByCurrentUser}>{timeString}</Style.CreatedAtText>
           <Style.MessageBox $isSentByCurrentUser={isSentByCurrentUser}>
             {text && <Style.MessageText>{text}</Style.MessageText>}
@@ -57,11 +58,13 @@ function Message({ message: { user, text, file, createdAt }, name }: MessageProp
               </Style.ImagePreviewBox>
             )}
           </Style.MessageBox>
-        </>
+          <Style.StyledAvatar $profileId={profileId} />
+        </Style.MessageBoxWrapper>
       ) : (
         <Style.MessageWrapper>
           <Style.UserName>{user}</Style.UserName>
           <Style.MessageBoxWrapper>
+            <Style.StyledAvatar $profileId={profileId} />
             <Style.MessageBox $isSentByCurrentUser={isSentByCurrentUser}>
               {text && <Style.MessageText>{text}</Style.MessageText>}
               {file && (

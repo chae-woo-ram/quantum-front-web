@@ -1,23 +1,12 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import ProfileSelector from '@/components/chat/ProfileSelector';
 import DialogComponent from '@/components/common/dialog';
 import AddCommentIcon from '@mui/icons-material/AddComment';
 import Error from '@mui/icons-material/Error';
 import RefreshIcon from '@mui/icons-material/Refresh';
-import {
-  Avatar,
-  Box,
-  Button,
-  Card,
-  CardActions,
-  CardContent,
-  Divider,
-  Grid,
-  IconButton,
-  TextField,
-  Typography,
-} from '@mui/material';
+import { Box, Button, Card, CardActions, CardContent, Divider, IconButton, TextField, Typography } from '@mui/material';
 import io from 'socket.io-client';
 import { css, styled } from 'styled-components';
 import { ModalType, RoomsState } from './chatType';
@@ -70,7 +59,7 @@ function Join() {
       socket.emit('createRoom', room, () => {});
     }
 
-    window.location.href = `chat/${room}?name=${name}`;
+    window.location.href = `chat/${room}?name=${name}&profileId=${profileId}`;
   };
 
   const getRandomElement = (arr: string[]) => arr[Math.floor(Math.random() * arr.length)];
@@ -154,17 +143,6 @@ function Join() {
           { label: '입장', onClick: handleSubmit },
         ]}
       >
-        <Grid container direction={'row'} gap={'10px'}>
-          <AvatarWrapper onClick={() => onClickDefaultProfile(1)} $isActive={profileId === 1}>
-            <Avatar src={'/images/profile1.png'} style={{ width: 150, height: 150, objectFit: 'cover' }} />
-          </AvatarWrapper>
-          <AvatarWrapper onClick={() => onClickDefaultProfile(2)} $isActive={profileId === 2}>
-            <Avatar src={'/images/profile2.png'} style={{ width: 150, height: 150, objectFit: 'cover' }} />
-          </AvatarWrapper>
-          <AvatarWrapper onClick={() => onClickDefaultProfile(3)} $isActive={profileId === 3}>
-            <Avatar src={'/images/profile3.png'} style={{ width: 150, height: 150, objectFit: 'cover' }} />
-          </AvatarWrapper>
-        </Grid>
         <TextField
           margin="dense"
           name="room"
@@ -190,6 +168,7 @@ function Join() {
             랜덤 생성
           </Button>
         </UserNameField>
+        <ProfileSelector profileId={profileId} onChange={onClickDefaultProfile} />
       </DialogComponent>
     </Container>
   );
@@ -201,10 +180,10 @@ const Container = styled.div`
   ${({ theme }) => {
     const { colors } = theme;
     return css`
-      height: calc(100vh - 250px);
+      height: calc(100vh - 150px);
       max-width: 1024px;
       margin: 0 auto;
-      padding: 20px 0;
+      padding: 80px 0 20px;
       overflow: hidden;
     `;
   }}

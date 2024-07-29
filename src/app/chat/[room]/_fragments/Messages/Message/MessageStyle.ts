@@ -97,9 +97,7 @@ export const MessageBox = styled.div<MessagePropsType>`
   }
 `;
 
-export const MessageWrapper = styled.p`
-  margin: 5px;
-`;
+export const MessageWrapper = styled.div``;
 
 export const MessageBoxWrapper = styled.p`
   display: inline-flex;
@@ -134,4 +132,15 @@ export const MessageText = styled.p`
   word-wrap: break-word;
   white-space: pre;
   margin: 0;
+`;
+
+export const StyledAvatar = styled.div<{ $profileId: number }>`
+  width: 80px;
+  height: 80px;
+  display: inline-block;
+  background-size: 150%;
+  background-position: center;
+  background-image: ${({ $profileId }) => `url('/images/profile${$profileId}.png')`};
+  border-radius: 50%;
+  border: 3px solid #ddd;
 `;
