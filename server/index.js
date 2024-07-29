@@ -23,8 +23,8 @@ app.use(router);
 io.on('connection', (socket) => {
   console.log('새로운 유저가 접속했습니다.');
 
-  socket.on('join', ({ name, room }, callback) => {
-    const { error, user } = addUser({ id: socket.id, name, room });
+  socket.on('join', ({ name, room, profileId }, callback) => {
+    const { error, user } = addUser({ id: socket.id, name, room, profileId });
     console.log('error', error);
     if (error) return callback({ error: '에러가 발생했습니다.' });
 
@@ -55,6 +55,7 @@ io.on('connection', (socket) => {
     const user = getUser(socket.id);
     io.to(user?.room).emit('message', {
       user: user?.name,
+      profileId: user?.profileId,
       text: message,
       file: file,
       createdAt: new Date(),

@@ -1,5 +1,4 @@
 import { ReactNode } from 'react';
-import { Box } from '@mui/material';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -22,19 +21,17 @@ interface DialogProps {
 
 const DialogComponent = ({ open, title, buttons, children, onClose }: DialogProps) => {
   return (
-    <Box sx={{ height: 400, width: '100%' }}>
-      <Dialog open={open} onClose={onClose}>
-        {title && <DialogTitle id="alert-dialog-title">{title}</DialogTitle>}
-        <DialogContent>{children}</DialogContent>
-        <DialogActions>
-          {buttons?.map((action, index) => (
-            <Button key={index} onClick={action.onClick} disabled={action.disabled}>
-              {action.label}
-            </Button>
-          ))}
-        </DialogActions>
-      </Dialog>
-    </Box>
+    <Dialog open={open} onClose={onClose}>
+      {title && <DialogTitle id="alert-dialog-title">{title}</DialogTitle>}
+      <DialogContent>{children}</DialogContent>
+      <DialogActions>
+        {buttons?.map((action, index) => (
+          <Button key={index} onClick={action.onClick} disabled={action.disabled}>
+            {action.label}
+          </Button>
+        ))}
+      </DialogActions>
+    </Dialog>
   );
 };
 

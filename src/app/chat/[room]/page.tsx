@@ -13,7 +13,8 @@ const ENDPOINT = 'http://localhost:5001';
 function Chat({ params }) {
   const searchParams = useSearchParams();
   const [name, setName] = useState<string>(searchParams.get('name') || '');
-  const [room, setRoom] = useState<string>(params.room || '');
+  const [profileId, setProfileId] = useState<string>(searchParams.get('profileId') || '');
+  const [room, setRoom] = useState<string>('');
   const [users, setUsers] = useState<string[]>([]);
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState<any[]>([]);
@@ -23,10 +24,12 @@ function Chat({ params }) {
   useEffect(() => {
     // searchParams와 params에 따라 상태 업데이트
     const newName = searchParams.get('name') || '';
-    const newRoom = params.room || '';
+    const profileId = searchParams.get('profileId') || '';
+    const newRoom = decodeURIComponent(params.room) || '';
 
     if (newName !== name) setName(newName);
     if (newRoom !== room) setRoom(newRoom);
+    if (newRoom !== room) setProfileId(profileId);
   }, [searchParams, params, name, room]);
 
   useEffect(() => {
@@ -36,7 +39,7 @@ function Chat({ params }) {
       setSocket(newSocket);
 
       // 방에 참가
-      newSocket.emit('join', { name, room }, (err: any) => {
+      newSocket.emit('join', { name, room, profileId }, (err: any) => {
         if (err) console.error('참가 오류:', err);
       });
 

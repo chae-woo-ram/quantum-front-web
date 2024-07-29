@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 // 추출한 입력 폼 컴포넌트
-import DialogComponent from '@/components/common/dialog';
+import DialogComponent from '@/components/common/DialogComponent';
 import Table, { TableColumn } from '@/components/common/table';
 import NoteForm from '@/components/notice/NoteForm';
 import { Button, Container } from '@mui/material';
