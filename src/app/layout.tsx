@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { Noto_Sans_KR } from 'next/font/google';
-import { Footer } from '@/components/Footer';
-import { Header } from '@/components/Header';
+import { Footer } from '@/components/footer/Footer';
+import { Header } from '@/components/header/Header';
 import Providers from '@/lib/Provider';
 import theme from '@/styles/theme';
 import { ThemeProvider } from '@mui/material/styles';
@@ -10,9 +10,6 @@ import styles from './page.module.css';
 export const metadata: Metadata = {
   title: 'Water Melon',
   description: 'Water Melon Service',
-  icons: {
-    icon: '/favicon.png',
-  },
 };
 
 const notoSansKr = Noto_Sans_KR({
