@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { Noto_Sans_KR } from 'next/font/google';
 import { Footer } from '@/components/footer/Footer';
-import { Header } from '@/components/header-test/Header';
+import { Header } from '@/components/header/Header';
 import Providers from '@/lib/Provider';
 import theme from '@/styles/theme';
 import { ThemeProvider } from '@mui/material/styles';
