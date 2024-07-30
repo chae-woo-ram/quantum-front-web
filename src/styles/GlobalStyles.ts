@@ -13,6 +13,10 @@ export const GlobalStyle = createGlobalStyle`
 
   html, body { 
     max-width: 100vw;
+
+    ::-webkit-scrollbar {
+      display: none; /* Chrome, Safari, Opera*/
+    }
   }
 
   ul, ol {
