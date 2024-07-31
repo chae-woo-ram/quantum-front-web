@@ -245,7 +245,7 @@ export const Header = () => {
           <NavList ref={navListRef}>
             <NavItem>
               <NavLink href="/">
-                <Image src={'/images/favicon.png'} alt={'search icon'} width={30} height={25} />
+                <Image src={'/images/favicon.png'} alt={'search icon'} width={80} height={50} />
               </NavLink>
             </NavItem>
             {menuItems?.map((item) => (
