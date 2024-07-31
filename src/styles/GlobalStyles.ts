@@ -19,6 +19,10 @@ export const GlobalStyle = createGlobalStyle`
     }
   }
 
+  main{
+    width: 100%;
+  }
+
   ul, ol {
     list-style: none;
   } 

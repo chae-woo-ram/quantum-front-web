@@ -5,62 +5,58 @@ import styled from 'styled-components';
 
 const BannerWrapper = styled(motion.div)`
   position: sticky;
-  top: 110px;
+  top: 100px;
+  left: 10%;
+  text-align: center;
+  overflow: hidden;
 `;
 
 const CardList = styled.ul`
   position: absolute;
-  top: 10%;
-  right: 6%;
+  top: 21%;
+  left: 40%;
   display: flex;
-  gap: 30px;
+  gap: 10px;
   flex-wrap: wrap;
-  width: 80%;
-  padding: 0px 20px;
+  width: 20%;
+  justify-content: center;
+  align-items: center;
 `;
 
 const CardItem = styled(motion.li)`
-  /* position: absolute; */
   will-change: transform; /* 성능 최적화 */
-  width: calc(33.33% - 20px);
-  box-shadow: rgba(33, 38, 49, 0.12) 0px 4px 16px 0px;
-  &:nth-child(4) {
-    width: calc(66.66% - 15px);
-  }
-  &:nth-child(5) {
-    width: calc(33.33% - 15px);
+  width: calc(40%);
+  border: 15px solid rgba(109, 107, 111, 0.2); /* 그림자 효과처럼 보이게 하는 테두리 */
+
+  img {
+    width: 100%;
+    height: 50%;
   }
 `;
 
 const cards = [
   {
     id: 1,
-    img: 'https://www.widearth.world/image/feature/img_feature_banner_card_01.png',
-    initial: { x: '-106%', y: '-46%', rotate: -18 },
+    img: '/images/picture1.png',
+    initial: { x: '-30%', y: '-20%', rotate: -20 },
     final: { x: '0%', y: '0%', rotate: 0 },
   },
   {
     id: 2,
-    img: 'https://www.widearth.world/image/feature/img_feature_banner_card_02.png',
-    initial: { x: '8%', y: '-32%', rotate: -32 },
+    img: '/images/picture2.png',
+    initial: { x: '20%', y: '-10%', rotate: 20 },
     final: { x: '0%', y: '0%', rotate: 0 },
   },
   {
     id: 3,
-    img: 'https://www.widearth.world/image/feature/img_feature_banner_card_03.png',
-    initial: { x: '70%', y: '-60%', rotate: 13 },
+    img: '/images/picture3.png',
+    initial: { x: '-50%', y: '30%', rotate: -20 },
     final: { x: '0%', y: '0%', rotate: 0 },
   },
   {
     id: 4,
-    img: 'https://www.widearth.world/image/feature/img_feature_banner_card_04.png',
-    initial: { x: '-30%', y: '-11%', rotate: 13 },
-    final: { x: '0%', y: '0%', rotate: 0 },
-  },
-  {
-    id: 5,
-    img: 'https://www.widearth.world/image/feature/img_feature_banner_card_05.png',
-    initial: { x: '36%', y: '33%', rotate: -15 },
+    img: '/images/picture4.png',
+    initial: { x: '20%', y: '20%', rotate: 15 },
     final: { x: '0%', y: '0%', rotate: 0 },
   },
 ];
@@ -71,7 +67,7 @@ const Banner = () => {
 
   return (
     <BannerWrapper style={{ scale }}>
-      <img src="https://www.widearth.world/image/feature/img_feature_banner_frame.png" alt="" />
+      <img src="/images/frame.png" alt="" />
       <CardList>
         {cards.map((card) => (
           <CardItem
@@ -86,21 +82,15 @@ const Banner = () => {
           </CardItem>
         ))}
       </CardList>
-      <img
-        src="https://www.widearth.world/image/feature/img_feature_banner_cursor.png"
-        alt=""
-        className="feature_banner_cursor"
-      />
     </BannerWrapper>
   );
 };
 
-export default async function Home() {
+export default function Home() {
   return (
-    <div>
+    <>
       <Banner />
-      {/* 스크롤을 테스트하기 위한 임의의 콘텐츠 */}
       <div style={{ height: '200vh' }}></div>
-    </div>
+    </>
   );
 }

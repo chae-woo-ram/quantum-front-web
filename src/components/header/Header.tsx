@@ -28,8 +28,8 @@ interface MenuItem {
 const menuItems: MenuItem[] = [
   {
     id: 1,
-    label: 'Store',
-    href: '/store',
+    label: 'Artists',
+    href: '/artists',
     submenu: [
       {
         Shop: [
@@ -55,8 +55,8 @@ const menuItems: MenuItem[] = [
   },
   {
     id: 2,
-    label: 'Mac',
-    href: '/mac',
+    label: 'Exhibitions',
+    href: '/exhibitions',
     submenu: [
       {
         'Explore Mac': [
@@ -77,8 +77,8 @@ const menuItems: MenuItem[] = [
   },
   {
     id: 3,
-    label: 'iPad',
-    href: '/ipad',
+    label: 'Viewing room',
+    href: '/viewingroom',
     submenu: [
       {
         'Explore iPad': [
@@ -98,8 +98,8 @@ const menuItems: MenuItem[] = [
   },
   {
     id: 4,
-    label: 'iPhone',
-    href: '/iphone',
+    label: 'News',
+    href: '/news',
     submenu: [
       {
         'Explore iPhone': [
@@ -118,8 +118,8 @@ const menuItems: MenuItem[] = [
   },
   {
     id: 5,
-    label: 'Watch',
-    href: '/watch',
+    label: 'Fairs',
+    href: '/fairs',
     submenu: [
       {
         'Explore Watch': [
@@ -146,8 +146,8 @@ const menuItems: MenuItem[] = [
   },
   {
     id: 6,
-    label: 'AirPods',
-    href: '/airpods',
+    label: 'Gallery',
+    href: '/gallery',
     submenu: [
       {
         'Explore AirPods': [
@@ -245,7 +245,7 @@ export const Header = () => {
           <NavList ref={navListRef}>
             <NavItem>
               <NavLink href="/">
-                <Image src={'/images/favicon.png'} alt={'search icon'} width={20} height={20} />
+                <Image src={'/images/favicon.png'} alt={'search icon'} width={30} height={25} />
               </NavLink>
             </NavItem>
             {menuItems?.map((item) => (

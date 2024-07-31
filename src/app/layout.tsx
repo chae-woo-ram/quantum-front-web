@@ -9,8 +9,8 @@ import { ThemeProvider } from '@mui/material/styles';
 import styles from './page.module.css';
 
 export const metadata: Metadata = {
-  title: 'Water Melon',
-  description: 'Water Melon Service',
+  title: 'Small Gallery',
+  description: 'Gallery Service',
 };
 
 const notoSansKr = Noto_Sans_KR({
