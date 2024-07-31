@@ -3,8 +3,10 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRecoilState } from 'recoil';
+import { isSubMenuVisibleState } from '@/recoil/header/atom';
 import { AnimatePresence, motion } from 'framer-motion';
-import { styled } from 'styled-components';
+import { createGlobalStyle, styled } from 'styled-components';
 
 // 서브메뉴 항목 데이터 타입 정의
 interface SubMenuItem {
@@ -26,8 +28,8 @@ interface MenuItem {
 const menuItems: MenuItem[] = [
   {
     id: 1,
-    label: 'Store',
-    href: '/store',
+    label: 'Artists',
+    href: '/artists',
     submenu: [
       {
         Shop: [
@@ -53,8 +55,8 @@ const menuItems: MenuItem[] = [
   },
   {
     id: 2,
-    label: 'Mac',
-    href: '/mac',
+    label: 'Exhibitions',
+    href: '/exhibitions',
     submenu: [
       {
         'Explore Mac': [
@@ -75,8 +77,8 @@ const menuItems: MenuItem[] = [
   },
   {
     id: 3,
-    label: 'iPad',
-    href: '/ipad',
+    label: 'Viewing room',
+    href: '/viewingroom',
     submenu: [
       {
         'Explore iPad': [
@@ -96,8 +98,8 @@ const menuItems: MenuItem[] = [
   },
   {
     id: 4,
-    label: 'iPhone',
-    href: '/iphone',
+    label: 'News',
+    href: '/news',
     submenu: [
       {
         'Explore iPhone': [
@@ -116,8 +118,8 @@ const menuItems: MenuItem[] = [
   },
   {
     id: 5,
-    label: 'Watch',
-    href: '/watch',
+    label: 'Fairs',
+    href: '/fairs',
     submenu: [
       {
         'Explore Watch': [
@@ -144,8 +146,8 @@ const menuItems: MenuItem[] = [
   },
   {
     id: 6,
-    label: 'AirPods',
-    href: '/airpods',
+    label: 'Gallery',
+    href: '/gallery',
     submenu: [
       {
         'Explore AirPods': [
@@ -171,8 +173,21 @@ export const Header = () => {
   const [activeItemId, setActiveItemId] = useState<number | null>(null);
   const [isHover, setIsHover] = useState(false);
   const [isActive, setIsActive] = useState(false);
+
   const [navListWidth, setNavListWidth] = useState<number>(0);
   const navListRef = useRef<HTMLUListElement>(null);
+
+  const [isSubMenuVisible, setSubMenuVisible] = useRecoilState(isSubMenuVisibleState);
+
+  const GlobalStyle = createGlobalStyle<{ isSubMenuVisible: boolean }>`
+  /* body {
+    ${({ isSubMenuVisible }) =>
+      isSubMenuVisible &&
+      `
+      
+    `}
+  } */
+`;
 
   const handleMouseEnter = useCallback((index: number) => {
     setActiveItemId(index);
@@ -214,53 +229,64 @@ export const Header = () => {
     }
   }, [navListRef.current]);
 
+  useEffect(() => {
+    if (isHover && isActive) {
+      setSubMenuVisible(true);
+    } else {
+      setSubMenuVisible(false);
+    }
+  }, [isHover, isActive, setSubMenuVisible]);
+
   return (
-    <HeaderContainer onMouseEnter={() => handleMouseEnter(null)} onMouseLeave={handleMouseLeave}>
-      <nav>
-        <NavList ref={navListRef}>
-          <NavItem>
-            <NavLink href="/">
-              <Image src={'/images/favicon.png'} alt={'search icon'} width={20} height={20} />
-            </NavLink>
-          </NavItem>
-          {menuItems?.map((item) => (
-            <NavItem key={item.id} onMouseEnter={() => handleMouseEnter(item.id)}>
-              <NavLink href={item.href}>{item.label}</NavLink>
-              <AnimatePresence>
-                {activeItemId === item.id && isHover && item.submenu?.length && (
-                  <MotionSubMenu
-                    initial={isActive ? 'enter' : 'exit'}
-                    animate="enter"
-                    exit="exit"
-                    variants={subMenuAnimate}
-                  >
-                    <SubMenuItemWrapper width={navListWidth}>
-                      {item.submenu?.map((subItem, subItemIdex: number) => (
-                        <SubMenuItem key={subItemIdex}>
-                          {Object.entries(subItem)?.map(([subItemKey, subItemList], subItemListIndex) => (
-                            <SubMenuItemList key={subItemListIndex}>
-                              <h4>{subItemKey}</h4>
-                              {subItemList?.map((subItemListItem, subItemListItemIndex) => (
-                                <SubMenuItemListItem key={subItemListItemIndex} href={subItemListItem.href}>
-                                  {subItemListItem.label}
-                                </SubMenuItemListItem>
-                              ))}
-                            </SubMenuItemList>
-                          ))}
-                        </SubMenuItem>
-                      ))}
-                    </SubMenuItemWrapper>
-                  </MotionSubMenu>
-                )}
-              </AnimatePresence>
+    <>
+      <GlobalStyle isSubMenuVisible={isSubMenuVisible} />
+      <HeaderContainer onMouseEnter={() => handleMouseEnter(null)} onMouseLeave={handleMouseLeave}>
+        <nav>
+          <NavList ref={navListRef}>
+            <NavItem>
+              <NavLink href="/">
+                <Image src={'/images/favicon.png'} alt={'search icon'} width={30} height={25} />
+              </NavLink>
             </NavItem>
-          ))}
-          <NavItem>
-            <Image src={'/images/search.svg'} alt={'search icon'} width={20} height={20} />
-          </NavItem>
-        </NavList>
-      </nav>
-    </HeaderContainer>
+            {menuItems?.map((item) => (
+              <NavItem key={item.id} onMouseEnter={() => handleMouseEnter(item.id)}>
+                <NavLink href={item.href}>{item.label}</NavLink>
+                <AnimatePresence>
+                  {activeItemId === item.id && isHover && item.submenu?.length && (
+                    <MotionSubMenu
+                      initial={isActive ? 'enter' : 'exit'}
+                      animate="enter"
+                      exit="exit"
+                      variants={subMenuAnimate}
+                    >
+                      <SubMenuItemWrapper width={navListWidth}>
+                        {item.submenu?.map((subItem, subItemIdex: number) => (
+                          <SubMenuItem key={subItemIdex}>
+                            {Object.entries(subItem)?.map(([subItemKey, subItemList], subItemListIndex) => (
+                              <SubMenuItemList key={subItemListIndex}>
+                                <h4>{subItemKey}</h4>
+                                {subItemList?.map((subItemListItem, subItemListItemIndex) => (
+                                  <SubMenuItemListItem key={subItemListItemIndex} href={subItemListItem.href}>
+                                    {subItemListItem.label}
+                                  </SubMenuItemListItem>
+                                ))}
+                              </SubMenuItemList>
+                            ))}
+                          </SubMenuItem>
+                        ))}
+                      </SubMenuItemWrapper>
+                    </MotionSubMenu>
+                  )}
+                </AnimatePresence>
+              </NavItem>
+            ))}
+            <NavItem>
+              <Image src={'/images/search.svg'} alt={'search icon'} width={20} height={20} />
+            </NavItem>
+          </NavList>
+        </nav>
+      </HeaderContainer>
+    </>
   );
 };
 

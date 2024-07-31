@@ -2,14 +2,15 @@ import type { Metadata } from 'next';
 import { Noto_Sans_KR } from 'next/font/google';
 import { Footer } from '@/components/footer/Footer';
 import { Header } from '@/components/header/Header';
+import RecoilRootWrapper from '@/components/recoilRootWrapper/RecoilRootWrapper';
 import Providers from '@/lib/Provider';
 import theme from '@/styles/theme';
 import { ThemeProvider } from '@mui/material/styles';
 import styles from './page.module.css';
 
 export const metadata: Metadata = {
-  title: 'Water Melon',
-  description: 'Water Melon Service',
+  title: 'Small Gallery',
+  description: 'Gallery Service',
 };
 
 const notoSansKr = Noto_Sans_KR({
@@ -22,13 +23,15 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
     <html lang="en">
       <ThemeProvider theme={theme}>
         <body className={notoSansKr.className}>
-          <Providers>
-            <div className={styles.container}>
-              <Header />
-              <main className={styles.main}>{children}</main>
-              <Footer />
-            </div>
-          </Providers>
+          <RecoilRootWrapper>
+            <Providers>
+              <div className={styles.container}>
+                <Header />
+                <main className={styles.main}>{children}</main>
+                <Footer />
+              </div>
+            </Providers>
+          </RecoilRootWrapper>
         </body>
       </ThemeProvider>
     </html>
