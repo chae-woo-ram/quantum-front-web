@@ -127,11 +127,9 @@ const Container = styled.div`
   ${({ theme }) => {
     const { colors } = theme;
     return css`
-      height: calc(100vh - 150px);
       max-width: 1024px;
       margin: 0 auto;
-      padding: 80px 0 20px;
-      overflow: hidden;
+      padding-top: 40px;
     `;
   }}
 `;
@@ -155,7 +153,7 @@ const PageTitle = styled.div`
 const NoRoomsMessage = styled.div`
   color: #333;
   font-weight: 800;
-  height: 100%;
+  height: 500px;
   display: flex;
   flex-direction: column;
   align-items: center;
