@@ -1,5 +1,6 @@
+import { useEffect } from 'react';
 import { Divider, Grid } from '@mui/material';
-import { motion } from 'framer-motion';
+import { motion, useAnimation } from 'framer-motion';
 import styled, { css } from 'styled-components';
 
 interface ProfileSelectorProps {
@@ -19,18 +20,41 @@ const ProfileSelector = ({ profileId = 1, onChange }: ProfileSelectorProps) => {
     { id: 8, src: '/images/profile8.png', isNew: true },
     { id: 9, src: '/images/profile9.png', isNew: true },
   ];
+  /** 프로필의 개별 애니메이션 상태관리 */
+  const controlsMap = profileData.reduce(
+    (acc, { id }) => {
+      acc[id] = useAnimation();
+      return acc;
+    },
+    {} as Record<number, ReturnType<typeof useAnimation>>,
+  );
+
+  /** 프로필의 id가 변경될때 실행되는 애니메이션 */
+  useEffect(() => {
+    const controls = controlsMap[profileId];
+    controls
+      .start({
+        scale: [1, 1.5, 1, 1.5, 1],
+        y: [0, -20, 0, -20, 0],
+        transition: { duration: 1, ease: 'easeInOut' },
+      })
+      .then(() => {
+        setTimeout(() => {
+          controls.start({
+            rotate: [-5, 5, -5, 5, -5, 5, -5, 5, -5, 5, 0],
+            transition: { duration: 0.5, ease: 'easeInOut' },
+          });
+        }, 1000);
+      });
+  }, [profileId]);
 
   return (
     <>
       <Divider />
-      <Grid container direction={'row'} gap={'10px'} marginTop={'20px'} justifyContent={'center'}>
+      <Grid container direction="row" gap="10px" marginTop="20px" justifyContent="center">
         {profileData.map(({ id, src, isNew }) => (
           <AvatarWrapper key={id} onClick={() => onChange(id)} $isActive={profileId === id} $isNew={isNew}>
-            <StyledAvatar
-              src={src}
-              animate={profileId === id ? { rotate: [0, -1, 1, -1, 1, 0] } : {}}
-              transition={{ repeat: 2, duration: 0.3, ease: 'easeInOut' }}
-            />
+            <StyledAvatar src={src} animate={profileId === id ? controlsMap[id] : {}} />
           </AvatarWrapper>
         ))}
       </Grid>
@@ -42,13 +66,17 @@ export default ProfileSelector;
 
 const AvatarWrapper = styled.div<{ $isActive: boolean; $isNew?: boolean }>`
   ${({ theme, $isActive, $isNew }) => {
-    const { font } = theme;
     return css`
       width: 160px;
       height: 160px;
       border-radius: 50%;
-      border: 5px solid ${$isActive ? 'skyblue' : '#fff'};
+      border: 5px solid ${$isActive ? 'skyblue' : '#eee'};
       position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #fff;
+      overflow: hidden;
 
       ${$isNew &&
       css`
@@ -56,7 +84,7 @@ const AvatarWrapper = styled.div<{ $isActive: boolean; $isNew?: boolean }>`
           content: 'NEW!';
           position: absolute;
           top: 10px;
-          right: 10px;
+          right: 26px;
           background-color: ${$isActive ? 'green' : 'red'};
           color: #fff;
           border: 2px solid #fff;
@@ -72,11 +100,11 @@ const AvatarWrapper = styled.div<{ $isActive: boolean; $isNew?: boolean }>`
 
 const StyledAvatar = styled(motion.img)`
   ${({ theme }) => {
-    const { font } = theme;
     return css`
       width: 150px;
       height: 150px;
       object-fit: cover;
+      border-radius: 50%; /* Ensure the image is also rounded */
     `;
   }}
 `;
