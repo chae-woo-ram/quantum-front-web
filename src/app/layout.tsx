@@ -9,7 +9,7 @@ import { ThemeProvider } from '@mui/material/styles';
 import styles from './page.module.css';
 
 export const metadata: Metadata = {
-  title: 'Small Gallery',
+  title: '채우람 갤러리',
   description: 'Gallery Service',
 };
 

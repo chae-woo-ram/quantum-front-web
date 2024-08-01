@@ -241,50 +241,57 @@ export const Header = () => {
     <>
       <GlobalStyle isSubMenuVisible={isSubMenuVisible} />
       <HeaderContainer onMouseEnter={() => handleMouseEnter(null)} onMouseLeave={handleMouseLeave}>
-        <nav>
-          <NavList ref={navListRef}>
-            <NavItem>
-              <NavLink href="/">
-                <Image src={'/images/favicon.png'} alt={'search icon'} width={80} height={50} />
-              </NavLink>
-            </NavItem>
-            {menuItems?.map((item) => (
-              <NavItem key={item.id} onMouseEnter={() => handleMouseEnter(item.id)}>
-                <NavLink href={item.href}>{item.label}</NavLink>
-                <AnimatePresence>
-                  {activeItemId === item.id && isHover && item.submenu?.length && (
-                    <MotionSubMenu
-                      initial={isActive ? 'enter' : 'exit'}
-                      animate="enter"
-                      exit="exit"
-                      variants={subMenuAnimate}
-                    >
-                      <SubMenuItemWrapper width={navListWidth}>
-                        {item.submenu?.map((subItem, subItemIdex: number) => (
-                          <SubMenuItem key={subItemIdex}>
-                            {Object.entries(subItem)?.map(([subItemKey, subItemList], subItemListIndex) => (
-                              <SubMenuItemList key={subItemListIndex}>
-                                <h4>{subItemKey}</h4>
-                                {subItemList?.map((subItemListItem, subItemListItemIndex) => (
-                                  <SubMenuItemListItem key={subItemListItemIndex} href={subItemListItem.href}>
-                                    {subItemListItem.label}
-                                  </SubMenuItemListItem>
-                                ))}
-                              </SubMenuItemList>
-                            ))}
-                          </SubMenuItem>
-                        ))}
-                      </SubMenuItemWrapper>
-                    </MotionSubMenu>
-                  )}
-                </AnimatePresence>
-              </NavItem>
-            ))}
-            <NavItem>
-              <Image src={'/images/search.svg'} alt={'search icon'} width={20} height={20} />
-            </NavItem>
-          </NavList>
-        </nav>
+        {/* 로고 */}
+        <NavLink href="/">
+          <Image src={'/images/favicon.png'} alt={'search icon'} width={80} height={50} />
+        </NavLink>
+
+        {/* 메뉴 */}
+        <NavWrapper>
+          <nav>
+            <NavList ref={navListRef}>
+              {menuItems?.map((item) => (
+                <NavItem key={item.id} onMouseEnter={() => handleMouseEnter(item.id)}>
+                  <NavLink href={item.href}>{item.label}</NavLink>
+                  <AnimatePresence>
+                    {activeItemId === item.id && isHover && item.submenu?.length && (
+                      <MotionSubMenu
+                        initial={isActive ? 'enter' : 'exit'}
+                        animate="enter"
+                        exit="exit"
+                        variants={subMenuAnimate}
+                      >
+                        <SubMenuItemWrapper width={navListWidth}>
+                          {item.submenu?.map((subItem, subItemIdex: number) => (
+                            <SubMenuItem key={subItemIdex}>
+                              {Object.entries(subItem)?.map(([subItemKey, subItemList], subItemListIndex) => (
+                                <SubMenuItemList key={subItemListIndex}>
+                                  <h4>{subItemKey}</h4>
+                                  {subItemList?.map((subItemListItem, subItemListItemIndex) => (
+                                    <SubMenuItemListItem key={subItemListItemIndex} href={subItemListItem.href}>
+                                      {subItemListItem.label}
+                                    </SubMenuItemListItem>
+                                  ))}
+                                </SubMenuItemList>
+                              ))}
+                            </SubMenuItem>
+                          ))}
+                        </SubMenuItemWrapper>
+                      </MotionSubMenu>
+                    )}
+                  </AnimatePresence>
+                </NavItem>
+              ))}
+            </NavList>
+          </nav>
+        </NavWrapper>
+
+        <RightWrapper>
+          {/* 장바구니 */}
+          <Image src={'/images/shoppingBag.png'} alt={'shopping bag icon'} width={25} height={25} />
+          {/* 로그인 영역 */}
+          <LoginWrapper>로그인</LoginWrapper>
+        </RightWrapper>
       </HeaderContainer>
     </>
   );
@@ -297,9 +304,9 @@ const HeaderContainer = styled.header`
   width: 100%;
   background: black;
   display: flex;
-  justify-content: center;
   align-items: center;
   height: 48px;
+  padding: 0 20px;
   z-index: 10;
 `;
 
@@ -309,7 +316,12 @@ const NavList = styled.ul`
   gap: 35px;
   height: 48px;
   align-items: center;
-  padding-right: 100px;
+`;
+
+const NavWrapper = styled.div`
+  flex: 1;
+  display: flex;
+  justify-content: center;
 `;
 
 const NavItem = styled.li``;
@@ -369,6 +381,16 @@ const SubMenuItemList = styled.ul`
 
 const SubMenuItemListItem = styled(Link)`
   padding: 5px 0;
+`;
+
+const RightWrapper = styled.div`
+  display: flex;
+  gap: 15px;
+  align-items: center;
+`;
+
+const LoginWrapper = styled.div`
+  color: white;
 `;
 
 export default Header;
