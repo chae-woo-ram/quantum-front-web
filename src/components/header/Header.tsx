@@ -243,7 +243,7 @@ export const Header = () => {
       <HeaderContainer onMouseEnter={() => handleMouseEnter(null)} onMouseLeave={handleMouseLeave}>
         {/* 로고 */}
         <NavLink href="/">
-          <Image src={'/images/favicon.png'} alt={'search icon'} width={80} height={50} />
+          <Image src={'/images/favicon.png'} alt={'search icon'} width={100} height={30} />
         </NavLink>
 
         {/* 메뉴 */}
@@ -290,7 +290,7 @@ export const Header = () => {
           {/* 장바구니 */}
           <Image src={'/images/shoppingBag.png'} alt={'shopping bag icon'} width={25} height={25} />
           {/* 로그인 영역 */}
-          <LoginWrapper>로그인</LoginWrapper>
+          <LoginWrapper>Login</LoginWrapper>
         </RightWrapper>
       </HeaderContainer>
     </>

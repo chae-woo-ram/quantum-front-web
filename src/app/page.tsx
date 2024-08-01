@@ -1,5 +1,8 @@
 'use client';
 
+import Carousel from 'react-carousel-mui';
+import Image from 'next/image';
+import CustomCard from '@/components/customCard/CustomCard';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import styled from 'styled-components';
 
@@ -30,45 +33,155 @@ const cards = [
   },
 ];
 
-const Banner = () => {
+const Banner1 = () => {
   const { scrollYProgress } = useScroll();
   const scale = useTransform(scrollYProgress, [0, 1], [1, 0.6]);
 
   return (
-    <BannerWrapper style={{ scale }}>
-      <FrameImage src="/images/frame.png" alt="" />
-      <CardList>
-        {cards.map((card) => (
-          <CardItem
-            key={card.id}
-            style={{
-              x: useTransform(scrollYProgress, [0, 0.3], [card.initial.x, card.final.x]),
-              y: useTransform(scrollYProgress, [0, 0.3], [card.initial.y, card.final.y]),
-              rotate: useTransform(scrollYProgress, [0, 0.3], [card.initial.rotate, card.final.rotate]),
-              scale: useTransform(scrollYProgress, [0, 0.3], [card.initial.scale, card.final.scale]),
-            }}
-          >
-            <img src={card.img} alt="" />
-          </CardItem>
-        ))}
-      </CardList>
-    </BannerWrapper>
+    <>
+      <BannerTitle>TODAY'S ARTWORK</BannerTitle>
+      <Banner1Wrapper style={{ scale }}>
+        <FrameImage src="/images/frame.png" alt="" />
+        <CardList>
+          {cards.map((card) => (
+            <CardItem
+              key={card.id}
+              style={{
+                x: useTransform(scrollYProgress, [0, 0.3], [card.initial.x, card.final.x]),
+                y: useTransform(scrollYProgress, [0, 0.3], [card.initial.y, card.final.y]),
+                rotate: useTransform(scrollYProgress, [0, 0.3], [card.initial.rotate, card.final.rotate]),
+                scale: useTransform(scrollYProgress, [0, 0.3], [card.initial.scale, card.final.scale]),
+              }}
+            >
+              <img src={card.img} alt="" />
+            </CardItem>
+          ))}
+        </CardList>
+      </Banner1Wrapper>
+    </>
+  );
+};
+
+const Banner2 = () => {
+  const srcList = 'https://cdn.pixabay.com/photo/2022/01/25/04/42/bird-6965228_1280.jpg '
+    .repeat(10)
+    .split(' ')
+    .slice(0, 10)
+    .map((url, index) => ({ url, key: index }));
+
+  return (
+    <>
+      <BannerTitle>TODAY'S EXHIBITION</BannerTitle>
+      <StyledCarousel
+        items={srcList}
+        itemsPerPage={{
+          xs: 2,
+          sm: 2,
+          tablet: 2,
+          md: 3,
+          lg: 3,
+          xl: 3,
+        }}
+        itemRenderer={(slide) => <CustomCard key={slide.key} url={slide.url} />}
+      />
+    </>
+  );
+};
+
+const Banner3 = () => {
+  const srcList = 'https://cdn.pixabay.com/photo/2022/01/25/04/42/bird-6965228_1280.jpg '
+    .repeat(10)
+    .split(' ')
+    .slice(0, 10)
+    .map((url, index) => ({ url, key: index }));
+
+  return (
+    <>
+      <BannerTitle>TODAY'S EXHIBITION</BannerTitle>
+      <StyledCarousel
+        items={srcList}
+        itemsPerPage={{
+          xs: 2,
+          sm: 2,
+          tablet: 2,
+          md: 3,
+          lg: 3,
+          xl: 3,
+        }}
+        itemRenderer={(slide) => <CustomCard key={slide.key} url={slide.url} />}
+      />
+    </>
   );
 };
 
 export default function Home() {
   return (
-    <Container>
-      <Banner />
-      <div style={{ height: '200vh' }}></div>
-    </Container>
+    <>
+      <Container>
+        <BannerMainText>
+          <Image src={'/images/logoText.png'} alt={'chaewooram text'} width={300} height={40} />
+          채우람에서 예술과 함께하는 순간을 경험하세요
+        </BannerMainText>
+
+        <Banner1Container>
+          <Banner1 />
+          <div style={{ height: '10vh' }}></div>
+        </Banner1Container>
+      </Container>
+
+      <Container>
+        <Banner2Container>
+          <Banner2 />
+        </Banner2Container>
+      </Container>
+
+      <Container>
+        <Banner3Container>
+          <Banner3 />
+        </Banner3Container>
+      </Container>
+    </>
   );
 }
 
 const Container = styled.div`
+  width: 100%;
+`;
+
+const Banner1Container = styled.div`
   width: 1200px;
-  padding: 120px 0 50px;
   margin: 0 auto;
+`;
+
+const Banner2Container = styled.div`
+  background-color: #e8e8e8;
+  padding: 100px 10%;
+`;
+
+const Banner3Container = styled.div`
+  background-color: white;
+  padding: 100px 10%;
+`;
+
+const BannerMainText = styled.h1`
+  color: #2a2a2a;
+  font-size: 30px;
+  font-weight: bold;
+  padding: 100px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  justify-content: center;
+  align-items: center;
+`;
+
+const BannerTitle = styled.span`
+  color: #2a2a2a;
+  font-size: 20px;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 30px;
 `;
 
 const FrameImage = styled.img`
@@ -76,7 +189,7 @@ const FrameImage = styled.img`
   height: auto;
 `;
 
-const BannerWrapper = styled(motion.div)`
+const Banner1Wrapper = styled(motion.div)`
   position: sticky;
   top: 100px;
 `;
@@ -104,5 +217,13 @@ const CardItem = styled(motion.li)`
     width: 100%;
     height: 100%;
     object-fit: fill;
+  }
+`;
+
+const StyledCarousel = styled(Carousel)`
+  &.MuiPaper-root {
+    border: 10px solid red;
+    background: red !important;
+    display: none;
   }
 `;
