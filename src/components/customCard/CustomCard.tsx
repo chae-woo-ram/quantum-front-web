@@ -3,9 +3,11 @@ import CardMedia from '@mui/material/CardMedia';
 
 const CustomCard = ({ url }) => {
   return (
-    <Card>
-      <CardMedia component="img" image={url} />
-    </Card>
+    <>
+      <Card>
+        <CardMedia component="img" image={url} />
+      </Card>
+    </>
   );
 };
 
