@@ -13,6 +13,15 @@ const theme = createTheme({
   typography: {
     fontFamily: roboto.style.fontFamily,
   },
+  palette: {
+    primary: {
+      main: '#8ca03b', // 기본 색상
+      contrastText: '#fff',
+    },
+    secondary: {
+      main: '#f0f0f0', // 보조 색상
+    },
+  },
 });
 
 export default theme;

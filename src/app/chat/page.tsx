@@ -128,8 +128,7 @@ const Container = styled.div`
     const { colors } = theme;
     return css`
       max-width: 1024px;
-      margin: 0 auto;
-      padding-top: 40px;
+      width: 100%;
     `;
   }}
 `;
