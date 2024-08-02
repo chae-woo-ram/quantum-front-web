@@ -6,7 +6,7 @@ import DialogComponent from '@/components/common/DialogComponent';
 import Table, { TableColumn } from '@/components/common/TableComponent';
 import NoteForm from '@/components/notice/NoteForm';
 import { Button, Container } from '@mui/material';
-import { createClient } from '../utils/supabase/client';
+import supabase from '../utils/supabase/client';
 
 interface Notice {
   id: number;
@@ -34,8 +34,6 @@ function Notice() {
     content: '',
     is_active: true,
   });
-
-  const supabase = createClient();
 
   useEffect(() => {
     const fetchData = async () => {
