@@ -3,8 +3,12 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useRecoilState } from 'recoil';
 import { isSubMenuVisibleState } from '@/recoil/header/atom';
+import { userState } from '@/recoil/user/atom';
+import { createClient } from '@/app/utils/supabase/client';
+import { Button } from '@mui/material';
 import { AnimatePresence, motion } from 'framer-motion';
 import { createGlobalStyle, styled } from 'styled-components';
 
@@ -178,6 +182,10 @@ export const Header = () => {
   const navListRef = useRef<HTMLUListElement>(null);
 
   const [isSubMenuVisible, setSubMenuVisible] = useRecoilState(isSubMenuVisibleState);
+  const [user, setUser] = useRecoilState(userState);
+
+  const router = useRouter();
+  const supabase = createClient();
 
   const GlobalStyle = createGlobalStyle<{ isSubMenuVisible: boolean }>`
   /* body {
@@ -221,6 +229,12 @@ export const Header = () => {
         ease: 'easeInOut',
       },
     },
+  };
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    setUser({});
+    router.push('/login');
   };
 
   useEffect(() => {
@@ -288,9 +302,13 @@ export const Header = () => {
 
         <RightWrapper>
           {/* 장바구니 */}
-          <Image src={'/images/shoppingBag.png'} alt={'shopping bag icon'} width={25} height={25} />
+          <Image src={'/images/shoppingBag.png'} alt={'shopping bag icon'} width={20} height={20} />
           {/* 로그인 영역 */}
-          <LoginWrapper>Login</LoginWrapper>
+          {user?.id ? (
+            <CustomButton onClick={handleLogout}>LOGOUT</CustomButton>
+          ) : (
+            <CustomButton href={'/login'}>LOGIN</CustomButton>
+          )}
         </RightWrapper>
       </HeaderContainer>
     </>
@@ -394,3 +412,9 @@ const LoginWrapper = styled.div`
 `;
 
 export default Header;
+
+const CustomButton = styled(Button)`
+  &&.MuiButton-colorPrimary {
+    font-size: 13px;
+  }
+`;

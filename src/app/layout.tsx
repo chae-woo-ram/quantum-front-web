@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { Noto_Sans_KR } from 'next/font/google';
+import AuthCheck from '@/components/authCheck';
 import { Footer } from '@/components/footer/Footer';
 import { Header } from '@/components/header/Header';
 import RecoilRootWrapper from '@/components/recoilRootWrapper/RecoilRootWrapper';
@@ -25,11 +26,13 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
         <body className={notoSansKr.className}>
           <RecoilRootWrapper>
             <Providers>
-              <div className={styles.container}>
-                <Header />
-                <main className={styles.main}>{children}</main>
-                <Footer />
-              </div>
+              <AuthCheck>
+                <div className={styles.container}>
+                  <Header />
+                  <main className={styles.main}>{children}</main>
+                  <Footer />
+                </div>
+              </AuthCheck>
             </Providers>
           </RecoilRootWrapper>
         </body>
