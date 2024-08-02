@@ -1,31 +1,44 @@
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
-import { Footer } from '@/components/Footer';
-import { Header } from '@/components/Header';
-import './globals.css';
-
-const inter = Inter({ subsets: ['latin'] });
+import { Noto_Sans_KR } from 'next/font/google';
+import AuthCheck from '@/components/authCheck';
+import { Footer } from '@/components/footer/Footer';
+import { Header } from '@/components/header/Header';
+import RecoilRootWrapper from '@/components/recoilRootWrapper/RecoilRootWrapper';
+import Providers from '@/lib/Provider';
+import theme from '@/styles/theme';
+import { ThemeProvider } from '@mui/material/styles';
+import styles from './page.module.css';
 
 export const metadata: Metadata = {
-  title: 'Water Melon',
-  description: 'Water Melon Service',
-  icons: {
-    icon: '/favicon.png',
-  },
+  title: '채우람 갤러리',
+  description: 'Gallery Service',
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+const notoSansKr = Noto_Sans_KR({
+  weight: ['400'],
+  subsets: ['latin'],
+});
+
+const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <html lang="en">
-      <body className={inter.className}>
-        <Header />
-        {children}
-        <Footer />
-      </body>
+      <ThemeProvider theme={theme}>
+        <body className={notoSansKr.className}>
+          <RecoilRootWrapper>
+            <Providers>
+              <AuthCheck>
+                <div className={styles.container}>
+                  <Header />
+                  <main className={styles.main}>{children}</main>
+                  <Footer />
+                </div>
+              </AuthCheck>
+            </Providers>
+          </RecoilRootWrapper>
+        </body>
+      </ThemeProvider>
     </html>
   );
-}
+};
+
+export default RootLayout;
