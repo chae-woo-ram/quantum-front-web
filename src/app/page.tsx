@@ -4,7 +4,7 @@ import Carousel from 'react-carousel-mui';
 import Image from 'next/image';
 import CustomCard from '@/components/customCard/CustomCard';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 const cards = [
   {
@@ -38,7 +38,7 @@ const Banner1 = () => {
   const scale = useTransform(scrollYProgress, [0, 1], [1, 0.6]);
 
   return (
-    <>
+    <Section>
       <BannerTitle>TODAY'S ARTWORK</BannerTitle>
       <Banner1Wrapper style={{ scale }}>
         <FrameImage src="/images/frame.png" alt="" />
@@ -58,7 +58,7 @@ const Banner1 = () => {
           ))}
         </CardList>
       </Banner1Wrapper>
-    </>
+    </Section>
   );
 };
 
@@ -70,7 +70,7 @@ const Banner2 = () => {
     .map((url, index) => ({ url, key: index }));
 
   return (
-    <>
+    <Section $bgColor={'#e8e8e8'}>
       <BannerTitle>TODAY'S EXHIBITION</BannerTitle>
       <StyledCarousel
         items={srcList}
@@ -84,7 +84,7 @@ const Banner2 = () => {
         }}
         itemRenderer={(slide) => <CustomCard key={slide.key} url={slide.url} />}
       />
-    </>
+    </Section>
   );
 };
 
@@ -96,7 +96,7 @@ const Banner3 = () => {
     .map((url, index) => ({ url, key: index }));
 
   return (
-    <>
+    <Section>
       <BannerTitle>TODAY'S EXHIBITION</BannerTitle>
       <StyledCarousel
         items={srcList}
@@ -110,7 +110,7 @@ const Banner3 = () => {
         }}
         itemRenderer={(slide) => <CustomCard key={slide.key} url={slide.url} />}
       />
-    </>
+    </Section>
   );
 };
 
@@ -122,23 +122,10 @@ export default function Home() {
           <Image src={'/images/logoText.png'} alt={'chaewooram text'} width={300} height={40} />
           채우람에서 예술과 함께하는 순간을 경험하세요
         </BannerMainText>
-
-        <Banner1Container>
-          <Banner1 />
-          <div style={{ height: '10vh' }}></div>
-        </Banner1Container>
-      </Container>
-
-      <Container>
-        <Banner2Container>
-          <Banner2 />
-        </Banner2Container>
-      </Container>
-
-      <Container>
-        <Banner3Container>
-          <Banner3 />
-        </Banner3Container>
+        <Banner1 />
+        <div style={{ height: '10vh' }}></div>
+        <Banner2 />
+        <Banner3 />
       </Container>
     </>
   );
@@ -146,21 +133,6 @@ export default function Home() {
 
 const Container = styled.div`
   width: 100%;
-`;
-
-const Banner1Container = styled.div`
-  width: 1200px;
-  margin: 0 auto;
-`;
-
-const Banner2Container = styled.div`
-  background-color: #e8e8e8;
-  padding: 100px 10%;
-`;
-
-const Banner3Container = styled.div`
-  background-color: white;
-  padding: 100px 10%;
 `;
 
 const BannerMainText = styled.h1`
@@ -226,4 +198,18 @@ const StyledCarousel = styled(Carousel)`
     background: red !important;
     display: none;
   }
+`;
+
+const Section = styled.div<{ $bgColor?: string; $customPadding?: string }>`
+  ${({ theme, $bgColor, $customPadding }) => {
+    const { colors } = theme;
+    return css`
+      width: 100%;
+      background-color: ${$bgColor ? $bgColor : '#fff'};
+      padding: ${$customPadding ? $customPadding : '140px 60px 120px'};
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    `;
+  }}
 `;

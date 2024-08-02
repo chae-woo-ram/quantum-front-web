@@ -1,9 +1,8 @@
 import { GetServerSideProps } from 'next';
-import { createClient } from './utils/supabase/client';
+import supabase from './utils/supabase/client';
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { req } = context;
-  const supabase = createClient();
   const {
     data: { session },
   } = await supabase.auth.getSession();

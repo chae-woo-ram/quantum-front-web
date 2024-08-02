@@ -34,10 +34,6 @@ const Login = () => {
       } = await supabase.auth.getUser();
       if (userError) {
         setMessage(`User fetch error: ${userError.message}`);
-      } else {
-        setUser(user); // Recoil 상태에 사용자 정보 저장
-        setMessage('로그인에 성공했습니다.');
-        // router.push('/');
       }
     }
   };
@@ -46,18 +42,6 @@ const Login = () => {
     const { error } = await supabase.auth.signInWithOAuth({ provider: provider as Provider });
     if (error) {
       setMessage(`OAuth error: ${error.message}`);
-    } else {
-      const {
-        data: { user },
-        error: userError,
-      } = await supabase.auth.getUser();
-      if (userError) {
-        setMessage(`User fetch error: ${userError.message}`);
-      } else {
-        setUser(user); // Recoil 상태에 사용자 정보 저장
-        setMessage('로그인에 성공했습니다.');
-        // router.push('/');
-      }
     }
   };
 
@@ -67,11 +51,10 @@ const Login = () => {
     }
   }, []);
 
-  // 2534297-uhd_3840_2160_30fps
   return (
     <Container>
-      <BackgroundVideo autoPlay loop muted ref={videoRef}>
-        <source src="/video/bg4.mp4" type="video/mp4" />
+      <BackgroundVideo autoPlay loop muted ref={videoRef} poster="/images/bg_poster.png">
+        <source src="/video/login_bg.mp4" type="video/mp4" />
       </BackgroundVideo>
       <Content>
         <LoginForm
@@ -82,7 +65,7 @@ const Login = () => {
           handleSubmit={handleSubmit}
           message={message}
         />
-        <Button variant={'text'} color="secondary">
+        <Button variant={'text'} color="secondary" href="/sign-up">
           회원가입
         </Button>
         <Divider>

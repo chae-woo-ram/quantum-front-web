@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation';
 import { useRecoilState } from 'recoil';
 import { isSubMenuVisibleState } from '@/recoil/header/atom';
 import { userState } from '@/recoil/user/atom';
-import { createClient } from '@/app/utils/supabase/client';
+import supabase from '@/app/utils/supabase/client';
 import { Button } from '@mui/material';
 import { AnimatePresence, motion } from 'framer-motion';
 import { createGlobalStyle, styled } from 'styled-components';
@@ -185,7 +185,6 @@ export const Header = () => {
   const [user, setUser] = useRecoilState(userState);
 
   const router = useRouter();
-  const supabase = createClient();
 
   const GlobalStyle = createGlobalStyle<{ isSubMenuVisible: boolean }>`
   /* body {

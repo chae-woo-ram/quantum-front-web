@@ -21,6 +21,7 @@ const LoginForm = ({ email, password, message, setEmail, setPassword, handleSubm
         flexDirection: 'column',
         alignItems: 'center',
         gap: 2,
+        paddingBottom: 2,
       }}
     >
       <Typography variant="h5" color={'#fff'}>
@@ -46,9 +47,9 @@ const LoginForm = ({ email, password, message, setEmail, setPassword, handleSubm
         fullWidth
       />
 
-      <StyledButton type="submit" variant="contained" fullWidth size="large">
+      <Button type="submit" variant="contained" fullWidth size="large">
         로그인
-      </StyledButton>
+      </Button>
       {message && <Typography color="error">{message}</Typography>}
     </Box>
   );
@@ -70,10 +71,5 @@ const StyledTextField = styled(TextField)`
   }
   & .MuiInputLabel-outlined {
     color: #999;
-  }
-`;
-
-const StyledButton = styled(Button)`
-  &.MuiButtonBase-root.MuiButton-root {
   }
 `;

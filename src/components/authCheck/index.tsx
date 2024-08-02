@@ -5,7 +5,7 @@ import Lottie from 'react-lottie-player';
 import { useRouter } from 'next/navigation';
 import { useRecoilState } from 'recoil';
 import { userState } from '@/recoil/user/atom';
-import { createClient } from '@/app/utils/supabase/client';
+import supabase from '@/app/utils/supabase/client';
 import { css } from '@mui/material';
 import loadingJson from 'public/json/loading.json';
 import { styled } from 'styled-components';
@@ -16,7 +16,6 @@ interface AuthCheckProps {
 
 const AuthCheck = ({ children }: AuthCheckProps) => {
   const router = useRouter();
-  const supabase = createClient();
   const [user, setUser] = useRecoilState(userState); // Recoil 상태 사용
   const [loading, setLoading] = useState(true);
 
