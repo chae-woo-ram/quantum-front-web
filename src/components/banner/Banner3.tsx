@@ -1,15 +1,21 @@
 'use client';
 
-import Carousel from 'react-material-ui-carousel';
 import CustomCard from '@/components/customCard/CustomCard';
 import styled from 'styled-components';
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+import 'swiper/css/scrollbar';
+import { Autoplay, EffectFade, Navigation, Pagination } from 'swiper/modules';
+import { Swiper, SwiperSlide } from 'swiper/react';
 
 export const Banner3 = () => {
-  const srcList = 'https://cdn.pixabay.com/photo/2022/01/25/04/42/bird-6965228_1280.jpg '
-    .repeat(10)
-    .split(' ')
-    .slice(0, 10)
-    .map((url, index) => ({ url, key: index }));
+  const exhibitionData = [
+    { id: 1, img: '/images/exhibition1.jpg' },
+    { id: 2, img: '/images/exhibition2.jpg' },
+    { id: 3, img: '/images/exhibition3.jpg' },
+    { id: 4, img: '/images/exhibition4.jpg' },
+  ];
 
   return (
     <>
@@ -18,20 +24,27 @@ export const Banner3 = () => {
           <p>EXHIBITION</p>
           <p>창의성과 아름다움이 가득한 우리의 최신 미술 전시회를 경험해 보세요.</p>
         </Title>
-        <CarouselWrapper>
-          <StyledCarousel interval={1000} navButtonsAlwaysVisible>
-            {srcList.map((slide) => (
-              <>
-                <CustomCard key={slide.key} url={slide.url} />
-                <ExhibitionText>
-                  디스크립션
-                  <br />
-                  디스크립션
-                </ExhibitionText>
-              </>
+
+        <ContentWrapper>
+          <StyledSwiper
+            modules={[Navigation, Pagination, EffectFade, Autoplay]} // 모듈을 배열로 추가
+            effect="fade" // 페이드 효과 사용
+            spaceBetween={50} // 슬라이드 사이의 간격
+            slidesPerView={3} // 한 번에 보이는 슬라이드 개수
+            centeredSlides={true} // 슬라이드를 가운데 정렬
+            pagination={{ clickable: true }} // 페이지네이션 활성화
+            autoplay={{ delay: 1000, disableOnInteraction: false }} // 자동 재생 설정
+            onSlideChange={() => console.log('slide change')}
+            onSwiper={(swiper) => console.log(swiper)}
+            className="mySwiper" // 스타일 적용을 위한 클래스
+          >
+            {exhibitionData.map((item) => (
+              <SwiperSlide key={item.id}>
+                <CustomCard url={item.img} />
+              </SwiperSlide>
             ))}
-          </StyledCarousel>
-        </CarouselWrapper>
+          </StyledSwiper>
+        </ContentWrapper>
       </Banner3Container>
     </>
   );
@@ -43,37 +56,30 @@ const Banner3Container = styled.div`
 
 const Title = styled.h1`
   color: #2a2a2a;
-  font-size: 30px;
-  font-weight: bold;
-  padding-bottom: 40px;
+  font-size: 22px;
+
   display: flex;
   flex-direction: column;
   gap: 20px;
   justify-content: center;
   align-items: center;
+  padding-bottom: 40px;
 
   p:first-child {
     font-size: 30px;
+    font-weight: bold;
   }
 `;
 
-const CarouselWrapper = styled.div`
+const ContentWrapper = styled.div`
   display: flex;
   justify-content: center;
 `;
 
-const StyledCarousel = styled(Carousel)`
+const StyledSwiper = styled(Swiper)`
   width: 40%;
 
   > div:last-child {
     margin-top: 20px;
   }
-`;
-
-const ExhibitionText = styled.div`
-  color: #575252;
-  margin: 20px 0;
-  font-size: 14px;
-  font-weight: bold;
-  text-align: right;
 `;

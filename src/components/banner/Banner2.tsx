@@ -1,8 +1,15 @@
 'use client';
 
-import Carousel from 'react-material-ui-carousel';
 import CustomCard from '@/components/customCard/CustomCard';
 import styled from 'styled-components';
+import 'swiper/css/autoplay';
+import 'swiper/css/effect-cube';
+import 'swiper/css/navigation';
+import { Autoplay, EffectCube, Navigation } from 'swiper/modules';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/swiper-bundle.css';
+
+// 자동 재생 스타일 추가
 
 export const Banner2 = () => {
   const srcList = 'https://cdn.pixabay.com/photo/2022/01/25/04/42/bird-6965228_1280.jpg '
@@ -20,18 +27,26 @@ export const Banner2 = () => {
         </Title>
 
         <CarouselWrapper>
-          <StyledCarousel interval={1000} navButtonsAlwaysVisible>
+          <StyledSwiper
+            modules={[EffectCube, Navigation, Autoplay]}
+            effect="cube"
+            autoplay={{ delay: 1000 }}
+            navigation
+            cubeEffect={{ shadow: true, slideShadows: true, shadowOffset: 20, shadowScale: 0.94 }}
+          >
             {srcList.map((slide) => (
-              <>
-                <CustomCard key={slide.key} url={slide.url} />
+              <SwiperSlide key={slide.key}>
+                {' '}
+                {/* 수정한 부분: SwiperSlide로 감싸기 */}
+                <CustomCard url={slide.url} />
                 <ExhibitionText>
                   디스크립션
                   <br />
                   디스크립션
                 </ExhibitionText>
-              </>
+              </SwiperSlide>
             ))}
-          </StyledCarousel>
+          </StyledSwiper>
         </CarouselWrapper>
       </Banner2Container>
     </>
@@ -64,7 +79,8 @@ const CarouselWrapper = styled.div`
   justify-content: center;
 `;
 
-const StyledCarousel = styled(Carousel)`
+const StyledSwiper = styled(Swiper)`
+  // 수정한 부분: Swiper 스타일링
   width: 40%;
 
   > div:last-child {
