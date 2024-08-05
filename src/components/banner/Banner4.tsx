@@ -27,16 +27,16 @@ export const Banner4 = () => {
 
         <ContentWrapper>
           <StyledSwiper
-            modules={[Navigation, Pagination, EffectFade, Autoplay]} // 모듈을 배열로 추가
-            effect="fade" // 페이드 효과 사용
-            spaceBetween={50} // 슬라이드 사이의 간격
-            slidesPerView={3} // 한 번에 보이는 슬라이드 개수
-            centeredSlides={true} // 슬라이드를 가운데 정렬
-            pagination={{ clickable: true }} // 페이지네이션 활성화
-            autoplay={{ delay: 1000, disableOnInteraction: false }} // 자동 재생 설정
+            modules={[Navigation, Pagination, EffectFade, Autoplay]}
+            effect="fade"
+            spaceBetween={50}
+            slidesPerView={3}
+            centeredSlides={true}
+            pagination={{ clickable: true }}
+            autoplay={{ delay: 1000, disableOnInteraction: false }}
             onSlideChange={() => console.log('slide change')}
             onSwiper={(swiper) => console.log(swiper)}
-            className="mySwiper" // 스타일 적용을 위한 클래스
+            className="mySwiper"
           >
             {exhibitionData.map((item) => (
               <SwiperSlide key={item.id}>

@@ -9,8 +9,6 @@ import { Autoplay, EffectCube, Navigation } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/swiper-bundle.css';
 
-// 자동 재생 스타일 추가
-
 export const Banner2 = () => {
   const srcList = 'https://cdn.pixabay.com/photo/2022/01/25/04/42/bird-6965228_1280.jpg '
     .repeat(10)
@@ -36,14 +34,7 @@ export const Banner2 = () => {
           >
             {srcList.map((slide) => (
               <SwiperSlide key={slide.key}>
-                {' '}
-                {/* 수정한 부분: SwiperSlide로 감싸기 */}
                 <CustomCard url={slide.url} />
-                <ExhibitionText>
-                  디스크립션
-                  <br />
-                  디스크립션
-                </ExhibitionText>
               </SwiperSlide>
             ))}
           </StyledSwiper>
@@ -80,18 +71,9 @@ const CarouselWrapper = styled.div`
 `;
 
 const StyledSwiper = styled(Swiper)`
-  // 수정한 부분: Swiper 스타일링
   width: 40%;
 
   > div:last-child {
     margin-top: 20px;
   }
-`;
-
-const ExhibitionText = styled.div`
-  color: #575252;
-  margin: 20px 0;
-  font-size: 14px;
-  font-weight: bold;
-  text-align: right;
 `;

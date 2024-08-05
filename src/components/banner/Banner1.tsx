@@ -1,6 +1,5 @@
 'use client';
 
-import Carousel from 'react-material-ui-carousel';
 import Image from 'next/image';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import styled from 'styled-components';
@@ -117,25 +116,4 @@ const CardItem = styled(motion.li)`
     height: 100%;
     object-fit: fill;
   }
-`;
-
-const CarouselWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-`;
-
-const StyledCarousel = styled(Carousel)`
-  width: 40%;
-
-  > div:last-child {
-    margin-top: 20px;
-  }
-`;
-
-const ExhibitionText = styled.div`
-  color: #575252;
-  margin: 20px 0;
-  font-size: 14px;
-  font-weight: bold;
-  text-align: right;
 `;
