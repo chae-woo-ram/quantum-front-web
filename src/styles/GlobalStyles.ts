@@ -13,13 +13,16 @@ export const GlobalStyle = createGlobalStyle`
 
   html, body { 
     max-width: 100vw;
-
     ::-webkit-scrollbar {
       display: none; /* Chrome, Safari, Opera*/
     }
   }
 
-  main{
+  body {
+    margin: 0;
+  }
+
+  main {
     width: 100%;
   }
 
@@ -37,4 +40,21 @@ export const GlobalStyle = createGlobalStyle`
     cursor: pointer;
   }
 
+  /* 크롬 자동완성시 input css 변경 방지 */
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus,
+  input:-webkit-autofill:active {
+    transition: background-color 5000s;
+    -webkit-text-fill-color: #fff !important;
+  }
+
+  /* 이미지 드래그시 잔상방지 */
+  img {
+    -webkit-user-drag: none;
+    -khtml-user-drag: none;
+    -moz-user-drag: none;
+    -o-user-drag: none;
+  }
+  
 `;

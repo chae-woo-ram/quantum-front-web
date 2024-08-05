@@ -1,8 +1,10 @@
 import type { Metadata } from 'next';
 import { Noto_Sans_KR } from 'next/font/google';
+import AuthCheck from '@/components/authCheck';
 import { Footer } from '@/components/footer/Footer';
 import { Header } from '@/components/header/Header';
 import RecoilRootWrapper from '@/components/recoilRootWrapper/RecoilRootWrapper';
+import ReactQueryProviders from '@/hooks/useReactQuery';
 import Providers from '@/lib/Provider';
 import theme from '@/styles/theme';
 import { ThemeProvider } from '@mui/material/styles';
@@ -23,15 +25,19 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
     <html lang="en">
       <ThemeProvider theme={theme}>
         <body className={notoSansKr.className}>
-          <RecoilRootWrapper>
-            <Providers>
-              <div className={styles.container}>
-                <Header />
-                <main className={styles.main}>{children}</main>
-                <Footer />
-              </div>
-            </Providers>
-          </RecoilRootWrapper>
+          <ReactQueryProviders>
+            <RecoilRootWrapper>
+              <Providers>
+                <AuthCheck>
+                  <div className={styles.container}>
+                    <Header />
+                    <main className={styles.main}>{children}</main>
+                    <Footer />
+                  </div>
+                </AuthCheck>
+              </Providers>
+            </RecoilRootWrapper>
+          </ReactQueryProviders>
         </body>
       </ThemeProvider>
     </html>

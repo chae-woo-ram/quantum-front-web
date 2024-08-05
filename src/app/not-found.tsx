@@ -2,7 +2,7 @@
 
 import Lottie from 'react-lottie-player';
 import Link from 'next/link';
-import notFound from 'public/notFound.json';
+import notFound from 'public/json/notFound.json';
 import { css, styled } from 'styled-components';
 
 export default function NotFound() {
