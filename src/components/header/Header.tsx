@@ -81,8 +81,8 @@ const menuItems: MenuItem[] = [
   },
   {
     id: 3,
-    label: 'Viewing room',
-    href: '/viewingroom',
+    label: 'Shop',
+    href: '/shop',
     submenu: [
       {
         'Explore iPad': [

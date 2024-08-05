@@ -3,6 +3,8 @@
  */
 const COMMON = {
   GET_EXHIBTIONS: 'getExhibtions',
+  GET_SHOP: 'getShop',
+  GET_SHOP_DETAIL: 'getShopDetail',
 };
 
 export { COMMON };

@@ -14,5 +14,25 @@ const getExhibitions = async ({ page = 1 }) => {
   });
   return data;
 };
+const getRijksMuseum = async () => {
+  const { data } = await axios.get('https://www.rijksmuseum.nl/api/en/collection', {
+    params: {
+      key: 'Kb8osXJE',
+      culture: 'en',
+      p: 0,
+      ps: 20,
+    },
+  });
+  return data;
+};
+const getRijksMuseumItem = async () => {
+  const { data } = await axios.get('http://www.rijksmuseum.nl/api/en/collection/SK-A-3580', {
+    params: {
+      key: 'Kb8osXJE',
+      culture: 'en',
+    },
+  });
+  return data;
+};
 
-export { getExhibitions };
+export { getExhibitions, getRijksMuseum, getRijksMuseumItem };
