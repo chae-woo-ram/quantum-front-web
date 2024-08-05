@@ -8,6 +8,9 @@ import ReactQueryProviders from '@/hooks/useReactQuery';
 import Providers from '@/lib/Provider';
 import theme from '@/styles/theme';
 import { ThemeProvider } from '@mui/material/styles';
+import 'swiper/css';
+import 'swiper/css/effect-coverflow';
+import 'swiper/css/pagination';
 import styles from './page.module.css';
 
 export const metadata: Metadata = {

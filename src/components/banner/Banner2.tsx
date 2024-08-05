@@ -1,46 +1,42 @@
 'use client';
 
-import CustomCard from '@/components/customCard/CustomCard';
+// 클라이언트 사이드에서만 렌더링
+import { useRouter } from 'next/navigation';
+import CoverflowSwiper from '@/components/swiperComponent/CoverflowSwiper';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import { Button } from '@mui/material';
 import styled from 'styled-components';
-import 'swiper/css/autoplay';
-import 'swiper/css/effect-cube';
-import 'swiper/css/navigation';
-import { Autoplay, EffectCube, Navigation } from 'swiper/modules';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import 'swiper/swiper-bundle.css';
 
 export const Banner2 = () => {
-  const srcList = 'https://cdn.pixabay.com/photo/2022/01/25/04/42/bird-6965228_1280.jpg '
-    .repeat(10)
-    .split(' ')
-    .slice(0, 10)
-    .map((url, index) => ({ url, key: index }));
+  const router = useRouter();
+
+  const exhibitionData = [
+    { id: 1, img: '/images/exhibition1.jpg' },
+    { id: 2, img: '/images/exhibition2.jpg' },
+    { id: 3, img: '/images/exhibition3.jpg' },
+    { id: 4, img: '/images/exhibition4.jpg' },
+  ];
 
   return (
-    <>
-      <Banner2Container>
-        <Title>
-          <p>EXHIBITION</p>
-          <p>창의성과 아름다움이 가득한 우리의 최신 미술 전시회를 경험해 보세요.</p>
-        </Title>
+    <Banner2Container>
+      <Title>
+        <p>EXHIBITION</p>
+        <p>창의성과 아름다움이 가득한 우리의 최신 미술 전시회를 경험해 보세요.</p>
+      </Title>
 
-        <CarouselWrapper>
-          <StyledSwiper
-            modules={[EffectCube, Navigation, Autoplay]}
-            effect="cube"
-            autoplay={{ delay: 1000 }}
-            navigation
-            cubeEffect={{ shadow: true, slideShadows: true, shadowOffset: 20, shadowScale: 0.94 }}
-          >
-            {srcList.map((slide) => (
-              <SwiperSlide key={slide.key}>
-                <CustomCard url={slide.url} />
-              </SwiperSlide>
-            ))}
-          </StyledSwiper>
-        </CarouselWrapper>
-      </Banner2Container>
-    </>
+      <CoverflowSwiper exhibitionData={exhibitionData} />
+      <ExhibitionButtonWrapper>
+        <ExhibitionButton
+          variant="contained"
+          color="secondary"
+          size="small"
+          onClick={() => router.push(`/exhibitions`)}
+          startIcon={<ArrowForwardIcon />}
+        >
+          전시회 보러가기
+        </ExhibitionButton>
+      </ExhibitionButtonWrapper>
+    </Banner2Container>
   );
 };
 
@@ -61,19 +57,24 @@ const Title = styled.h1`
   padding-bottom: 40px;
 
   p:first-child {
-    font-size: 30px;
+    font-size: 25px;
   }
 `;
 
-const CarouselWrapper = styled.div`
-  display: flex;
-  justify-content: center;
+const ExhibitionButtonWrapper = styled.div`
+  text-align: center;
+  margin-top: 20px;
 `;
 
-const StyledSwiper = styled(Swiper)`
-  width: 40%;
+const ExhibitionButton = styled(Button)`
+  && {
+    color: #2a2a2a;
+    font-weight: bold;
+    padding: 4px 16px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 
-  > div:last-child {
-    margin-top: 20px;
+    &:hover {
+      background-color: ${(props) => props.theme.palette.primary.main};
+    }
   }
 `;
