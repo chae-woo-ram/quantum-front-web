@@ -37,12 +37,13 @@ const useGetRijksMuseum = () => {
 };
 
 /* 이미지 단건 */
-const useGetRijksMuseumItem = () => {
-  const { data, isLoading } = useQuery({
+const useGetRijksMuseumItem = (id: string) => {
+  const { data, refetch, isLoading } = useQuery({
     queryKey: [COMMON.GET_SHOP_DETAIL],
-    queryFn: () => getRijksMuseumItem(),
+    queryFn: () => getRijksMuseumItem(id),
+    enabled: false,
   });
-  return { data, isLoading };
+  return { data, refetch, isLoading };
 };
 
 export { useGetExhibitions, useGetRijksMuseum, useGetRijksMuseumItem };

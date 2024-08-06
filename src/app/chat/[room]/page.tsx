@@ -92,4 +92,5 @@ const ChatContainer = styled.div`
   flex-direction: column;
   height: calc(100vh - 100px);
   overflow: hidden; /* 스크롤바를 숨기기 위한 설정 */
+  width: 100%;
 `;

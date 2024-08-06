@@ -33,7 +33,7 @@ const cards = [
 
 export const Banner1 = () => {
   const { scrollYProgress } = useScroll();
-  const scale = useTransform(scrollYProgress, [0, 1], [1, 0.6]);
+  const scale = useTransform(scrollYProgress, [0, 1], [1, 0.2]);
 
   return (
     <>
@@ -49,10 +49,10 @@ export const Banner1 = () => {
               <CardItem
                 key={card.id}
                 style={{
-                  x: useTransform(scrollYProgress, [0, 0.3], [card.initial.x, card.final.x]),
-                  y: useTransform(scrollYProgress, [0, 0.3], [card.initial.y, card.final.y]),
-                  rotate: useTransform(scrollYProgress, [0, 0.3], [card.initial.rotate, card.final.rotate]),
-                  scale: useTransform(scrollYProgress, [0, 0.3], [card.initial.scale, card.final.scale]),
+                  x: useTransform(scrollYProgress, [0, 0.1], [card.initial.x, card.final.x]),
+                  y: useTransform(scrollYProgress, [0, 0.1], [card.initial.y, card.final.y]),
+                  rotate: useTransform(scrollYProgress, [0, 0.1], [card.initial.rotate, card.final.rotate]),
+                  scale: useTransform(scrollYProgress, [0, 0.1], [card.initial.scale, card.final.scale]),
                 }}
               >
                 <img src={card.img} alt="" />

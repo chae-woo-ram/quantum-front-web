@@ -122,8 +122,8 @@ const menuItems: MenuItem[] = [
   },
   {
     id: 5,
-    label: 'Fairs',
-    href: '/fairs',
+    label: 'Notice',
+    href: '/notice',
     submenu: [
       {
         'Explore Watch': [

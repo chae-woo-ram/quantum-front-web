@@ -1,11 +1,12 @@
 import type { Metadata } from 'next';
-import { Noto_Sans_KR } from 'next/font/google';
 import AuthCheck from '@/components/authCheck';
 import { Footer } from '@/components/footer/Footer';
 import { Header } from '@/components/header/Header';
 import RecoilRootWrapper from '@/components/recoilRootWrapper/RecoilRootWrapper';
 import ReactQueryProviders from '@/hooks/useReactQuery';
 import Providers from '@/lib/Provider';
+// import '@/styles/fontFaces.css';
+import { pretendard } from '@/styles/localFonts.fonts';
 import theme from '@/styles/theme';
 import { ThemeProvider } from '@mui/material/styles';
 import 'swiper/css';
@@ -18,16 +19,11 @@ export const metadata: Metadata = {
   description: 'Gallery Service',
 };
 
-const notoSansKr = Noto_Sans_KR({
-  weight: ['400'],
-  subsets: ['latin'],
-});
-
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <html lang="en">
       <ThemeProvider theme={theme}>
-        <body className={notoSansKr.className}>
+        <body className={pretendard.variable}>
           <ReactQueryProviders>
             <RecoilRootWrapper>
               <Providers>

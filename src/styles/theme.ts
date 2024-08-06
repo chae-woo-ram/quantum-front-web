@@ -1,17 +1,13 @@
 'use client';
 
-import { Roboto } from 'next/font/google';
 import { createTheme } from '@mui/material/styles';
+import { pretendard } from './localFonts.fonts';
 
-const roboto = Roboto({
-  weight: ['300', '400', '500', '700'],
-  subsets: ['latin'],
-  display: 'swap',
-});
-
+// 테마를 설정합니다.
 const theme = createTheme({
   typography: {
-    fontFamily: roboto.style.fontFamily,
+    fontFamily: pretendard.style.fontFamily,
+    fontSize: 14,
   },
   palette: {
     primary: {
