@@ -1,27 +1,15 @@
 'use client';
 
 import { Fragment, useEffect, useState } from 'react';
+import Loading from '@/components/common/Loading';
+import ColorShowcase from '@/components/shop/ColorShowcase';
 import Image3DViewerModal from '@/components/shop/Image3DViewerModal';
 import { useGetRijksMuseumItem } from '@/api/openApi/openApii.query';
-import { Box, Button, Divider, Stack } from '@mui/material';
+import { Button, Divider } from '@mui/material';
 import { styled } from 'styled-components';
 
-function ColorShowcase({ colors }) {
-  return (
-    <Stack gap={1} alignItems="center">
-      <Stack direction="row" gap={0} border={1}>
-        {colors?.map((item, index) => (
-          <Stack alignItems="center" key={index}>
-            <Box sx={{ bgcolor: item.hex, width: 40, height: 30 }} />
-          </Stack>
-        ))}
-      </Stack>
-    </Stack>
-  );
-}
-
 function ShopDetail({ params }) {
-  const { data, refetch } = useGetRijksMuseumItem(params.id);
+  const { data, refetch, isFetching } = useGetRijksMuseumItem(params.id);
   const [isShowModal, setIsShowModal] = useState<boolean>(false);
 
   useEffect(() => {
@@ -32,7 +20,7 @@ function ShopDetail({ params }) {
 
   return (
     <Container>
-      {data?.artObject?.webImage?.url ? (
+      {data && !isFetching ? (
         <Fragment>
           <ImageWrapper>
             <Image src={data?.artObject?.webImage?.url} alt={''} />
@@ -63,7 +51,7 @@ function ShopDetail({ params }) {
           </ContentsWrapper>
         </Fragment>
       ) : (
-        <NoImage>No image available</NoImage>
+        <Loading />
       )}
       <Image3DViewerModal
         isShowModal={isShowModal}
