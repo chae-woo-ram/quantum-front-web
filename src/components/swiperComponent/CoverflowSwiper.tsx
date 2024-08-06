@@ -42,8 +42,7 @@ export default CoverflowSwiper;
 const SwiperContainer = styled(Swiper)`
   width: 100%;
   padding: 80px 0px;
-    margin-bottom: 50px;
-  }
+  margin-bottom: 50px;
 
   & .swiper-pagination {
     .swiper-pagination-bullet-active {
