@@ -2,10 +2,12 @@
 
 import { useEffect, useState } from 'react';
 // 추출한 입력 폼 컴포넌트
+import Container from '@/components/common/Container';
 import DialogComponent from '@/components/common/DialogComponent';
 import Table, { TableColumn } from '@/components/common/TableComponent';
 import NoteForm from '@/components/notice/NoteForm';
-import { Button, Container } from '@mui/material';
+import DateFormatType from '@/const/dateFormatType';
+import dayjs from 'dayjs';
 import supabase from '../utils/supabase/client';
 
 interface Notice {
@@ -18,12 +20,16 @@ interface Notice {
 }
 
 const columns: TableColumn<Notice>[] = [
-  { key: 'id', title: 'ID', align: 'left' },
-  { key: 'title', title: '제목', align: 'left' },
-  { key: 'content', title: '내용', align: 'left' },
-  { key: 'is_active', title: '활성화', align: 'left' },
-  { key: 'created_at', title: '생성일', align: 'left' },
-  { key: 'updated_at', title: '수정일', align: 'left' },
+  { key: 'id', title: 'No.', align: 'left' },
+  { key: 'title', title: '제목', align: 'left', width: '60%' },
+  {
+    key: 'created_at',
+    title: '작성일',
+    align: 'left',
+    render: (_, item) => {
+      return <>{dayjs(item.created_at).format(DateFormatType.FULL_DATE_TIME_MINUTE)}</>;
+    },
+  },
 ];
 
 function Notice() {
@@ -83,10 +89,10 @@ function Notice() {
   };
 
   return (
-    <Container maxWidth="md">
-      <Button variant="contained" onClick={handleOpen}>
+    <Container title="공지사항">
+      {/* <Button variant="contained" onClick={handleOpen}>
         작성
-      </Button>
+      </Button> */}
       <Table columns={columns} data={notes || []} />
       <DialogComponent
         title="게시글 작성"

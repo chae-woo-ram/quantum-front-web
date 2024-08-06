@@ -1,9 +1,9 @@
 'use client';
 
-import { useGetRijksMuseumItem } from '@/api/openApi/openApii.query';
+import { Fragment, useEffect, useState } from 'react';
 import Image3DViewerModal from '@/components/shop/Image3DViewerModal';
+import { useGetRijksMuseumItem } from '@/api/openApi/openApii.query';
 import { Box, Button, Divider, Stack } from '@mui/material';
-import { useState } from 'react';
 import { styled } from 'styled-components';
 
 function ColorShowcase({ colors }) {
@@ -20,37 +20,51 @@ function ColorShowcase({ colors }) {
   );
 }
 
-function ShopDetail() {
-  const { data } = useGetRijksMuseumItem();
+function ShopDetail({ params }) {
+  const { data, refetch } = useGetRijksMuseumItem(params.id);
   const [isShowModal, setIsShowModal] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (params.id) {
+      refetch();
+    }
+  }, [params, refetch]);
 
   return (
     <Container>
       {data?.artObject?.webImage?.url ? (
-        <ImageWrapper>
-          <Image src={data?.artObject?.webImage?.url} alt={''} />
-        </ImageWrapper>
+        <Fragment>
+          <ImageWrapper>
+            <Image src={data?.artObject?.webImage?.url} alt={''} />
+          </ImageWrapper>
+          <ContentsWrapper>
+            <Contents>
+              <Content>
+                <Title>{data?.artObject?.longTitle}</Title>
+                <SubTitle>
+                  {data?.artObject?.physicalMedium}, {data?.artObject?.subTitle}
+                </SubTitle>
+                <Disc>{data?.artObject?.plaqueDescriptionEnglish}</Disc>
+              </Content>
+              <Divider orientation="vertical" flexItem style={{ background: '#fff' }} />
+              <Content>
+                <ColorShowcase colors={data?.artObject?.colors} />
+                <Button
+                  onClick={() => setIsShowModal(true)}
+                  size="large"
+                  fullWidth
+                  variant="contained"
+                  color="secondary"
+                >
+                  360도 이미지 보기
+                </Button>
+              </Content>
+            </Contents>
+          </ContentsWrapper>
+        </Fragment>
       ) : (
         <NoImage>No image available</NoImage>
       )}
-      <ContentsWrapper>
-        <Contents>
-          <Content>
-            <Title>{data?.artObject?.longTitle}</Title>
-            <SubTitle>
-              {data?.artObject?.physicalMedium}, {data?.artObject?.subTitle}
-            </SubTitle>
-            <Disc>{data?.artObject?.plaqueDescriptionEnglish}</Disc>
-          </Content>
-          <Divider orientation="vertical" flexItem style={{ background: '#fff' }} />
-          <Content>
-            <ColorShowcase colors={data?.artObject?.colors} />
-            <Button onClick={() => setIsShowModal(true)} size="large" fullWidth variant="contained" color="secondary">
-              360도 이미지 보기
-            </Button>
-          </Content>
-        </Contents>
-      </ContentsWrapper>
       <Image3DViewerModal
         isShowModal={isShowModal}
         imageUrl={data?.artObject?.webImage?.url}

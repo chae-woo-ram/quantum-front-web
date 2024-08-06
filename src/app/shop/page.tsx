@@ -1,20 +1,28 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
+import Container from '@/components/common/Container';
 import { useGetRijksMuseum } from '@/api/openApi/openApii.query';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import { Card, CardContent, Container, Grid, IconButton } from '@mui/material';
+import { Card, CardContent, Grid, IconButton } from '@mui/material';
 import { styled } from 'styled-components';
 
 function Shop() {
   const { data } = useGetRijksMuseum();
+  const router = useRouter();
+
+  const onClickNavigateToDetail = (objectNumber: string) => {
+    if (!objectNumber) return;
+    router.push(`/shop/${objectNumber}`);
+  };
 
   return (
-    <Container maxWidth="md">
+    <Container title={'Shop'}>
       <Grid container spacing={2}>
         {data?.artObjects?.map((item, index) => (
           <Grid item xs={12} sm={6} key={index}>
-            <ListItem>
+            <ListItem onClick={() => onClickNavigateToDetail(item.objectNumber)}>
               <CardContentStyled>
                 <ItemHeader>
                   <Title>{item.title}</Title>

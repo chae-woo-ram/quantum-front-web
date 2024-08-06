@@ -15,7 +15,11 @@ const CoverflowSwiper = ({ exhibitionData }: CoverflowSwiperProps) => {
       effect={'coverflow'}
       grabCursor={true}
       centeredSlides={true}
-      slidesPerView={'auto'}
+      slidesPerView={3}
+      loop={true}
+      autoplay={{
+        delay: 1500,
+      }}
       coverflowEffect={{
         rotate: 50,
         stretch: 0,
@@ -24,11 +28,10 @@ const CoverflowSwiper = ({ exhibitionData }: CoverflowSwiperProps) => {
         slideShadows: true,
       }}
       pagination={{ clickable: true }}
-      autoplay={{ delay: 1500 }}
       modules={[EffectCoverflow, Pagination, Autoplay]}
     >
       {exhibitionData.map((item) => (
-        <SwiperSlideWrapper key={item.id} style={{ backgroundImage: `url(${item.img})` }}></SwiperSlideWrapper>
+        <SwiperSlideWrapper key={item.id} style={{ backgroundImage: `url(${item.img})` }} />
       ))}
     </SwiperContainer>
   );
@@ -38,16 +41,18 @@ export default CoverflowSwiper;
 
 const SwiperContainer = styled(Swiper)`
   width: 100%;
-  height: 100%;
-
-  .swiper-wrapper {
+  padding: 80px 0px;
     margin-bottom: 50px;
   }
 
-  .swiper-pagination {
+  & .swiper-pagination {
     .swiper-pagination-bullet-active {
       background-color: ${(props) => props.theme.palette.secondary.main};
     }
+  }
+  & .swiper-slide-active {
+    transform: scale(1.4) !important; /* 활성화된 슬라이드 두 배 크기로 설정 */
+    transition: transform 0.3s ease; /* 변환 애니메이션 추가 */
   }
 `;
 

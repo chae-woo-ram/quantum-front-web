@@ -1,19 +1,12 @@
 import { ReactElement } from 'react';
-import {
-  Box,
-  Table as MuiTable,
-  Paper,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-} from '@mui/material';
+import { Table as MuiTable, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
+import { styled } from 'styled-components';
 
 export interface TableColumn<T> {
   key: keyof T;
   title: string;
   align?: 'left' | 'right' | 'center';
+  width?: string;
   render?: (column: TableColumn<T>, item: T) => ReactElement;
 }
 
@@ -24,39 +17,54 @@ interface TableProps<T> {
 
 const Table = <T,>({ columns, data }: TableProps<T>) => {
   return (
-    <Box sx={{ height: 400, width: '100%' }}>
-      <TableContainer component={Paper}>
-        <MuiTable sx={{ minWidth: 650 }} aria-label="dynamic table">
-          <TableHead>
-            <TableRow>
-              {columns.map((column) => (
-                <TableCell key={String(column.key)} align={column.align || 'left'}>
-                  {column.title}
-                </TableCell>
-              ))}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {data.map((row, index) => (
-              <TableRow key={index} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                {columns.map((column) => {
-                  const value = column.render
-                    ? column.render(column, row as T)
-                    : (row[column.key as keyof typeof row] as string);
-
-                  return (
-                    <TableCell key={String(column.key)} align={column.align || 'left'}>
-                      {value}
-                    </TableCell>
-                  );
-                })}
-              </TableRow>
+    <TableContainer>
+      <StyledMuiTable aria-label="dynamic table">
+        <TableHead>
+          <TableRow>
+            {columns.map((column) => (
+              <StyledTableCell key={String(column.key)} align={column.align || 'left'}>
+                {column.title}
+              </StyledTableCell>
             ))}
-          </TableBody>
-        </MuiTable>
-      </TableContainer>
-    </Box>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {data.map((row, index) => (
+            <TableRow key={index} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+              {columns.map((column) => {
+                const value = column.render
+                  ? column.render(column, row as T)
+                  : (row[column.key as keyof typeof row] as string);
+
+                return (
+                  <StyledTableCell
+                    key={String(column.key)}
+                    align={column.align || 'left'}
+                    width={column.width || 'auto'}
+                  >
+                    {value}
+                  </StyledTableCell>
+                );
+              })}
+            </TableRow>
+          ))}
+        </TableBody>
+      </StyledMuiTable>
+    </TableContainer>
   );
 };
 
 export default Table;
+
+const StyledMuiTable = styled(MuiTable)`
+  & .MuiTableHead-root {
+    border-bottom: 2px solid #444;
+  }
+
+  & .MuiTableCell-root {
+    font-size: 16px;
+    letter-spacing: -1px;
+  }
+`;
+
+const StyledTableCell = styled(TableCell)``;

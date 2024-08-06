@@ -25,8 +25,8 @@ const getRijksMuseum = async () => {
   });
   return data;
 };
-const getRijksMuseumItem = async () => {
-  const { data } = await axios.get('http://www.rijksmuseum.nl/api/en/collection/SK-A-3580', {
+const getRijksMuseumItem = async (id: string) => {
+  const { data } = await axios.get(`http://www.rijksmuseum.nl/api/en/collection/${id}`, {
     params: {
       key: 'Kb8osXJE',
       culture: 'en',
