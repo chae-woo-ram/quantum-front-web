@@ -33,7 +33,7 @@ export const Banner2 = () => {
           onClick={() => router.push(`/exhibitions`)}
           startIcon={<ArrowForwardIcon />}
         >
-          전시회 보러가기
+          전시회 둘러보기
         </ExhibitionButton>
       </ExhibitionButtonWrapper>
     </Banner2Container>

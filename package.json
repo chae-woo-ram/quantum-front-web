@@ -9,7 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@babylonjs/core": "^7.18.0",
+    "@babylonjs/core": "^7.19.1",
     "@babylonjs/loaders": "^7.18.0",
     "@emotion/react": "^11.13.0",
     "@emotion/styled": "^11.13.0",

@@ -51,7 +51,7 @@ export const Banner4 = () => {
 };
 
 const Banner4Container = styled.div`
-  background: url('/images/bannerBg1.png') center/cover no-repeat;
+  background: url('/images/bannerBg2.png') center/cover no-repeat;
   padding: 80px 10%;
 `;
 

@@ -41,7 +41,7 @@ const Image3DViewerModal = ({ isShowModal = false, imageUrl, handleClose }: Imag
 
       // 빛 설정
       const light = new HemisphericLight('light', new Vector3(0, 1, 0), scene);
-      light.intensity = 3;
+      light.intensity = 100;
 
       // 단면 평면 생성
       const plane = MeshBuilder.CreatePlane('plane', { size: 5 }, scene);
