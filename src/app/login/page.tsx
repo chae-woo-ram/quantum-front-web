@@ -9,14 +9,14 @@ import LoginForm from '@/components/login/loginForm';
 import { Button, Divider, Typography } from '@mui/material';
 import { Provider } from '@supabase/supabase-js';
 import styled from 'styled-components';
-import { createClient } from '../utils/supabase/client';
+import supabase from '../utils/supabase/client';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
   const [user, setUser] = useRecoilState(userState);
-  const supabase = createClient();
+
   const router = useRouter();
 
   const videoRef = useRef<HTMLVideoElement>(null);

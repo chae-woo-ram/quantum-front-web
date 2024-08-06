@@ -1,6 +1,6 @@
-import { useInfiniteQuery } from '@tanstack/react-query';
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import { COMMON } from '@/reactQuery/queryKey';
-import { getExhibitions } from './openApi';
+import { getExhibitions, getRijksMuseum, getRijksMuseumItem } from './openApi';
 
 /* 전시회 리스트 */
 const useGetExhibitions = () => {
@@ -27,4 +27,22 @@ const useGetExhibitions = () => {
   return { exhibitionData, fetchNextPage, hasNextPage, isLoading, isFetchingNextPage };
 };
 
-export { useGetExhibitions };
+/* 이미지 리스트 */
+const useGetRijksMuseum = () => {
+  const { data, isLoading } = useQuery({
+    queryKey: [COMMON.GET_SHOP],
+    queryFn: () => getRijksMuseum(),
+  });
+  return { data, isLoading };
+};
+
+/* 이미지 단건 */
+const useGetRijksMuseumItem = () => {
+  const { data, isLoading } = useQuery({
+    queryKey: [COMMON.GET_SHOP_DETAIL],
+    queryFn: () => getRijksMuseumItem(),
+  });
+  return { data, isLoading };
+};
+
+export { useGetExhibitions, useGetRijksMuseum, useGetRijksMuseumItem };
