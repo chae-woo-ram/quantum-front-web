@@ -129,8 +129,8 @@ const ContentWrapper = styled.div`
 `;
 
 const Slide = styled.ul`
-  width: 4200px;
   height: 100%;
+  width: 4200px; // 이미지 + 여백 너비 (350 * 12)
   display: flex;
   flex-wrap: nowrap;
   gap: 50px;
@@ -138,16 +138,15 @@ const Slide = styled.ul`
 
   @keyframes autoPlay {
     0% {
-      transform: translate(0, 0);
+      transform: translateX(0);
     }
     100% {
-      transform: translate(-50%, 0);
+      transform: translateX(-50%);
     }
   }
 `;
 
 const SlideItem = styled.li`
-  flex: 0 0 auto;
   width: 300px;
 `;
 
