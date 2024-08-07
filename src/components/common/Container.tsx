@@ -5,17 +5,17 @@ interface ContainerPropsType {
   children?: ReactNode;
   title?: string;
   fullWidth?: boolean;
-  padding?: string;
+  customPadding?: string;
+  rightContent?: ReactNode;
 }
 
-const Container = ({ children, title, fullWidth = false, padding }: ContainerPropsType) => {
+const Container = ({ children, title, fullWidth, customPadding, rightContent }: ContainerPropsType) => {
   return (
-    <StyledContainer $fullWidth={fullWidth} $padding={padding}>
+    <StyledContainer $fullWidth={fullWidth} $customPadding={customPadding}>
       {title && (
         <TitleBox>
-          {/* <Divider textAlign="center"> */}
           <Title>{title}</Title>
-          {/* </Divider> */}
+          {rightContent && <RightContent>{rightContent}</RightContent>}
         </TitleBox>
       )}
       {children}
@@ -25,22 +25,24 @@ const Container = ({ children, title, fullWidth = false, padding }: ContainerPro
 
 export default Container;
 
-const StyledContainer = styled.div<{ $fullWidth: boolean; $padding: string }>`
-  ${({ theme, $fullWidth, $padding = '50px 16px 0' }) => {
+const StyledContainer = styled.div<{ $fullWidth: boolean; $customPadding: string }>`
+  ${({ theme, $fullWidth = false, $customPadding = '50px 16px 0' }) => {
     const { colors } = theme;
     return css`
       width: ${$fullWidth ? '100%' : '1024px'};
       min-height: calc(100vh - 100px);
       margin: 0 auto;
-      padding: ${$padding};
+      padding: ${$customPadding};
     `;
   }}
 `;
-
 const TitleBox = styled.div`
   ${({ theme }) => {
     const { colors } = theme;
     return css`
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       font-size: 32px;
       margin-bottom: 30px;
       padding-left: 16px;
@@ -55,4 +57,9 @@ const Title = styled.div`
       font-size: 32px;
     `;
   }}
+`;
+
+const RightContent = styled.div`
+  display: flex;
+  align-items: center;
 `;
