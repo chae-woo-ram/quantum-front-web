@@ -52,8 +52,8 @@ export const menuItems: MenuItem[] = [
   },
   {
     id: 4,
-    label: 'News',
-    href: '/news',
+    label: 'Books',
+    href: '/books',
     submenu: [
       {
         'Explore iPhone': [
