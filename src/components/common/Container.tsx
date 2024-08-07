@@ -5,16 +5,17 @@ interface ContainerPropsType {
   children?: ReactNode;
   title?: string;
   fullWidth?: boolean;
+  customPadding?: string;
+  rightContent?: ReactNode;
 }
 
-const Container = ({ children, title, fullWidth = false }: ContainerPropsType) => {
+const Container = ({ children, title, fullWidth, customPadding, rightContent }: ContainerPropsType) => {
   return (
-    <StyledContainer $fullWidth={fullWidth}>
+    <StyledContainer $fullWidth={fullWidth} $customPadding={customPadding}>
       {title && (
         <TitleBox>
-          {/* <Divider textAlign="center"> */}
           <Title>{title}</Title>
-          {/* </Divider> */}
+          {rightContent && <RightContent>{rightContent}</RightContent>}
         </TitleBox>
       )}
       {children}
@@ -24,24 +25,27 @@ const Container = ({ children, title, fullWidth = false }: ContainerPropsType) =
 
 export default Container;
 
-const StyledContainer = styled.div<{ $fullWidth: boolean }>`
-  ${({ theme, $fullWidth }) => {
+const StyledContainer = styled.div<{ $fullWidth: boolean; $customPadding: string }>`
+  ${({ theme, $fullWidth = false, $customPadding = '50px 16px 0' }) => {
     const { colors } = theme;
     return css`
       width: ${$fullWidth ? '100%' : '1024px'};
       min-height: calc(100vh - 100px);
       margin: 0 auto;
-      padding: 50px 16px 0; /* 좌우 여백을 추가할 수 있습니다 */
+      padding: ${$customPadding};
     `;
   }}
 `;
-
 const TitleBox = styled.div`
   ${({ theme }) => {
     const { colors } = theme;
     return css`
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       font-size: 32px;
       margin-bottom: 30px;
+      padding-left: 16px;
     `;
   }}
 `;
@@ -51,7 +55,11 @@ const Title = styled.div`
     const { colors } = theme;
     return css`
       font-size: 32px;
-      /* margin-bottom: 2rem; */
     `;
   }}
+`;
+
+const RightContent = styled.div`
+  display: flex;
+  align-items: center;
 `;

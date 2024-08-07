@@ -52,7 +52,7 @@ export const Banner3 = () => {
 
         <VideoWrapper>
           <Video autoPlay loop muted>
-            <source src="/video/chatVideo.mp4" type="video/mp4" />
+            <source src="/video/chat-video.mp4" type="video/mp4" />
           </Video>
         </VideoWrapper>
       </Banner3Container>
@@ -124,7 +124,7 @@ const AnimatedDescription = styled(motion.p)`
 `;
 
 const VideoWrapper = styled.div`
-  width: calc(100vw / 2);
+  width: 50%;
   height: 1200px;
   display: flex;
   justify-content: center;

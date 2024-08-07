@@ -5,7 +5,6 @@ import { Header } from '@/components/header/Header';
 import RecoilRootWrapper from '@/components/recoilRootWrapper/RecoilRootWrapper';
 import ReactQueryProviders from '@/hooks/useReactQuery';
 import Providers from '@/lib/Provider';
-// import '@/styles/fontFaces.css';
 import { pretendard } from '@/styles/localFonts.fonts';
 import theme from '@/styles/theme';
 import { ThemeProvider } from '@mui/material/styles';
@@ -25,7 +24,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <html lang="en">
       <ThemeProvider theme={theme}>
-        <body className={pretendard.variable}>
+        <body className={pretendard.className}>
           <ReactQueryProviders>
             <RecoilRootWrapper>
               <Providers>
