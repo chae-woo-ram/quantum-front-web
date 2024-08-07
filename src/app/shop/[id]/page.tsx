@@ -56,8 +56,6 @@ function ShopDetail({ params }) {
       <Image3DViewerModal
         isShowModal={isShowModal}
         imageUrl={data?.artObject?.webImage?.url}
-        width={data?.artObject?.webImage?.width}
-        height={data?.artObject?.webImage?.height}
         handleClose={() => setIsShowModal(false)}
       />
     </Container>
