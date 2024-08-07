@@ -125,14 +125,14 @@ const AnimatedDescription = styled(motion.p)`
 `;
 
 const VideoWrapper = styled.div`
-  width: calc(100vw / 2);
+  width: 50%;
   height: 1200px;
   display: flex;
   justify-content: center;
   background-size: auto;
   background-position: center;
   background-image: url('/images/main_banner_bg.png');
-  position: absolute;
+  position: relative;
 `;
 
 const Video = styled.video`
