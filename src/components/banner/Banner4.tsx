@@ -48,9 +48,9 @@ export const Banner4 = () => {
       <ContentWrapper>
         <Slide>
           {bookData.concat(bookData).map((item, index) => (
-            <li key={index}>
+            <SlideItem key={index}>
               <BookCard img1={item.img1} img2={item.img2} name={item.name} year={item.year} />
-            </li>
+            </SlideItem>
           ))}
         </Slide>
       </ContentWrapper>
@@ -129,23 +129,26 @@ const ContentWrapper = styled.div`
 `;
 
 const Slide = styled.ul`
+  width: 4200px;
+  height: 100%;
   display: flex;
+  flex-wrap: nowrap;
   gap: 50px;
-  width: calc(250px * 14);
   animation: autoPlay 10s linear infinite;
 
   @keyframes autoPlay {
     0% {
-      transform: translateX(0);
+      transform: translate(0, 0);
     }
     100% {
-      transform: translateX(calc(-250px * 7));
+      transform: translate(-50%, 0);
     }
   }
+`;
 
-  &:hover {
-    animation-play-state: paused;
-  }
+const SlideItem = styled.li`
+  flex: 0 0 auto;
+  width: 300px;
 `;
 
 const BookButtonWrapper = styled.div`
