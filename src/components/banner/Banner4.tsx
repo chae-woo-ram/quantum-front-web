@@ -48,9 +48,9 @@ export const Banner4 = () => {
       <ContentWrapper>
         <Slide>
           {bookData.concat(bookData).map((item, index) => (
-            <li key={index}>
+            <SlideItem key={index}>
               <BookCard img1={item.img1} img2={item.img2} name={item.name} year={item.year} />
-            </li>
+            </SlideItem>
           ))}
         </Slide>
       </ContentWrapper>
@@ -129,9 +129,9 @@ const ContentWrapper = styled.div`
 `;
 
 const Slide = styled.ul`
+  width: 4200px; // 이미지 + 여백 너비 (350 * 12)
   display: flex;
   gap: 50px;
-  width: calc(250px * 14);
   animation: autoPlay 10s linear infinite;
 
   @keyframes autoPlay {
@@ -139,13 +139,17 @@ const Slide = styled.ul`
       transform: translateX(0);
     }
     100% {
-      transform: translateX(calc(-250px * 7));
+      transform: translateX(-50%);
     }
   }
 
   &:hover {
     animation-play-state: paused;
   }
+`;
+
+const SlideItem = styled.li`
+  width: 300px;
 `;
 
 const BookButtonWrapper = styled.div`
