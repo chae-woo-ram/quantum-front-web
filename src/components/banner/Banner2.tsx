@@ -24,7 +24,7 @@ export const Banner2 = () => {
         <p>창의성과 아름다움이 가득한 우리의 최신 미술 전시회를 경험해 보세요.</p>
       </Title>
 
-      <CoverflowSwiper exhibitionData={exhibitionData} />
+      <CoverflowSwiper data={exhibitionData} />
       <ExhibitionButtonWrapper>
         <ExhibitionButton
           variant="contained"
@@ -57,7 +57,30 @@ const Title = styled.h1`
   padding-bottom: 40px;
 
   p:first-child {
-    font-size: 25px;
+    font-size: 22px;
+  }
+
+  p:nth-child(2) {
+    position: relative;
+    color: transparent;
+    background: linear-gradient(135deg, #f9d423, #e0aaff, #b09adb, #9c89b8, #cfc4e0);
+    background-clip: text;
+    -webkit-background-clip: text;
+    border: 2px solid transparent;
+    background-size: 300% 300%;
+    animation: gradientAnimation 7s ease infinite;
+
+    @keyframes gradientAnimation {
+      0% {
+        background-position: 0% 0%;
+      }
+      50% {
+        background-position: 100% 100%;
+      }
+      100% {
+        background-position: 0% 0%;
+      }
+    }
   }
 `;
 

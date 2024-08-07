@@ -61,6 +61,7 @@ export const Banner1 = () => {
           </CardList>
         </Banner1Wrapper>
       </Banner1Container>
+      <div style={{ height: '10vh' }}></div>
     </>
   );
 };

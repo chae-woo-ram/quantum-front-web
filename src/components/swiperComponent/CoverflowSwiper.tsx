@@ -6,10 +6,10 @@ import { Autoplay, EffectCoverflow, Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
 interface CoverflowSwiperProps {
-  exhibitionData: { id: number; img: string }[];
+  data: { id: number; img: string }[];
 }
 
-const CoverflowSwiper = ({ exhibitionData }: CoverflowSwiperProps) => {
+const CoverflowSwiper = ({ data }: CoverflowSwiperProps) => {
   return (
     <SwiperContainer
       effect={'coverflow'}
@@ -30,8 +30,8 @@ const CoverflowSwiper = ({ exhibitionData }: CoverflowSwiperProps) => {
       pagination={{ clickable: true }}
       modules={[EffectCoverflow, Pagination, Autoplay]}
     >
-      {exhibitionData.map((item) => (
-        <SwiperSlideWrapper key={item.id} style={{ backgroundImage: `url(${item.img})` }} />
+      {data.map((item) => (
+        <SwiperSlideWrapper key={item.id} style={{ backgroundImage: `url(${item.img})` }}></SwiperSlideWrapper>
       ))}
     </SwiperContainer>
   );

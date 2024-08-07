@@ -102,8 +102,8 @@ const menuItems: MenuItem[] = [
   },
   {
     id: 4,
-    label: 'News',
-    href: '/news',
+    label: 'Notice',
+    href: '/Notice',
     submenu: [
       {
         'Explore iPhone': [
@@ -122,8 +122,8 @@ const menuItems: MenuItem[] = [
   },
   {
     id: 5,
-    label: 'Notice',
-    href: '/notice',
+    label: 'Books',
+    href: '/books',
     submenu: [
       {
         'Explore Watch': [

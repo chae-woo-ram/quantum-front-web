@@ -11,8 +11,6 @@ export default function Home() {
     <>
       <Container>
         <Banner1></Banner1>
-        <div style={{ height: '10vh' }}></div>
-
         <Banner2></Banner2>
         <Banner3></Banner3>
         <Banner4></Banner4>

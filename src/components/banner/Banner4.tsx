@@ -1,86 +1,164 @@
 'use client';
 
-import CustomCard from '@/components/customCard/CustomCard';
+import { useRouter } from 'next/navigation';
+import BookCard from '@/components/bookCard/BookCard';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import { Button } from '@mui/material';
 import styled from 'styled-components';
-import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/pagination';
-import 'swiper/css/scrollbar';
-import { Autoplay, EffectFade, Navigation, Pagination } from 'swiper/modules';
-import { Swiper, SwiperSlide } from 'swiper/react';
 
 export const Banner4 = () => {
-  const exhibitionData = [
-    { id: 1, img: '/images/exhibition1.jpg' },
-    { id: 2, img: '/images/exhibition2.jpg' },
-    { id: 3, img: '/images/exhibition3.jpg' },
-    { id: 4, img: '/images/exhibition4.jpg' },
+  const router = useRouter();
+
+  const bookData = [
+    { id: 1, img1: '/images/book1.png', img2: '/images/book_open1.png', name: 'Ricky Kim', year: '2024' },
+    {
+      id: 2,
+      img1: '/images/book2.png',
+      img2: '/images/book_open2.png',
+      name: 'The Post Dansaekhwa Of Korea',
+      year: '2018',
+    },
+    { id: 3, img1: '/images/book3.png', img2: '/images/book_open3.png', name: 'Chaerin Park', year: '2021' },
+    {
+      id: 4,
+      img1: '/images/book4.png',
+      img2: '/images/book_open4.png',
+      name: 'Olivia Williams',
+      year: '2022',
+    },
+    { id: 5, img1: '/images/book5.png', img2: '/images/book_open5.png', name: 'Seoyeon Lee', year: '2022' },
+    { id: 6, img1: '/images/book6.png', img2: '/images/book_open6.png', name: 'Yoonsu Jeong', year: '2021' },
   ];
 
   return (
-    <>
-      <Banner4Container>
-        <Title>
-          <p>EXHIBITION</p>
-          <p>창의성과 아름다움이 가득한 우리의 최신 미술 전시회를 경험해 보세요.</p>
-        </Title>
+    <Banner4Container>
+      <Title>
+        <p>GALLERY BOOK</p>
+        <p>
+          "최고의 작품과 예술가들의 이야기를 담은 <br />
+          갤러리 북을 만나보세요."
+        </p>
+        <p>
+          GALLERY BOOK은 우리의 전시회와 컬렉션을 집에서도 편안하게 즐길 수 있는 기회를 제공합니다.
+          <br />
+          아름다운 일러스트와 깊이 있는 해설로 예술의 매력을 한층 더 느껴보세요.
+        </p>
+      </Title>
 
-        <ContentWrapper>
-          <StyledSwiper
-            modules={[Navigation, Pagination, EffectFade, Autoplay]}
-            effect="fade"
-            spaceBetween={50}
-            slidesPerView={3}
-            centeredSlides={true}
-            pagination={{ clickable: true }}
-            autoplay={{ delay: 1000, disableOnInteraction: false }}
-            onSlideChange={() => console.log('slide change')}
-            onSwiper={(swiper) => console.log(swiper)}
-            className="mySwiper"
-          >
-            {exhibitionData.map((item) => (
-              <SwiperSlide key={item.id}>
-                <CustomCard url={item.img} />
-              </SwiperSlide>
-            ))}
-          </StyledSwiper>
-        </ContentWrapper>
-      </Banner4Container>
-    </>
+      <ContentWrapper>
+        <Slide>
+          {bookData.concat(bookData).map((item, index) => (
+            <li key={index}>
+              <BookCard img1={item.img1} img2={item.img2} name={item.name} year={item.year} />
+            </li>
+          ))}
+        </Slide>
+      </ContentWrapper>
+
+      <BookButtonWrapper>
+        <BookButton
+          variant="contained"
+          color="secondary"
+          size="small"
+          onClick={() => router.push(`/Chats`)}
+          startIcon={<ArrowForwardIcon />}
+        >
+          Book 둘러보기
+        </BookButton>
+      </BookButtonWrapper>
+    </Banner4Container>
   );
 };
 
 const Banner4Container = styled.div`
   background: url('/images/bannerBg2.png') center/cover no-repeat;
   padding: 80px 10%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
 const Title = styled.h1`
   color: #2a2a2a;
-  font-size: 22px;
-
+  font-size: 18px;
   display: flex;
   flex-direction: column;
-  gap: 20px;
   justify-content: center;
   align-items: center;
-  padding-bottom: 40px;
+  line-height: 1.5;
+  text-align: center;
+  max-width: 800px;
+  margin-bottom: 40px;
 
   p:first-child {
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+
+  p:nth-child(2) {
     font-size: 30px;
     font-weight: bold;
+    position: relative;
+    padding: 10px 20px;
+    color: transparent;
+    background: linear-gradient(135deg, #f9d423, #e0aaff, #b09adb, #9c89b8, #cfc4e0);
+    background-clip: text;
+    -webkit-background-clip: text;
+    border: 2px solid transparent;
+    background-size: 300% 300%;
+    animation: gradientAnimation 7s ease infinite;
+
+    @keyframes gradientAnimation {
+      0% {
+        background-position: 0% 0%;
+      }
+      50% {
+        background-position: 100% 100%;
+      }
+      100% {
+        background-position: 0% 0%;
+      }
+    }
   }
 `;
 
 const ContentWrapper = styled.div`
-  display: flex;
-  justify-content: center;
+  width: 100vw;
+  overflow: hidden;
 `;
 
-const StyledSwiper = styled(Swiper)`
-  width: 40%;
+const Slide = styled.ul`
+  display: flex;
+  gap: 50px;
+  width: calc(250px * 14);
+  animation: autoPlay 10s linear infinite;
 
-  > div:last-child {
-    margin-top: 20px;
+  @keyframes autoPlay {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(calc(-250px * 7));
+    }
   }
 `;
+
+const BookButtonWrapper = styled.div`
+  margin-top: 50px;
+`;
+
+const BookButton = styled(Button)`
+  && {
+    color: #2a2a2a;
+    font-weight: bold;
+    padding: 4px 16px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+
+    &:hover {
+      background: linear-gradient(135deg, #59cff0 0%, #6aa6ee 25%, #00d2a3 50%, #b9fbc0 75%, #f9f47c 100%);
+    }
+  }
+`;
+
+export default Banner4;

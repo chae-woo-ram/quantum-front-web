@@ -15,7 +15,7 @@ export const Banner3 = () => {
     once: false,
   });
 
-  const getAnimationProps = (index) => {
+  const getAnimationProps = (index: number) => {
     return {
       opacity: inView ? 1 : 0,
       y: inView ? 0 : 30,
@@ -75,7 +75,7 @@ const TextContent = styled.div`
   align-items: center;
   line-height: 1.5;
   background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-  padding: 20px; /* Added padding for better spacing */
+  padding: 20px;
 `;
 
 const AnimatedTitle = styled(motion.h1)`
@@ -86,7 +86,7 @@ const AnimatedTitle = styled(motion.h1)`
 
   & span {
     font-weight: normal;
-    font-size: 20px;
+    font-size: 18px;
   }
 `;
 
@@ -95,9 +95,8 @@ const AnimatedSubtitle = styled(motion.p)`
   font-weight: bold;
   position: relative;
   padding: 10px 20px;
-  border-radius: 8px;
   color: transparent;
-  background: linear-gradient(135deg, #c3cfe2, #c7d7f0, #e0aaff, #b09adb, #cfc4e0);
+  background: linear-gradient(135deg, #f9d423, #e0aaff, #b09adb, #9c89b8, #cfc4e0);
   background-clip: text;
   -webkit-background-clip: text;
   border: 2px solid transparent;
