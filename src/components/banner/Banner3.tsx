@@ -52,7 +52,7 @@ export const Banner3 = () => {
 
         <VideoWrapper>
           <Video autoPlay loop muted>
-            <source src="/video/chatVideo.mp4" type="video/mp4" />
+            <source src="/video/chat-video.mp4" type="video/mp4" />
           </Video>
         </VideoWrapper>
       </Banner3Container>
@@ -132,7 +132,7 @@ const VideoWrapper = styled.div`
   background-size: auto;
   background-position: center;
   background-image: url('/images/main_banner_bg.png');
-  position: relative;
+  position: absolute;
 `;
 
 const Video = styled.video`

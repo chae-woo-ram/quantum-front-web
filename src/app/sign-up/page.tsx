@@ -30,7 +30,7 @@ const SignUp = () => {
   return (
     <Container>
       <BackgroundVideo autoPlay loop muted ref={videoRef} poster="/images/bg_poster.png">
-        <source src="/video/login_bg.mp4" type="video/mp4" />
+        <source src="/video/login-background-video.mp4" type="video/mp4" />
       </BackgroundVideo>
       <Content>
         <SignUpForm
