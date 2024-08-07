@@ -32,8 +32,8 @@ interface MenuItem {
 const menuItems: MenuItem[] = [
   {
     id: 1,
-    label: 'Artists',
-    href: '/artists',
+    label: 'Gallery',
+    href: '/gallery',
     submenu: [
       {
         Shop: [
@@ -265,7 +265,9 @@ export const Header = () => {
             <NavList ref={navListRef}>
               {menuItems?.map((item) => (
                 <NavItem key={item.id} onMouseEnter={() => handleMouseEnter(item.id)}>
-                  <NavLink href={item.href}>{item.label}</NavLink>
+                  <NavLink href={item.href} onClick={handleMouseLeave}>
+                    {item.label}
+                  </NavLink>
                   <AnimatePresence>
                     {activeItemId === item.id && isHover && item.submenu?.length && (
                       <MotionSubMenu
