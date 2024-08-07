@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 import AuthCheck from '@/components/authCheck';
 import { Footer } from '@/components/footer/Footer';
 import { Header } from '@/components/header/Header';
@@ -7,7 +8,6 @@ import Providers from '@/lib/Provider';
 import { pretendard } from '@/styles/localFonts.fonts';
 import theme from '@/styles/theme';
 import { ThemeProvider } from '@mui/material/styles';
-import type { Metadata } from 'next';
 import 'swiper/css';
 import 'swiper/css/effect-coverflow';
 import 'swiper/css/pagination';
@@ -22,7 +22,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <html lang="en">
       <ThemeProvider theme={theme}>
-        <body className={pretendard.variable}>
+        <body className={pretendard.className}>
           <ReactQueryProviders>
             <RecoilRootWrapper>
               <Providers>
