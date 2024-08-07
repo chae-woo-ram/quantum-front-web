@@ -142,6 +142,10 @@ const Slide = styled.ul`
       transform: translateX(calc(-250px * 7));
     }
   }
+
+  &:hover {
+    animation-play-state: paused;
+  }
 `;
 
 const BookButtonWrapper = styled.div`
