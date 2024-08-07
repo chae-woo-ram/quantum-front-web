@@ -1,14 +1,13 @@
-import type { Metadata } from 'next';
 import AuthCheck from '@/components/authCheck';
 import { Footer } from '@/components/footer/Footer';
 import { Header } from '@/components/header/Header';
 import RecoilRootWrapper from '@/components/recoilRootWrapper/RecoilRootWrapper';
 import ReactQueryProviders from '@/hooks/useReactQuery';
 import Providers from '@/lib/Provider';
-// import '@/styles/fontFaces.css';
 import { pretendard } from '@/styles/localFonts.fonts';
 import theme from '@/styles/theme';
 import { ThemeProvider } from '@mui/material/styles';
+import type { Metadata } from 'next';
 import 'swiper/css';
 import 'swiper/css/effect-coverflow';
 import 'swiper/css/pagination';
