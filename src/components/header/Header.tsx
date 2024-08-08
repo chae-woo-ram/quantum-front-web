@@ -5,7 +5,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useRecoilState } from 'recoil';
-import { isSubMenuVisibleState } from '@/recoil/header/atom';
 import { userState } from '@/recoil/user/atom';
 import supabase from '@/app/utils/supabase/client';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
@@ -13,7 +12,7 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import ThumbUpAltOutlinedIcon from '@mui/icons-material/ThumbUpAltOutlined';
 import { Avatar, Badge, BadgeProps, Button, IconButton } from '@mui/material';
 import { AnimatePresence, motion } from 'framer-motion';
-import { createGlobalStyle, styled } from 'styled-components';
+import { styled } from 'styled-components';
 import { menuItems } from './HeaderData';
 import ProfileModal from './ProfileModal';
 
@@ -26,20 +25,8 @@ export const Header = () => {
   const navListRef = useRef<HTMLUListElement>(null);
   const [modalOpen, setModalOpen] = useState(false); // 프로필 모달
 
-  const [isSubMenuVisible, setSubMenuVisible] = useRecoilState(isSubMenuVisibleState);
   const [user, setUser] = useRecoilState(userState);
-
   const router = useRouter();
-
-  const GlobalStyle = createGlobalStyle<{ isSubMenuVisible: boolean }>`
-  /* body {
-    ${({ isSubMenuVisible }) =>
-      isSubMenuVisible &&
-      `
-      
-    `}
-  } */
-`;
 
   const handleMouseEnter = useCallback((index: number) => {
     setActiveItemId(index);
@@ -87,17 +74,8 @@ export const Header = () => {
     }
   }, [navListRef.current]);
 
-  useEffect(() => {
-    if (isHover && isActive) {
-      setSubMenuVisible(true);
-    } else {
-      setSubMenuVisible(false);
-    }
-  }, [isHover, isActive, setSubMenuVisible]);
-
   return (
     <>
-      <GlobalStyle isSubMenuVisible={isSubMenuVisible} />
       <HeaderContainer onMouseEnter={() => handleMouseEnter(null)} onMouseLeave={handleMouseLeave}>
         {/* 로고 */}
         <NavLink href="/">

@@ -6,78 +6,93 @@ export const menuItems: MenuItem[] = [
     id: 1,
     label: 'Gallery',
     href: '/gallery',
+    submenu: [
+      {
+        Categories: [
+          { label: 'Paintings', href: '/gallery/paintings' },
+          { label: 'Sculptures', href: '/gallery/sculptures' },
+          { label: 'Photographs', href: '/gallery/photographs' },
+        ],
+      },
+      {
+        Featured: [
+          { label: 'Top Picks', href: '/gallery/featured/top-picks' },
+          { label: 'New Arrivals', href: '/gallery/featured/new-arrivals' },
+        ],
+      },
+    ],
   },
   {
     id: 2,
     label: 'Exhibitions',
     href: '/exhibitions',
-  },
-  {
-    id: 3,
-    label: 'Shop',
-    href: '/shop',
     submenu: [
       {
-        'Explore iPad': [
-          { label: 'Explore All iPad', href: '/ipad' },
-          { label: 'iPad Pro', href: '/' },
-          { label: 'iPad Air', href: '/' },
-          { label: 'iPad mini', href: '/' },
+        'Current Exhibitions': [
+          { label: 'Exhibition 1', href: '/exhibitions/current/exhibition-1' },
+          { label: 'Exhibition 2', href: '/exhibitions/current/exhibition-2' },
         ],
       },
       {
-        'Shop iPad': [
-          { label: 'Shop iPad', href: '/' },
-          { label: 'iPad Accessories', href: '/' },
+        'Upcoming Exhibitions': [
+          { label: 'Upcoming Exhibition 1', href: '/exhibitions/upcoming/exhibition-1' },
+          { label: 'Upcoming Exhibition 2', href: '/exhibitions/upcoming/exhibition-2' },
+        ],
+      },
+    ],
+  },
+  {
+    id: 3,
+    label: 'Books',
+    href: '/books',
+    submenu: [
+      {
+        'Art Books': [
+          { label: 'Art Book 1', href: '/books/art-book-1' },
+          { label: 'Art Book 2', href: '/books/art-book-2' },
+        ],
+      },
+      {
+        'Photography Books': [
+          { label: 'Photography Book 1', href: '/books/photography-book-1' },
+          { label: 'Photography Book 2', href: '/books/photography-book-2' },
         ],
       },
     ],
   },
   {
     id: 4,
-    label: 'Books',
-    href: '/books',
+    label: 'Shop',
+    href: '/shop',
     submenu: [
       {
-        'Explore iPhone': [
-          { label: 'Explore All iPhone', href: '/iphone' },
-          { label: 'iPhone15', href: '/' },
-          { label: 'iPhone14', href: '/' },
+        'Gallery Artworks': [
+          { label: 'All Artworks', href: '/shop/artworks' },
+          { label: 'Featured Artworks', href: '/shop/featured-artworks' },
+          { label: 'Limited Editions', href: '/shop/limited-editions' },
         ],
       },
       {
-        'Shop iPhone': [
-          { label: 'Shop iPhone', href: '/' },
-          { label: 'iPhone Accessories', href: '/' },
+        'Art Supplies': [
+          { label: 'Painting Supplies', href: '/shop/painting-supplies' },
+          { label: 'Drawing Supplies', href: '/shop/drawing-supplies' },
         ],
       },
     ],
+  },
+  {
+    id: 5,
+    label: 'Chat',
+    href: '/chat',
   },
   {
     id: 6,
-    label: 'Favorites',
-    href: '/favorites',
-    submenu: [
-      {
-        'Favorites ': [{ label: '즐겨찾기한 작품', href: '/favorites' }],
-      },
-      {
-        'Purchase Inquiry ': [{ label: '구매요청 이력', href: '/watch' }],
-      },
-    ],
-  },
-  { id: 7, label: 'Chat', href: '/chat' },
-  {
-    id: 8,
-    label: 'Support',
+    label: 'Notice',
     href: '/notice',
-    submenu: [
-      {
-        Notice: [
-          { label: '공지사항', href: '/notice' },
-          { label: '자주 묻는 질문들', href: '/' },
-        ],
-      },
-    ],
+  },
+  {
+    id: 7,
+    label: 'Support',
+    href: '/support',
   },
 ];
