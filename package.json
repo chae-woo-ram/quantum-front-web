@@ -30,6 +30,7 @@
     "react-dom": "^18",
     "react-lottie-player": "^2.0.0",
     "react-material-ui-carousel": "^3.4.2",
+    "react-quill": "^2.0.0",
     "recoil": "^0.7.7",
     "socket.io-client": "^4.7.5",
     "styled-components": "^6.1.11",

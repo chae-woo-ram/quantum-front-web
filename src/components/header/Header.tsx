@@ -9,7 +9,9 @@ import { isSubMenuVisibleState } from '@/recoil/header/atom';
 import { userState } from '@/recoil/user/atom';
 import supabase from '@/app/utils/supabase/client';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import { Avatar, Button } from '@mui/material';
+// import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import ThumbUpAltOutlinedIcon from '@mui/icons-material/ThumbUpAltOutlined';
+import { Avatar, Badge, BadgeProps, Button, IconButton } from '@mui/material';
 import { AnimatePresence, motion } from 'framer-motion';
 import { createGlobalStyle, styled } from 'styled-components';
 import { menuItems } from './HeaderData';
@@ -146,7 +148,12 @@ export const Header = () => {
 
         <RightWrapper>
           {/* 장바구니 */}
-          <Image src={'/images/shoppingBag.png'} alt={'shopping bag icon'} width={20} height={20} />
+          <IconButton aria-label="cart">
+            <Badge badgeContent={4} color="primary">
+              <ThumbUpAltOutlinedIcon color="secondary" />
+            </Badge>
+          </IconButton>
+
           {/* 로그인 영역 */}
           {user?.id ? (
             <>
@@ -270,3 +277,12 @@ const CustomButton = styled(Button)`
     font-size: 13px;
   }
 `;
+
+const StyledBadge = styled(Badge)<BadgeProps>(({ theme }) => ({
+  '& .MuiBadge-badge': {
+    right: -3,
+    top: 13,
+    border: `2px solid ${theme.palette.background.paper}`,
+    padding: '0 4px',
+  },
+}));
