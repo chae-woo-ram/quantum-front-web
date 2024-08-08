@@ -45,7 +45,6 @@ const TitleBox = styled.div`
       align-items: center;
       font-size: 32px;
       margin-bottom: 30px;
-      padding-left: 16px;
     `;
   }}
 `;

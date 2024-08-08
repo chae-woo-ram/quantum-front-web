@@ -2,10 +2,10 @@
 
 // lodash의 throttle 함수
 import { Fragment, useEffect, useRef } from 'react';
+import Container from '@/components/common/Container';
 import ListItemContent from '@/components/exhibition/ListItemContent';
 import ExhibitionsSkeleton from '@/components/skeleton/ExhibitionsSkeleton';
 import { useGetExhibitions } from '@/api/openApi/openApii.query';
-import { Typography } from '@mui/material';
 import { throttle } from 'lodash';
 import styled from 'styled-components';
 
@@ -38,33 +38,31 @@ const Exhibition = () => {
   }, [isFetchingNextPage, hasNextPage]);
 
   return (
-    <Container ref={appCardLayoutWrapperRef}>
-      <Typography variant="h2">Exhibition</Typography>
-      <List>
-        {exhibitionData?.map((page, pageIndex) => (
-          <Fragment key={pageIndex}>
-            {page.records.map((item) => (
-              <ListItemContent key={item.id} item={item} />
-            ))}
-          </Fragment>
-        ))}
-      </List>
-      {(isLoading || isFetchingNextPage) && <ExhibitionsSkeleton />}
+    <Container title={'전시회'}>
+      <Contents ref={appCardLayoutWrapperRef}>
+        <List>
+          {exhibitionData?.map((page, pageIndex) => (
+            <Fragment key={pageIndex}>
+              {page.records.map((item) => (
+                <ListItemContent key={item.id} item={item} />
+              ))}
+            </Fragment>
+          ))}
+        </List>
+        {(isLoading || isFetchingNextPage) && <ExhibitionsSkeleton />}
+      </Contents>
     </Container>
   );
 };
 
 export default Exhibition;
 
-const Container = styled.div`
+const Contents = styled.div`
   width: 100%;
-  padding: 60px 0 30px;
-  max-width: 1024px;
   height: 100vh;
   overflow-y: auto;
 `;
 
 const List = styled.ul`
   width: 100%;
-  padding-top: 50px;
 `;

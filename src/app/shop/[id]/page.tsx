@@ -1,16 +1,29 @@
 'use client';
 
 import { Fragment, useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import Loading from '@/components/common/Loading';
 import ColorShowcase from '@/components/shop/ColorShowcase';
 import Image3DViewerModal from '@/components/shop/Image3DViewerModal';
 import { useGetRijksMuseumItem } from '@/api/openApi/openApii.query';
-import { Button, Divider } from '@mui/material';
+import HelpOutlineOutlinedIcon from '@mui/icons-material/HelpOutlineOutlined';
+import ThumbUpAltOutlinedIcon from '@mui/icons-material/ThumbUpAltOutlined';
+import { Box, Button, Divider } from '@mui/material';
 import { styled } from 'styled-components';
 
 function ShopDetail({ params }) {
+  const router = useRouter();
   const { data, refetch, isFetching } = useGetRijksMuseumItem(params.id);
-  const [isShowModal, setIsShowModal] = useState<boolean>(false);
+  const [isShowModal, setIsShowModal] = useState(false);
+
+  const { artObject } = data || {};
+  const { webImage, longTitle, physicalMedium, subTitle, plaqueDescriptionEnglish, colors } = artObject || {};
+
+  /** 구매문의 페이지 이동 */
+  const handleNavigateToPurchaseInquiry = () => {
+    const pathname = '/purchase-inquiry';
+    router.push(`${pathname}?id=${params.id}`);
+  };
 
   useEffect(() => {
     if (params.id) {
@@ -23,20 +36,20 @@ function ShopDetail({ params }) {
       {data && !isFetching ? (
         <Fragment>
           <ImageWrapper>
-            <Image src={data?.artObject?.webImage?.url} alt={''} />
+            <Image src={webImage?.url} alt="" />
           </ImageWrapper>
           <ContentsWrapper>
             <Contents>
               <Content>
-                <Title>{data?.artObject?.longTitle}</Title>
+                <Title>{longTitle}</Title>
                 <SubTitle>
-                  {data?.artObject?.physicalMedium}, {data?.artObject?.subTitle}
+                  {physicalMedium}, {subTitle}
                 </SubTitle>
-                <Disc>{data?.artObject?.plaqueDescriptionEnglish}</Disc>
+                <Disc>{plaqueDescriptionEnglish}</Disc>
               </Content>
               <Divider orientation="vertical" flexItem style={{ background: '#fff' }} />
               <Content>
-                <ColorShowcase colors={data?.artObject?.colors} />
+                {colors && colors.length > 0 && <ColorShowcase colors={colors} />}
                 <Button
                   onClick={() => setIsShowModal(true)}
                   size="large"
@@ -46,6 +59,28 @@ function ShopDetail({ params }) {
                 >
                   360도 이미지 보기
                 </Button>
+                <Box
+                  sx={{
+                    width: '240px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-evenly',
+                    gap: '4px',
+                  }}
+                >
+                  <Button
+                    variant="text"
+                    color="secondary"
+                    endIcon={<HelpOutlineOutlinedIcon />}
+                    onClick={handleNavigateToPurchaseInquiry}
+                  >
+                    구매문의
+                  </Button>
+                  <Divider orientation="vertical" flexItem style={{ background: '#fff' }} />
+                  <Button variant="text" color="secondary" endIcon={<ThumbUpAltOutlinedIcon />}>
+                    즐겨찾기
+                  </Button>
+                </Box>
               </Content>
             </Contents>
           </ContentsWrapper>
@@ -55,9 +90,11 @@ function ShopDetail({ params }) {
       )}
       <Image3DViewerModal
         isShowModal={isShowModal}
-        imageUrl={data?.artObject?.webImage?.url}
+        imageUrl={webImage?.url}
         handleClose={() => setIsShowModal(false)}
       />
+
+      {/* <Snackbar open={open} autoHideDuration={6000} onClose={handleClose} message="Note archived" action={action} /> */}
     </Container>
   );
 }
@@ -93,16 +130,6 @@ const Image = styled.img`
   transition: transform 0.3s ease;
 `;
 
-const NoImage = styled.div`
-  width: 100%;
-  height: 200px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #888;
-  border: 1px solid #ccc;
-`;
-
 const Title = styled.div`
   font-size: 30px;
   font-weight: 700;
@@ -115,7 +142,7 @@ const SubTitle = styled.div`
 
 const Disc = styled.div`
   font-size: 16px;
-  line-height: 1.1;
+  line-height: 1.5;
   margin-bottom: 8px;
 `;
 
@@ -131,5 +158,6 @@ const Contents = styled.div`
 const Content = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: center;
   gap: 10px;
 `;
