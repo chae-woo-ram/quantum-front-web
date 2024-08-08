@@ -8,7 +8,6 @@ import { useRecoilState, useRecoilValue } from 'recoil';
 import { favoritesState } from '@/recoil/favorites/atom';
 import { userState } from '@/recoil/user/atom';
 // import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import supabase from '@/app/utils/supabase/client';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import ThumbUpAltOutlinedIcon from '@mui/icons-material/ThumbUpAltOutlined';
 import { Avatar, Badge, BadgeProps, Button, IconButton } from '@mui/material';
@@ -65,10 +64,8 @@ export const Header = () => {
     },
   };
 
-  const handleLogout = async () => {
-    await supabase.auth.signOut();
-    setUser({});
-    router.push('/login');
+  const handleFavorites = () => {
+    router.push('/favorites');
   };
 
   useEffect(() => {
@@ -129,7 +126,7 @@ export const Header = () => {
 
         <RightWrapper>
           {/* 장바구니 */}
-          <IconButton aria-label="cart">
+          <IconButton aria-label="cart" onClick={handleFavorites}>
             <Badge color="error" badgeContent={favorites?.length}>
               <ThumbUpAltOutlinedIcon color="secondary" />
             </Badge>

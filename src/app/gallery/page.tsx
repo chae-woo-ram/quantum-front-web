@@ -15,7 +15,7 @@ const transitionSettings = { duration: 0.8, ease: 'easeOut' };
 
 export default function Gallery() {
   return (
-    <Container title="About" fullWidth customPadding="50px 0px">
+    <Container title="About" fullWidth customPadding="50px 16px">
       <Style.AnimatedVideoWrapper
         as={motion.div}
         initial="hidden"
