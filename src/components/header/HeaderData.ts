@@ -11,23 +11,6 @@ export const menuItems: MenuItem[] = [
     id: 2,
     label: 'Exhibitions',
     href: '/exhibitions',
-    submenu: [
-      {
-        'Explore Mac': [
-          { label: 'Explore All Mac', href: '/mac' },
-          { label: 'iMac', href: '/' },
-        ],
-      },
-      {
-        'Shop Mac': [
-          { label: 'Shop Mac', href: '/' },
-          { label: 'Help Me Choose', href: '/' },
-        ],
-      },
-      {
-        'More From Mac': [{ label: 'Mac Support', href: '/' }],
-      },
-    ],
   },
   {
     id: 3,
@@ -71,54 +54,30 @@ export const menuItems: MenuItem[] = [
     ],
   },
   {
-    id: 5,
-    label: 'Notice',
-    href: '/notice',
-    submenu: [
-      {
-        'Explore Watch': [
-          { label: 'Explore All Apple Watch', href: '/watch' },
-          { label: 'Apple Watch Series 9', href: '/' },
-          { label: 'Apple Watch Ultra 2', href: '/' },
-          { label: 'Apple Watch SE', href: '/' },
-          { label: 'Apple Watch NIKE', href: '/' },
-        ],
-      },
-      {
-        'Shop Watch': [
-          { label: 'Shop Apple Watch', href: '/' },
-          { label: 'Apple Watch Studio', href: '/' },
-        ],
-      },
-      {
-        'More from Watch': [
-          { label: 'Apple Watch Support', href: '/' },
-          { label: 'AppleCare+', href: '/' },
-        ],
-      },
-    ],
-  },
-  {
     id: 6,
-    label: 'Gallery',
-    href: '/gallery',
+    label: 'Favorites',
+    href: '/favorites',
     submenu: [
       {
-        'Explore AirPods': [
-          { label: 'Explore All AirPods', href: '/watch' },
-          { label: 'AirPods Pro 2nd generation', href: '/' },
-          { label: 'AirPods 2nd generation', href: '/' },
-          { label: 'AirPods 3rd generation', href: '/' },
-        ],
+        'Favorites ': [{ label: '즐겨찾기한 작품', href: '/favorites' }],
       },
       {
-        'Shop AirPods': [{ label: 'Shop AirPods', href: '/' }],
-      },
-      {
-        'More from AirPods': [{ label: 'AirPods Support', href: '/' }],
+        'Purchase Inquiry ': [{ label: '구매요청 이력', href: '/watch' }],
       },
     ],
   },
   { id: 7, label: 'Chat', href: '/chat' },
-  { id: 8, label: 'Support', href: '/support' },
+  {
+    id: 8,
+    label: 'Support',
+    href: '/notice',
+    submenu: [
+      {
+        Notice: [
+          { label: '공지사항', href: '/notice' },
+          { label: '자주 묻는 질문들', href: '/' },
+        ],
+      },
+    ],
+  },
 ];
