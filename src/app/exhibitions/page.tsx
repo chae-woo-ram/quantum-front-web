@@ -1,6 +1,5 @@
 'use client';
 
-// lodash의 throttle 함수
 import { Fragment, useEffect, useRef } from 'react';
 import Container from '@/components/common/Container';
 import ListItemContent from '@/components/exhibition/ListItemContent';

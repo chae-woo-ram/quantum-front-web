@@ -1,133 +1,81 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
+import { Fragment, useEffect, useRef } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import Container from '@/components/common/Container';
+import ListItemContent from '@/components/shop/ListItemContent';
+import ShopSkeleton from '@/components/skeleton/ShopSkeleton';
 import { useGetRijksMuseum } from '@/api/openApi/openApii.query';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import { Card, CardContent, Grid, IconButton } from '@mui/material';
+import { Grid } from '@mui/material';
+import { throttle } from 'lodash';
 import { styled } from 'styled-components';
 
 function Shop() {
-  const { data } = useGetRijksMuseum();
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const appCardLayoutWrapperRef = useRef<HTMLDivElement>(null);
+  const { data, fetchNextPage, hasNextPage, isLoading, isFetchingNextPage } = useGetRijksMuseum();
 
-  const onClickNavigateToDetail = (objectNumber: string) => {
+  /** 스크롤 이벤트 핸들러 */
+  const handleScroll = throttle(() => {
+    if (appCardLayoutWrapperRef.current) {
+      const { scrollTop, scrollHeight, clientHeight } = appCardLayoutWrapperRef.current;
+      // 스크롤 위치가 컨테이너의 바닥에 가까워지면 다음 페이지 호출
+      if (scrollTop + clientHeight >= scrollHeight - 5) {
+        if (!isFetchingNextPage && hasNextPage) {
+          fetchNextPage();
+        }
+      }
+    }
+  }, 200); // 200ms로 스크롤 이벤트를 제한
+
+  /** 스크롤 이벤트 리스너 */
+  useEffect(() => {
+    const container = appCardLayoutWrapperRef.current;
+    if (container) {
+      container.addEventListener('scroll', handleScroll);
+      return () => {
+        container.removeEventListener('scroll', handleScroll);
+      };
+    }
+  }, [isFetchingNextPage, hasNextPage]);
+
+  /**  상세 페이지 이동 */
+  const handleNavigateToDetail = (objectNumber: string) => {
     if (!objectNumber) return;
-    router.push(`/shop/${objectNumber}`);
+    router.push(`/shop/${objectNumber}?scrollPosition=${appCardLayoutWrapperRef.current.scrollTop}`);
   };
+
+  /** 리스트페이지 재진입시 스크롤 위치 복원 */
+  useEffect(() => {
+    const savedPosition = searchParams.get('scrollPosition');
+    if (savedPosition && appCardLayoutWrapperRef.current) {
+      appCardLayoutWrapperRef.current.scrollTo(0, parseFloat(savedPosition as string));
+    }
+  }, [searchParams]);
 
   return (
     <Container title={'Shop'}>
-      <Grid container spacing={2}>
-        {data?.artObjects?.map((item, index) => (
-          <Grid item xs={12} sm={6} key={index}>
-            <ListItem onClick={() => onClickNavigateToDetail(item.objectNumber)}>
-              <CardContentStyled>
-                <ItemHeader>
-                  <Title>{item.title}</Title>
-                  <SubTitle>{item.longTitle}</SubTitle>
-                </ItemHeader>
-              </CardContentStyled>
-              {item.webImage?.url ? (
-                <ImageWrapper>
-                  <Image src={item.webImage.url} alt={item.title} />
-                </ImageWrapper>
-              ) : (
-                <NoImage>No image available</NoImage>
-              )}
-              <LikeButton className="like-button">
-                <IconButton aria-label="like" size="small" color="secondary">
-                  <FavoriteBorderIcon />
-                  <FavoriteIcon />
-                </IconButton>
-              </LikeButton>
-            </ListItem>
-          </Grid>
-        ))}
-      </Grid>
+      <Contents ref={appCardLayoutWrapperRef}>
+        <Grid container spacing={2}>
+          {data?.map((page, pageIndex) => (
+            <Fragment key={pageIndex}>
+              {page.artObjects.map((item) => (
+                <ListItemContent key={item.id} item={item} handleNavigateToDetail={handleNavigateToDetail} />
+              ))}
+            </Fragment>
+          ))}
+          {(isLoading || isFetchingNextPage) && <ShopSkeleton />}
+        </Grid>
+      </Contents>
     </Container>
   );
 }
 
 export default Shop;
 
-const ListItem = styled(Card)`
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 0px;
-  cursor: pointer;
-  position: relative;
-`;
-
-const CardContentStyled = styled(CardContent)`
-  flex-shrink: 0;
-`;
-
-const ImageWrapper = styled.div`
+const Contents = styled.div`
   width: 100%;
-  height: 250px;
-  overflow: hidden;
-  position: relative;
-`;
-
-const Image = styled.img`
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.3s ease;
-
-  ${ImageWrapper}:hover & {
-    transform: scale(1.1); /* 이미지 확대 효과 */
-  }
-`;
-
-const NoImage = styled.div`
-  width: 100%;
-  height: 200px; /* 고정 높이 설정 */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #888;
-  border: 1px solid #ccc;
-`;
-
-const ItemHeader = styled.div`
-  width: 100%;
-`;
-
-const Title = styled.div`
-  font-size: 18px;
-  font-weight: 700;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 1;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: normal;
-  margin-bottom: 8px;
-`;
-
-const SubTitle = styled.div`
-  font-size: 13px;
-  line-height: 1.1;
-  color: #777;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: normal;
-  margin-bottom: 8px;
-`;
-
-const LikeButton = styled.div`
-  position: absolute;
-  bottom: 10px;
-  right: 10px;
-  color: white;
-  opacity: 0;
-  transition: opacity 0.3s ease;
+  height: 100vh;
+  overflow-y: auto;
 `;

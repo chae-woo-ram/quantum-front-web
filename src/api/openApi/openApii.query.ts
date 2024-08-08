@@ -28,12 +28,27 @@ const useGetExhibitions = () => {
 };
 
 /* 이미지 리스트 */
+// const useGetRijksMuseum = () => {
+//   const { data, isLoading } = useQuery({
+//     queryKey: [COMMON.GET_SHOP],
+//     queryFn: () => getRijksMuseum(),
+//   });
+//   return { data, isLoading };
+// };
+
+/* shop 이미지 리스트 인피니티 쿼리 */
 const useGetRijksMuseum = () => {
-  const { data, isLoading } = useQuery({
+  const { data, fetchNextPage, hasNextPage, isLoading, isFetchingNextPage } = useInfiniteQuery({
     queryKey: [COMMON.GET_SHOP],
-    queryFn: () => getRijksMuseum(),
+    queryFn: ({ pageParam = 1 }) => getRijksMuseum({ page: pageParam }),
+    initialPageParam: 1,
+    getNextPageParam: (_, allPages) => {
+      // 다음 페이지 리턴
+      return allPages.length + 1;
+    },
+    select: (data) => data.pages,
   });
-  return { data, isLoading };
+  return { data, fetchNextPage, hasNextPage, isLoading, isFetchingNextPage };
 };
 
 /* 이미지 단건 */

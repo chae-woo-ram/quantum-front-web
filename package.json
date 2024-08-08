@@ -32,6 +32,7 @@
     "react-material-ui-carousel": "^3.4.2",
     "react-quill": "^2.0.0",
     "recoil": "^0.7.7",
+    "recoil-persist": "^5.1.0",
     "socket.io-client": "^4.7.5",
     "styled-components": "^6.1.11",
     "styled-reset": "^4.5.2",
