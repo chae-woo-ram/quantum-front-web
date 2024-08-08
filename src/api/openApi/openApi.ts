@@ -14,12 +14,12 @@ const getExhibitions = async ({ page = 1 }) => {
   });
   return data;
 };
-const getRijksMuseum = async () => {
+const getRijksMuseum = async ({ page = 1 }) => {
   const { data } = await axios.get('https://www.rijksmuseum.nl/api/en/collection', {
     params: {
       key: 'Kb8osXJE',
       culture: 'en',
-      p: 0,
+      p: page,
       ps: 20,
     },
   });

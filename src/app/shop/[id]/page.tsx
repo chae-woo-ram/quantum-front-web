@@ -1,28 +1,43 @@
 'use client';
 
 import { Fragment, useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { useRecoilState } from 'recoil';
+import { favoritesState } from '@/recoil/favorites/atom';
 import Loading from '@/components/common/Loading';
+import Toast from '@/components/common/Toast';
 import ColorShowcase from '@/components/shop/ColorShowcase';
 import Image3DViewerModal from '@/components/shop/Image3DViewerModal';
+import useToast from '@/hooks/useToast';
 import { useGetRijksMuseumItem } from '@/api/openApi/openApii.query';
+import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import HelpOutlineOutlinedIcon from '@mui/icons-material/HelpOutlineOutlined';
 import ThumbUpAltOutlinedIcon from '@mui/icons-material/ThumbUpAltOutlined';
-import { Box, Button, Divider } from '@mui/material';
+import { Box, Button, Divider, IconButton } from '@mui/material';
 import { styled } from 'styled-components';
 
 function ShopDetail({ params }) {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const { data, refetch, isFetching } = useGetRijksMuseumItem(params.id);
   const [isShowModal, setIsShowModal] = useState(false);
+  const [favorites, setFavorites] = useRecoilState(favoritesState);
 
   const { artObject } = data || {};
-  const { webImage, longTitle, physicalMedium, subTitle, plaqueDescriptionEnglish, colors } = artObject || {};
+  const { objectNumber, webImage, longTitle, physicalMedium, subTitle, plaqueDescriptionEnglish, colors } =
+    artObject || {};
+  const { openToast, severity, messageToast, closeToast, showToast } = useToast();
 
   /** 구매문의 페이지 이동 */
   const handleNavigateToPurchaseInquiry = () => {
     const pathname = '/purchase-inquiry';
     router.push(`${pathname}?id=${params.id}`);
+  };
+
+  /**  리스트 페이지 이동 */
+  const handleNavigateToList = () => {
+    const scrollPosition = searchParams.get('scrollPosition') || '';
+    router.push(`/shop?scrollPosition=${scrollPosition}`);
   };
 
   useEffect(() => {
@@ -31,12 +46,35 @@ function ShopDetail({ params }) {
     }
   }, [params, refetch]);
 
+  const handleFavoritesAdd = () => {
+    const isAlreadyFavorite = favorites.some((favorite) => favorite.objectNumber === objectNumber);
+
+    if (isAlreadyFavorite) {
+      setFavorites((prev) => prev.filter((favorite) => favorite.objectNumber !== objectNumber));
+      showToast('info', '즐겨찾기에서 제거되었습니다.');
+    } else {
+      setFavorites((prev) => [
+        ...prev,
+        {
+          objectNumber,
+          webImageUrl: webImage.url,
+          longTitle,
+          subTitle,
+          physicalMedium,
+        },
+      ]);
+      showToast('success', '작품을 즐겨찾기하였습니다.');
+    }
+  };
   return (
     <Container>
       {data && !isFetching ? (
         <Fragment>
           <ImageWrapper>
             <Image src={webImage?.url} alt="" />
+            <IconButton onClick={handleNavigateToList}>
+              <ArrowBackIosNewIcon />
+            </IconButton>
           </ImageWrapper>
           <ContentsWrapper>
             <Contents>
@@ -69,7 +107,7 @@ function ShopDetail({ params }) {
                   }}
                 >
                   <Button
-                    variant="text"
+                    variant="outlined"
                     color="secondary"
                     endIcon={<HelpOutlineOutlinedIcon />}
                     onClick={handleNavigateToPurchaseInquiry}
@@ -77,7 +115,12 @@ function ShopDetail({ params }) {
                     구매문의
                   </Button>
                   <Divider orientation="vertical" flexItem style={{ background: '#fff' }} />
-                  <Button variant="text" color="secondary" endIcon={<ThumbUpAltOutlinedIcon />}>
+                  <Button
+                    variant="outlined"
+                    color="secondary"
+                    endIcon={<ThumbUpAltOutlinedIcon />}
+                    onClick={handleFavoritesAdd}
+                  >
                     즐겨찾기
                   </Button>
                 </Box>
@@ -93,8 +136,7 @@ function ShopDetail({ params }) {
         imageUrl={webImage?.url}
         handleClose={() => setIsShowModal(false)}
       />
-
-      {/* <Snackbar open={open} autoHideDuration={6000} onClose={handleClose} message="Note archived" action={action} /> */}
+      <Toast open={openToast} severity={severity} message={messageToast} closeToast={closeToast} />
     </Container>
   );
 }
@@ -121,6 +163,17 @@ const Container = styled.div`
 
 const ImageWrapper = styled.div`
   width: 100%;
+  position: relative;
+  && .MuiButtonBase-root {
+    width: 60px;
+    height: 60px;
+    background-color: rgba(0, 0, 0, 0.1);
+    color: #fff;
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 12;
+  }
 `;
 
 const Image = styled.img`

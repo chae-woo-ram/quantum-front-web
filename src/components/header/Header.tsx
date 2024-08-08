@@ -4,11 +4,12 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { favoritesState } from '@/recoil/favorites/atom';
 import { userState } from '@/recoil/user/atom';
+// import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import supabase from '@/app/utils/supabase/client';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-// import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import ThumbUpAltOutlinedIcon from '@mui/icons-material/ThumbUpAltOutlined';
 import { Avatar, Badge, BadgeProps, Button, IconButton } from '@mui/material';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -25,7 +26,9 @@ export const Header = () => {
   const navListRef = useRef<HTMLUListElement>(null);
   const [modalOpen, setModalOpen] = useState(false); // 프로필 모달
 
+  const favorites = useRecoilValue(favoritesState); // 즐겨찾기
   const [user, setUser] = useRecoilState(userState);
+
   const router = useRouter();
 
   const handleMouseEnter = useCallback((index: number) => {
@@ -127,7 +130,7 @@ export const Header = () => {
         <RightWrapper>
           {/* 장바구니 */}
           <IconButton aria-label="cart">
-            <Badge badgeContent={4} color="primary">
+            <Badge color="error" badgeContent={favorites?.length}>
               <ThumbUpAltOutlinedIcon color="secondary" />
             </Badge>
           </IconButton>

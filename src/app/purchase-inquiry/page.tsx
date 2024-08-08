@@ -25,12 +25,6 @@ interface FormData {
   content: string;
 }
 
-const modules = {
-  toolbar: {
-    container: [['image'], [{ header: [1, 2, 3, 4, 5, false] }], ['bold', 'underline']],
-  },
-};
-
 const PurchaseInquiry = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -191,10 +185,4 @@ const SubTitle = styled.div`
   font-size: 16px;
   color: #a2abad;
   margin-top: 5px;
-`;
-
-const ButtonGroup = styled.div`
-  display: inline-flex;
-  justify-content: flex-end;
-  gap: 10px;
 `;
