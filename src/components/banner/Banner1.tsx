@@ -1,6 +1,6 @@
 'use client';
 
-import Image from 'next/image';
+import { AnimatedText } from '@/components/animatedText/animatedText';
 import { useAnimationInView } from '@/hooks/useAnimationInView';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import styled from 'styled-components';
@@ -35,14 +35,16 @@ const cards = [
 export const Banner1 = () => {
   const { scrollYProgress } = useScroll();
   const scale = useTransform(scrollYProgress, [0, 1], [1, 0.2]);
-  const { ref: titleRef, getAnimationProps } = useAnimationInView();
+  const { ref: textRef, getAnimationProps } = useAnimationInView();
 
   return (
     <>
-      <Title ref={titleRef} initial={{ opacity: 0, y: 30 }} animate={getAnimationProps(0)}>
-        <Image src={'/images/logoText.png'} alt={'chaewooram text'} width={300} height={40} />
-        채우람에서 예술과 함께하는 순간을 경험하세요
-      </Title>
+      <AnimatedText ref={textRef} getAnimationProps={getAnimationProps}>
+        <TitleWrapper>
+          <AnimatedImage src={'/images/logoText.png'} alt={'chaewooram logo image'} width={300} height={40} />
+          <AnimatedTitle>채우람에서 예술과 함께하는 순간을 경험하세요</AnimatedTitle>
+        </TitleWrapper>
+      </AnimatedText>
       <Banner1Container>
         <Banner1Wrapper style={{ scale }}>
           <FrameImage src="/images/frame.png" alt="" />
@@ -68,16 +70,24 @@ export const Banner1 = () => {
   );
 };
 
-const Title = styled(motion.h1)`
-  color: #2a2a2a;
-  font-size: 30px;
-  font-weight: bold;
+const TitleWrapper = styled(motion.div)`
   padding: 100px 0;
   display: flex;
   flex-direction: column;
   gap: 20px;
   justify-content: center;
   align-items: center;
+`;
+
+const AnimatedTitle = styled(motion.h1)`
+  color: #2a2a2a;
+  font-size: 30px;
+  font-weight: bold;
+  text-align: center;
+`;
+
+const AnimatedImage = styled(motion.img)`
+  text-align: center;
 `;
 
 const Banner1Container = styled.div`

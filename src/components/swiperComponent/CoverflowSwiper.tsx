@@ -40,8 +40,8 @@ const CoverflowSwiper = ({ data }: CoverflowSwiperProps) => {
 export default CoverflowSwiper;
 
 const SwiperContainer = styled(Swiper)`
-  width: 100%;
-  padding: 80px 0px 120px 0px;
+  width: 100vw;
+  padding: 120px 0px;
   margin-bottom: 50px;
 
   & .swiper-pagination {

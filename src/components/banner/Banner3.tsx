@@ -1,6 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
+import { AnimatedText } from '@/components/animatedText/animatedText';
 import { useAnimationInView } from '@/hooks/useAnimationInView';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { Button } from '@mui/material';
@@ -9,25 +10,22 @@ import styled from 'styled-components';
 
 export const Banner3 = () => {
   const router = useRouter();
-
-  const { ref: titleRef, getAnimationProps } = useAnimationInView();
-  const titleAnimationProps = getAnimationProps(0);
-  const subtitleAnimationProps = getAnimationProps(1);
-  const descriptionAnimationProps = getAnimationProps(2);
+  const { ref: textRef, getAnimationProps } = useAnimationInView();
 
   return (
     <Banner3Container>
       <TextContent>
-        <AnimatedTitle ref={titleRef} initial={{ opacity: 0, y: 30 }} animate={titleAnimationProps}>
-          GALLERY MARKETPLACE: <span>실시간 채팅으로 예술 거래를 새롭게</span>
-        </AnimatedTitle>
-        <AnimatedSubtitle ref={titleRef} initial={{ opacity: 0, y: 30 }} animate={subtitleAnimationProps}>
-          "예술 작품을 사고파는 새로운 방식을 경험해보세요."
-        </AnimatedSubtitle>
-        <AnimatedDescription ref={titleRef} initial={{ opacity: 0, y: 30 }} animate={descriptionAnimationProps}>
-          우리 플랫폼은 아티스트와 직접 연결되어 <br /> 실시간 채팅을 통해 원활한 소통과 거래를 가능하게 합니다.
-          <br />전 세계의 독창적인 작품을 발견하고, 창작자들과 의미 있는 관계를 구축해보세요.
-        </AnimatedDescription>
+        <AnimatedText ref={textRef} getAnimationProps={getAnimationProps}>
+          <AnimatedTitle>
+            GALLERY MARKETPLACE: <span>실시간 채팅으로 예술 거래를 새롭게</span>
+          </AnimatedTitle>
+          <AnimatedSubtitle>"예술 작품을 사고파는 새로운 방식을 경험해보세요."</AnimatedSubtitle>
+          <AnimatedDescription>
+            우리 플랫폼은 아티스트와 직접 연결되어 <br /> 실시간 채팅을 통해 원활한 소통과 거래를 가능하게 합니다.
+            <br />전 세계의 독창적인 작품을 발견하고, 창작자들과 의미 있는 관계를 구축해보세요.
+          </AnimatedDescription>
+        </AnimatedText>
+
         <ChatButtonWrapper>
           <ChatButton
             variant="contained"
