@@ -18,8 +18,9 @@ const Section = styled.div`
 `;
 
 const AnimatedVideoWrapper = styled(motion.div)`
-  width: 100%; // 컨테이너의 너비를 100%로 설정
+  width: calc(100% + 32px);
   height: 50vh; // 화면 높이의 50%로 설정 (비율에 따라 조정 가능)
+  margin-left: -16px;
 `;
 
 const Video = styled.video`
