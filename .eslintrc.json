@@ -13,13 +13,7 @@
       "tsx": true
     }
   },
-  "plugins": [
-    "import",
-    "react-hooks",
-    "@typescript-eslint",
-    "prettier",
-    "@trivago/prettier-plugin-sort-imports"
-  ],
+  "plugins": ["import", "react-hooks", "@typescript-eslint", "prettier", "@trivago/prettier-plugin-sort-imports"],
   "extends": [
     "eslint:recommended",
     "plugin:react/recommended",
