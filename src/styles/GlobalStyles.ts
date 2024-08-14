@@ -57,4 +57,8 @@ export const GlobalStyle = createGlobalStyle`
     -o-user-drag: none;
   }
   
+  && .tsqd-open-btn-container {
+    display: none !important;
+  }
+  
 `;

@@ -2,7 +2,6 @@
 
 import { ChangeEvent, FormEvent } from 'react';
 import ReactQuill from 'react-quill';
-import { useRouter } from 'next/navigation';
 import { pretendard } from '@/styles/localFonts.fonts';
 import { Box, Button, Checkbox, Divider, FormControlLabel, TextField, Typography } from '@mui/material';
 import { styled } from 'styled-components';
@@ -20,6 +19,7 @@ interface InquiryFormProps {
   handleSubmit: (e: FormEvent) => void;
   handleInputChange: (e: ChangeEvent<HTMLInputElement>) => void;
   handleQuillChange: (value: string) => void;
+  handleGotoBack: () => void;
 }
 
 const InquiryForm = ({
@@ -29,8 +29,8 @@ const InquiryForm = ({
   handleSubmit,
   handleInputChange,
   handleQuillChange,
+  handleGotoBack,
 }: InquiryFormProps) => {
-  const router = useRouter();
   return (
     <StyledForm component="form" onSubmit={handleSubmit}>
       <TextField label="이름" name="name" value={formData.name} onChange={handleInputChange} fullWidth />
@@ -51,13 +51,7 @@ const InquiryForm = ({
         }
       />
       <ButtonGroup>
-        <Button
-          variant="contained"
-          color="secondary"
-          onClick={() => {
-            router.back();
-          }}
-        >
+        <Button variant="contained" color="secondary" onClick={handleGotoBack}>
           뒤로가기
         </Button>
         <Button type="submit" variant="contained" color="primary">

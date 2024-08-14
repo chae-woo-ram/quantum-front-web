@@ -1,7 +1,6 @@
 'use client';
 
 import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
-import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useRecoilValue } from 'recoil';
@@ -12,8 +11,6 @@ import InquiryForm from '@/components/purchase-inquiry/InquiryForm';
 import useToast from '@/hooks/useToast';
 import { useGetRijksMuseumItem } from '@/api/openApi/openApii.query';
 import { ellipsisTextStyle } from '@/styles/common';
-import { pretendard } from '@/styles/localFonts.fonts';
-import { Box } from '@mui/material';
 import { styled } from 'styled-components';
 import supabase from '../utils/supabase/client';
 
@@ -136,22 +133,6 @@ const PurchaseInquiry = () => {
 };
 
 export default PurchaseInquiry;
-
-const StyledForm = styled(Box)`
-  display: flex;
-  gap: 10px;
-  flex-direction: column;
-  padding-bottom: 40px;
-`;
-
-const StyledReactQuill = styled(ReactQuill)(({ theme }) => ({
-  height: '300px',
-  marginBottom: '50px',
-  '&& .ql-container': {
-    fontFamily: pretendard.style.fontFamily,
-    fontSize: 16,
-  },
-}));
 
 const ProductInfo = styled.div`
   display: flex;
