@@ -41,7 +41,7 @@ const ProductInfo = styled.div`
   height: 100px;
   gap: 20px;
   align-items: center;
-  margin-bottom: 40px;
+  margin-bottom: 10px;
   border: rgba(0, 0, 0, 0.23) 1px solid;
   border-radius: 5px;
   overflow: hidden;
