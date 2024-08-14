@@ -62,7 +62,7 @@ const AnimatedSubtitle = styled(motion.p)`
   font-size: 30px;
   position: relative;
   color: transparent;
-  background: linear-gradient(135deg, #f9d423, #e0aaff, #b09adb, #9c89b8, #cfc4e0);
+  /* background: linear-gradient(135deg, #f9d423, #e0aaff, #b09adb, #9c89b8, #cfc4e0); */
   background-clip: text;
   -webkit-background-clip: text;
   border: 2px solid transparent;
