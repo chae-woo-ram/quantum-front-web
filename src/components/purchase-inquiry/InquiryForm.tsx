@@ -1,10 +1,13 @@
 'use client';
 
 import { ChangeEvent, FormEvent } from 'react';
-import ReactQuill from 'react-quill';
+import dynamic from 'next/dynamic';
 import { pretendard } from '@/styles/localFonts.fonts';
 import { Box, Button, Checkbox, Divider, FormControlLabel, TextField, Typography } from '@mui/material';
 import { styled } from 'styled-components';
+
+// 동적 로딩을 사용하여 서버 사이드 렌더링 비활성화
+const DynamicReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 
 const modules = {
   toolbar: {
@@ -71,7 +74,7 @@ const StyledForm = styled(Box)`
   padding-bottom: 40px;
 `;
 
-const StyledReactQuill = styled(ReactQuill)(({ theme }) => ({
+const StyledReactQuill = styled(DynamicReactQuill)(({ theme }) => ({
   height: '300px',
   marginBottom: '50px',
   '&& .ql-container': {
