@@ -60,5 +60,4 @@ export const GlobalStyle = createGlobalStyle`
   && .tsqd-open-btn-container {
     display: none !important;
   }
-  
 `;
