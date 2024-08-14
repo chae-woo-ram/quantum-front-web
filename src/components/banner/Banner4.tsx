@@ -75,7 +75,7 @@ export const Banner4 = () => {
 };
 
 const Banner4Container = styled.div`
-  background: url('/images/bannerBg2.png') center/cover no-repeat;
+  /* background: url('/images/bannerBg2.png') center/cover no-repeat; */
   padding: 80px 10%;
   display: flex;
   flex-direction: column;
@@ -103,7 +103,7 @@ const AnimatedSubtitle = styled(motion.p)`
   font-weight: bold;
   position: relative;
   color: transparent;
-  /* background: linear-gradient(135deg, #f9d423, #e0aaff, #b09adb, #9c89b8, #cfc4e0); */
+  background: linear-gradient(135deg, #f9d423, #e0aaff, #b09adb, #9c89b8, #cfc4e0);
   background-clip: text;
   -webkit-background-clip: text;
   border: 2px solid transparent;
