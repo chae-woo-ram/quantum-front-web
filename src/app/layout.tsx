@@ -25,7 +25,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
     <html lang="en">
       <ThemeProvider theme={theme}>
         <body className={pretendard.className}>
-          <ReactQueryProviders initialIsOpen={false}>
+          <ReactQueryProviders>
             <RecoilRootWrapper>
               <Providers>
                 <AuthCheck>
