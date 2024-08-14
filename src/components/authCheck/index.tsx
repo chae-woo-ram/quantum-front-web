@@ -1,14 +1,11 @@
 'use client';
 
 import { ReactNode, useEffect, useState } from 'react';
-import Lottie from 'react-lottie-player';
 import { useRouter } from 'next/navigation';
 import { useRecoilState } from 'recoil';
 import { userState } from '@/recoil/user/atom';
-import { createClient } from '@/app/utils/supabase/client';
-import { css } from '@mui/material';
-import loadingJson from 'public/json/loading.json';
-import { styled } from 'styled-components';
+import supabase from '@/app/utils/supabase/client';
+import Loading from '../common/Loading';
 
 interface AuthCheckProps {
   children: ReactNode;
@@ -16,7 +13,6 @@ interface AuthCheckProps {
 
 const AuthCheck = ({ children }: AuthCheckProps) => {
   const router = useRouter();
-  const supabase = createClient();
   const [user, setUser] = useRecoilState(userState); // Recoil 상태 사용
   const [loading, setLoading] = useState(true);
 
@@ -42,37 +38,10 @@ const AuthCheck = ({ children }: AuthCheckProps) => {
   }, [router, supabase]);
 
   if (loading) {
-    return (
-      <Container>
-        <StyleLottie loop animationData={loadingJson} play />
-      </Container>
-    );
+    return <Loading />;
   }
 
   return <>{children}</>;
 };
 
 export default AuthCheck;
-
-const StyleLottie = styled(Lottie)`
-  ${({ theme }) => {
-    const { colors } = theme;
-    return css`
-      width: 100px;
-      height: 100px;
-    `;
-  }}
-`;
-
-const Container = styled.div`
-  ${({ theme }) => {
-    const { colors } = theme;
-    return css`
-      width: 100%;
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    `;
-  }}
-`;

@@ -4,174 +4,17 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useRecoilState } from 'recoil';
-import { isSubMenuVisibleState } from '@/recoil/header/atom';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { favoritesState } from '@/recoil/favorites/atom';
 import { userState } from '@/recoil/user/atom';
-import { createClient } from '@/app/utils/supabase/client';
-import { Button } from '@mui/material';
+// import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import ThumbUpAltOutlinedIcon from '@mui/icons-material/ThumbUpAltOutlined';
+import { Avatar, Badge, BadgeProps, Button, IconButton } from '@mui/material';
 import { AnimatePresence, motion } from 'framer-motion';
-import { createGlobalStyle, styled } from 'styled-components';
-
-// 서브메뉴 항목 데이터 타입 정의
-interface SubMenuItem {
-  label: string;
-  href: string;
-}
-
-// 메뉴 항목 데이터 타입 정의
-interface MenuItem {
-  id: number;
-  label: string;
-  href: string;
-  submenu?: {
-    [key: string]: SubMenuItem[];
-  }[];
-}
-
-// 메뉴 항목 데이터 정의
-const menuItems: MenuItem[] = [
-  {
-    id: 1,
-    label: 'Artists',
-    href: '/artists',
-    submenu: [
-      {
-        Shop: [
-          { label: 'Shop The Latest', href: '/store' },
-          { label: 'Mac', href: '/shop/buy-mac' },
-          { label: 'iPad', href: '/shop/buy-ipad' },
-          { label: 'iPone', href: '/shop/buy-iphone' },
-        ],
-      },
-      {
-        'Quick Links': [
-          { label: 'Find a Store', href: '/retail' },
-          { label: 'Apple Trade In', href: '/shop/trade-in' },
-        ],
-      },
-      {
-        'Shop Special Stores': [
-          { label: 'Certified Refurbished', href: '/shop/refurbished' },
-          { label: 'Business', href: '/retail/business/' },
-        ],
-      },
-    ],
-  },
-  {
-    id: 2,
-    label: 'Exhibitions',
-    href: '/exhibitions',
-    submenu: [
-      {
-        'Explore Mac': [
-          { label: 'Explore All Mac', href: '/mac' },
-          { label: 'iMac', href: '/' },
-        ],
-      },
-      {
-        'Shop Mac': [
-          { label: 'Shop Mac', href: '/' },
-          { label: 'Help Me Choose', href: '/' },
-        ],
-      },
-      {
-        'More From Mac': [{ label: 'Mac Support', href: '/' }],
-      },
-    ],
-  },
-  {
-    id: 3,
-    label: 'Viewing room',
-    href: '/viewingroom',
-    submenu: [
-      {
-        'Explore iPad': [
-          { label: 'Explore All iPad', href: '/ipad' },
-          { label: 'iPad Pro', href: '/' },
-          { label: 'iPad Air', href: '/' },
-          { label: 'iPad mini', href: '/' },
-        ],
-      },
-      {
-        'Shop iPad': [
-          { label: 'Shop iPad', href: '/' },
-          { label: 'iPad Accessories', href: '/' },
-        ],
-      },
-    ],
-  },
-  {
-    id: 4,
-    label: 'News',
-    href: '/news',
-    submenu: [
-      {
-        'Explore iPhone': [
-          { label: 'Explore All iPhone', href: '/iphone' },
-          { label: 'iPhone15', href: '/' },
-          { label: 'iPhone14', href: '/' },
-        ],
-      },
-      {
-        'Shop iPhone': [
-          { label: 'Shop iPhone', href: '/' },
-          { label: 'iPhone Accessories', href: '/' },
-        ],
-      },
-    ],
-  },
-  {
-    id: 5,
-    label: 'Fairs',
-    href: '/fairs',
-    submenu: [
-      {
-        'Explore Watch': [
-          { label: 'Explore All Apple Watch', href: '/watch' },
-          { label: 'Apple Watch Series 9', href: '/' },
-          { label: 'Apple Watch Ultra 2', href: '/' },
-          { label: 'Apple Watch SE', href: '/' },
-          { label: 'Apple Watch NIKE', href: '/' },
-        ],
-      },
-      {
-        'Shop Watch': [
-          { label: 'Shop Apple Watch', href: '/' },
-          { label: 'Apple Watch Studio', href: '/' },
-        ],
-      },
-      {
-        'More from Watch': [
-          { label: 'Apple Watch Support', href: '/' },
-          { label: 'AppleCare+', href: '/' },
-        ],
-      },
-    ],
-  },
-  {
-    id: 6,
-    label: 'Gallery',
-    href: '/gallery',
-    submenu: [
-      {
-        'Explore AirPods': [
-          { label: 'Explore All AirPods', href: '/watch' },
-          { label: 'AirPods Pro 2nd generation', href: '/' },
-          { label: 'AirPods 2nd generation', href: '/' },
-          { label: 'AirPods 3rd generation', href: '/' },
-        ],
-      },
-      {
-        'Shop AirPods': [{ label: 'Shop AirPods', href: '/' }],
-      },
-      {
-        'More from AirPods': [{ label: 'AirPods Support', href: '/' }],
-      },
-    ],
-  },
-  { id: 7, label: 'Chat', href: '/chat' },
-  { id: 8, label: 'Support', href: '/support' },
-];
+import { styled } from 'styled-components';
+import { menuItems } from './HeaderData';
+import ProfileModal from './ProfileModal';
 
 export const Header = () => {
   const [activeItemId, setActiveItemId] = useState<number | null>(null);
@@ -180,22 +23,12 @@ export const Header = () => {
 
   const [navListWidth, setNavListWidth] = useState<number>(0);
   const navListRef = useRef<HTMLUListElement>(null);
+  const [modalOpen, setModalOpen] = useState(false); // 프로필 모달
 
-  const [isSubMenuVisible, setSubMenuVisible] = useRecoilState(isSubMenuVisibleState);
+  const favorites = useRecoilValue(favoritesState); // 즐겨찾기
   const [user, setUser] = useRecoilState(userState);
 
   const router = useRouter();
-  const supabase = createClient();
-
-  const GlobalStyle = createGlobalStyle<{ isSubMenuVisible: boolean }>`
-  /* body {
-    ${({ isSubMenuVisible }) =>
-      isSubMenuVisible &&
-      `
-      
-    `}
-  } */
-`;
 
   const handleMouseEnter = useCallback((index: number) => {
     setActiveItemId(index);
@@ -231,10 +64,8 @@ export const Header = () => {
     },
   };
 
-  const handleLogout = async () => {
-    await supabase.auth.signOut();
-    setUser({});
-    router.push('/login');
+  const handleFavorites = () => {
+    router.push('/favorites');
   };
 
   useEffect(() => {
@@ -243,17 +74,8 @@ export const Header = () => {
     }
   }, [navListRef.current]);
 
-  useEffect(() => {
-    if (isHover && isActive) {
-      setSubMenuVisible(true);
-    } else {
-      setSubMenuVisible(false);
-    }
-  }, [isHover, isActive, setSubMenuVisible]);
-
   return (
     <>
-      <GlobalStyle isSubMenuVisible={isSubMenuVisible} />
       <HeaderContainer onMouseEnter={() => handleMouseEnter(null)} onMouseLeave={handleMouseLeave}>
         {/* 로고 */}
         <NavLink href="/">
@@ -266,7 +88,9 @@ export const Header = () => {
             <NavList ref={navListRef}>
               {menuItems?.map((item) => (
                 <NavItem key={item.id} onMouseEnter={() => handleMouseEnter(item.id)}>
-                  <NavLink href={item.href}>{item.label}</NavLink>
+                  <NavLink href={item.href} onClick={handleMouseLeave}>
+                    {item.label} {item.submenu?.length > 0 && <KeyboardArrowDownIcon />}
+                  </NavLink>
                   <AnimatePresence>
                     {activeItemId === item.id && isHover && item.submenu?.length && (
                       <MotionSubMenu
@@ -302,10 +126,23 @@ export const Header = () => {
 
         <RightWrapper>
           {/* 장바구니 */}
-          <Image src={'/images/shoppingBag.png'} alt={'shopping bag icon'} width={20} height={20} />
+          <IconButton aria-label="cart" onClick={handleFavorites}>
+            <Badge color="error" badgeContent={favorites?.length}>
+              <ThumbUpAltOutlinedIcon color="secondary" />
+            </Badge>
+          </IconButton>
+
           {/* 로그인 영역 */}
           {user?.id ? (
-            <CustomButton onClick={handleLogout}>LOGOUT</CustomButton>
+            <>
+              <Avatar
+                src={user.user_metadata.avatar_url}
+                sx={{ width: 24, height: 24 }}
+                onClick={() => setModalOpen(true)}
+              />
+              {/* 프로필 모달 */}
+              <ProfileModal open={modalOpen} onClose={() => setModalOpen(false)} />
+            </>
           ) : (
             <CustomButton href={'/login'}>LOGIN</CustomButton>
           )}
@@ -314,6 +151,8 @@ export const Header = () => {
     </>
   );
 };
+
+export default Header;
 
 const HeaderContainer = styled.header`
   position: fixed;
@@ -348,7 +187,11 @@ const NavLink = styled(Link)`
   color: white;
   text-decoration: none;
   font-size: 12px;
-
+  display: flex;
+  align-items: center;
+  && svg {
+    font-size: 20px;
+  }
   &:hover {
     font-weight: bold;
   }
@@ -407,14 +250,17 @@ const RightWrapper = styled.div`
   align-items: center;
 `;
 
-const LoginWrapper = styled.div`
-  color: white;
-`;
-
-export default Header;
-
 const CustomButton = styled(Button)`
   &&.MuiButton-colorPrimary {
     font-size: 13px;
   }
 `;
+
+const StyledBadge = styled(Badge)<BadgeProps>(({ theme }) => ({
+  '& .MuiBadge-badge': {
+    right: -3,
+    top: 13,
+    border: `2px solid ${theme.palette.background.paper}`,
+    padding: '0 4px',
+  },
+}));

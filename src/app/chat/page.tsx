@@ -3,12 +3,13 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import CreateJoinChatModal from '@/components/chat/CreateJoinChatModal';
+import Container from '@/components/common/Container';
 import AddCommentIcon from '@mui/icons-material/AddComment';
 import Error from '@mui/icons-material/Error';
 import RefreshIcon from '@mui/icons-material/Refresh';
-import { Box, Button, Card, CardActions, CardContent, Divider, IconButton, Typography } from '@mui/material';
+import { Box, Button, Card, CardActions, CardContent, IconButton, Typography } from '@mui/material';
 import io from 'socket.io-client';
-import { css, styled } from 'styled-components';
+import { styled } from 'styled-components';
 import { ModalType, RoomsState } from './chatType';
 
 // Constants for socket endpoint
@@ -56,21 +57,24 @@ function Join() {
     router.push(`/chat/${room}?name=${name}&profileId=${profileId}`);
   };
   return (
-    <Container>
-      <Button
-        variant="contained"
-        size="small"
-        onClick={() => setModalType(ModalType.ROOM_CREATE)}
-        startIcon={<AddCommentIcon />}
-      >
-        새로운 방 생성
-      </Button>
-      <IconButton onClick={fetchGetRoomsData} color="primary">
-        <RefreshIcon />
-      </IconButton>
-      <Divider>
-        <PageTitle>채팅</PageTitle>
-      </Divider>
+    <Container
+      title="채팅"
+      rightContent={
+        <>
+          <Button
+            variant="contained"
+            size="small"
+            onClick={() => setModalType(ModalType.ROOM_CREATE)}
+            startIcon={<AddCommentIcon />}
+          >
+            새로운 방 생성
+          </Button>
+          <IconButton onClick={fetchGetRoomsData} color="primary">
+            <RefreshIcon />
+          </IconButton>
+        </>
+      }
+    >
       {Object.keys(rooms).length === 0 ? (
         // 방 목록이 없을 때 표시할 메시지
 
@@ -123,17 +127,6 @@ function Join() {
 
 export default Join;
 
-const Container = styled.div`
-  ${({ theme }) => {
-    const { colors } = theme;
-    return css`
-      max-width: 1024px;
-      margin: 0 auto;
-      padding-top: 40px;
-    `;
-  }}
-`;
-
 const RoomTitle = styled(Typography)`
   span {
     font-size: 14px;
@@ -142,26 +135,19 @@ const RoomTitle = styled(Typography)`
   }
 `;
 
-const PageTitle = styled.div`
-  font-size: 24px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 20px 0;
-`;
-
 const NoRoomsMessage = styled.div`
-  color: #333;
-  font-weight: 800;
+  font-weight: 400;
   height: 500px;
+  flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  color: #333;
   svg {
     width: 60px;
     height: 60px;
-    margin-bottom: 10px;
+    margin-bottom: 14px;
     color: #333;
   }
 `;
