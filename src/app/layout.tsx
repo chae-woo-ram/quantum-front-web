@@ -4,7 +4,6 @@ import { Footer } from '@/components/footer/Footer';
 import { Header } from '@/components/header/Header';
 import RecoilRootWrapper from '@/components/recoilRootWrapper/RecoilRootWrapper';
 import ReactQueryProviders from '@/hooks/useReactQuery';
-import Providers from '@/lib/Provider';
 import { pretendard } from '@/styles/localFonts.fonts';
 import theme from '@/styles/theme';
 import { ThemeProvider } from '@mui/material/styles';
@@ -27,15 +26,15 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
         <body className={pretendard.className}>
           <ReactQueryProviders>
             <RecoilRootWrapper>
-              <Providers>
-                <AuthCheck>
-                  <div className={styles.container}>
-                    <Header />
-                    <main className={styles.main}>{children}</main>
-                    <Footer />
-                  </div>
-                </AuthCheck>
-              </Providers>
+              {/* <Providers> */}
+              <AuthCheck>
+                <div className={styles.container}>
+                  <Header />
+                  <main className={styles.main}>{children}</main>
+                  <Footer />
+                </div>
+              </AuthCheck>
+              {/* </Providers> */}
             </RecoilRootWrapper>
           </ReactQueryProviders>
         </body>
